@@ -1,10 +1,16 @@
 import React from "react";
+import TopPanel from "../TopPanel";
+import Sidebar from "../Sidebar";
 
 import "./App.scss";
 
 const App: React.FC = () => {
     return (
-        <h1>Hello motherfucker</h1>
+        <div className="container">
+            <TopPanel />
+            <Sidebar />
+            <div className="content">This is content</div>
+        </div>
     );
 }
 

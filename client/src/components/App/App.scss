@@ -15,4 +15,10 @@ html {
 
 body {
     font-family: "Nunito", sans-serif;
+    font-size: 1.4rem;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: [sidebar-start] 30rem [sidebar-end content-start] 1fr [content-end];
 }

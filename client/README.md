@@ -1,1 +1,0 @@
-## Starter project React + ASP NET Core
