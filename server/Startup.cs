@@ -30,6 +30,8 @@ namespace server
         {
             services.AddControllers();
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddDbContext<ApplicationContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IBaseRepository<Entities.Common.Entity>, BaseRepository<Entities.Common.Entity>>();

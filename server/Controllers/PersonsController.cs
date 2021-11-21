@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using server.Entities.Common;
 using server.Models;
@@ -12,15 +13,19 @@ namespace server.Controllers
     public class PersonsController : ControllerBase 
     {
         private readonly IBaseRepository<Person> _repository;
+        private readonly IMapper _mapper;
 
-        public PersonsController(IBaseRepository<Person> repository)
+        public PersonsController(IBaseRepository<Person> repository, IMapper mapper)
         {
             _repository = repository ?? 
                 throw new ArgumentNullException(nameof(repository));
+
+            _mapper = mapper ??
+                throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpPost]
-        public ActionResult<PersonDto> Create(PersonDto item)
+        public ActionResult<PersonDto> Create(PersonCreateDto item)
         {
             // var entity = _repository.Create();
             // return Created();
@@ -28,10 +33,10 @@ namespace server.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Person>> GetAll() 
+        public ActionResult<IEnumerable<PersonDto>> GetAll() 
         {
-            var list = _repository.GetAll();
-            return Ok(list);
+            var personsFromRepo = _repository.GetAll();
+            return Ok(_mapper.Map<IEnumerable<PersonDto>>(personsFromRepo));
         }
     }
 }
