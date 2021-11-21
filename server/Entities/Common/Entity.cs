@@ -8,8 +8,8 @@ namespace server.Entities.Common
     [Table("cd_entities", Schema = "common")]
     public class Entity : BaseModel
     {
-        // [Key]
-        // [Column("id")]
-        // public override Guid Id { get; set; }
+        [Column("c_type")]
+        [Required]
+        public string Type { get; set; }
     }
 }

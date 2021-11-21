@@ -10,5 +10,6 @@ namespace server.Services
         T Add(T item);
         IEnumerable<T> GetAll();
         T GetById(Guid id);
+        // T Update(T item);
     }
 }

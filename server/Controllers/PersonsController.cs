@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using server.Attributes;
 using server.Entities.Common;
 using server.Models;
 using server.Services;
@@ -27,6 +30,13 @@ namespace server.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<PersonDto>> GetAll() 
         {
+            // var ass = Assembly.GetExecutingAssembly().GetTypes().Where(w => w.FullName.Contains("server.Entities"));
+            // foreach (var d in ass) 
+            // {
+            //     Console.WriteLine($"{d}");
+            //     GetAttribute(d);
+            // }
+
             var personsFromRepo = _repository.GetAll();
             return Ok(_mapper.Map<IEnumerable<PersonDto>>(personsFromRepo));
         }
@@ -58,5 +68,21 @@ namespace server.Controllers
                 personToReturn);
         }
 
+        // public void GetAttribute(Type t)
+        // {
+        //     // Get instance of the attribute.
+        //     FuckAttribute MyAttribute =
+        //         (FuckAttribute) Attribute.GetCustomAttribute(t, typeof (FuckAttribute));
+
+        //     if (MyAttribute == null)
+        //     {
+        //         Console.WriteLine("The attribute was not found.");
+        //     }
+        //     else
+        //     {
+        //         // Get the Name value.
+        //         Console.WriteLine("The Name Attribute is: {0}." , MyAttribute.Name);
+        //     }
+        // }
     }
 }

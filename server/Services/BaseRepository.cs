@@ -24,7 +24,8 @@ namespace server.Services
         {
             var entity = new Entities.Common.Entity 
             {
-                Id = item.Id
+                Id = item.Id,
+                Type = typeof(T).FullName
             };
             _context.Set<Entities.Common.Entity>().Add(entity);
             
@@ -42,5 +43,10 @@ namespace server.Services
         {
             return _context.Set<T>().FirstOrDefault(w => w.Id == id);
         }
+
+        // public T Update(T item) 
+        // {
+        //     GetById()
+        // }
     }
 }
