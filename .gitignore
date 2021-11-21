@@ -20,10 +20,8 @@ sketch
 # End of https://www.toptal.com/developers/gitignore/api/react
 
 
-*/**/bin/Debug
-*/**/bin/Release
-*/**/obj/Debug
-*/**/obj/Release
+*/**/bin
+*/**/obj
 
 # Created by https://www.toptal.com/developers/gitignore/api/aspnetcore
 # Edit at https://www.toptal.com/developers/gitignore?templates=aspnetcore
