@@ -6,7 +6,8 @@ namespace server.Services
 {
     public interface IBaseRepository<T> where T : BaseModel
     {
-        T Create(T item);
+        bool Save();
+        T Add(T item);
         IEnumerable<T> GetAll();
         T GetById(Guid id);
     }

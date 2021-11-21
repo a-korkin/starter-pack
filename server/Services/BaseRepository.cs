@@ -15,11 +15,21 @@ namespace server.Services
             _context = context;
         }
 
-        public T Create(T item) 
+        public bool Save()
         {
-            _context.Set<T>().Add(item);
-            _context.SaveChanges();
+            return _context.SaveChanges() >= 0;
+        }
+
+        public T Add(T item) 
+        {
+            var entity = new Entities.Common.Entity 
+            {
+                Id = item.Id
+            };
+            _context.Set<Entities.Common.Entity>().Add(entity);
             
+            _context.Set<T>().Add(item);
+
             return item;
         }
 
