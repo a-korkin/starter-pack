@@ -1,5 +1,12 @@
 @import "./fonts/fonts";
 
+:root {
+    --padding-default: .2rem;
+    --border: .1rem solid #ccc;
+    --clr-primary: #000;
+    --transition-default: .3s;
+}
+
 html {
     box-sizing: border-box;
     font-size: 62.5%;
@@ -21,4 +28,17 @@ body {
 .container {
     display: grid;
     grid-template-columns: [sidebar-start] 30rem [sidebar-end content-start] 1fr [content-end];
+
+    &.collapsed {
+        & .sidebar {
+            grid-column: unset;
+            opacity: 0;
+            height: 0;
+            width: 0;
+        }
+
+        & .content {
+            grid-column: sidebar-start / content-end;
+        }
+    }
 }

@@ -2,9 +2,17 @@ import React from "react";
 
 import "./Sidebar.scss";
 
-const Sidebar: React.FC = () => {
+interface ISidebarProps {
+    collapse: boolean;
+}
+
+const Sidebar: React.FC<ISidebarProps> = ({collapse}) => {
     return (
-        <div className="sidebar">This is sidebar</div>
+        <div 
+            className={collapse ? "sidebar sidebar--collapsed" : "sidebar"}
+        >
+            This is sidebar
+        </div>
     );
 }
 
