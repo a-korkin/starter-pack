@@ -26,7 +26,6 @@ const TopPanel: React.FC<ITopPanelProps> = ({collapseSidebar}) => {
             <label 
                 className="burger-label"
                 htmlFor="burger"
-                // onClick={e => onClickHandler(e)}
             >
                 <span className="burger-line"></span>
                 <span className="burger-line"></span>

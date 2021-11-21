@@ -8,11 +8,11 @@
         &-input {
             display: none;
             appearance: none;
-            
+
             &:checked + .burger-label > .burger-line {
                 &:nth-child(1) {
                     width: 100%;
-                    transform: translateY(.3rem) rotate(45deg);
+                    transform: translateY(.4rem) rotate(45deg);
                 }
 
                 &:nth-child(2) {
@@ -21,7 +21,7 @@
 
                 &:nth-child(3) {
                     width: 100%;
-                    transform: translateY(-.3rem) rotate(315deg);
+                    transform: translateY(-.4rem) rotate(315deg);
                 }
             }
         }
@@ -42,7 +42,8 @@
                 display: block;
                 background-color: var(--clr-primary);
                 width: 100%;
-                height: .3rem;
+                height: .4rem;
+                border-radius: 1rem;
                 
                 &:nth-child(1) {
                     transition: all .2s;

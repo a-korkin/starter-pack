@@ -22,6 +22,7 @@ html {
 
 body {
     font-family: "Nunito", sans-serif;
+    font-weight: 400;
     font-size: 1.4rem;
 }
 
@@ -41,4 +42,8 @@ body {
             grid-column: sidebar-start / content-end;
         }
     }
+}
+
+.content {
+    background-color: orangered;
 }

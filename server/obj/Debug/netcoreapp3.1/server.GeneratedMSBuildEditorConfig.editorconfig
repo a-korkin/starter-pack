@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = server
+build_property.ProjectDir = /home/ss/projects/net/starter-pack/server/
