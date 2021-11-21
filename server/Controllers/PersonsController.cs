@@ -30,12 +30,12 @@ namespace server.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<PersonDto>> GetAll() 
         {
-            // var ass = Assembly.GetExecutingAssembly().GetTypes().Where(w => w.FullName.Contains("server.Entities"));
-            // foreach (var d in ass) 
-            // {
-            //     Console.WriteLine($"{d}");
-            //     GetAttribute(d);
-            // }
+            var ass = Assembly.GetExecutingAssembly().GetTypes().Where(w => w.FullName.Contains("server.Entities"));
+            foreach (var d in ass) 
+            {
+                Console.WriteLine($"{d}");
+                GetAttribute(d);
+            }
 
             var personsFromRepo = _repository.GetAll();
             return Ok(_mapper.Map<IEnumerable<PersonDto>>(personsFromRepo));
@@ -68,21 +68,21 @@ namespace server.Controllers
                 personToReturn);
         }
 
-        // public void GetAttribute(Type t)
-        // {
-        //     // Get instance of the attribute.
-        //     FuckAttribute MyAttribute =
-        //         (FuckAttribute) Attribute.GetCustomAttribute(t, typeof (FuckAttribute));
+        public void GetAttribute(Type t)
+        {
+            // Get instance of the attribute.
+            DescriptionAttribute attribute =
+                (DescriptionAttribute) Attribute.GetCustomAttribute(t, typeof (DescriptionAttribute));
 
-        //     if (MyAttribute == null)
-        //     {
-        //         Console.WriteLine("The attribute was not found.");
-        //     }
-        //     else
-        //     {
-        //         // Get the Name value.
-        //         Console.WriteLine("The Name Attribute is: {0}." , MyAttribute.Name);
-        //     }
-        // }
+            if (attribute == null)
+            {
+                Console.WriteLine("The attribute was not found.");
+            }
+            else
+            {
+                // Get the Name value.
+                Console.WriteLine($"name: {attribute.Name} slug: {attribute.Slug} schema: {attribute.Schema} tableName: {attribute.TableName}");
+            }
+        }
     }
 }

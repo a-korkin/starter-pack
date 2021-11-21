@@ -7,7 +7,7 @@ using server.Attributes;
 namespace server.Entities.Common
 {
     [Table("cd_persons", Schema = "common")]
-    [Fuck(name: "Person")]
+    [Description(name: "физлица", slug: "persons", schema: "common", tableName: "cd_persons")]
     public class Person : BaseModel
     {
         [Key]
