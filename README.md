@@ -1,1 +1,1 @@
-## Starter project: React + ASP NET Core
+## Starter project: React + ASP NET Core + PostgreSQL

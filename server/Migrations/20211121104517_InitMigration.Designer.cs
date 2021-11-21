@@ -10,8 +10,8 @@ using server.DbContexts;
 namespace server.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211121081731_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20211121104517_InitMigration")]
+    partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

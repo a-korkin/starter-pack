@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using server.Entities.Common;
+using server.Entities.Base;
 
 namespace server.Services 
 {
-    public interface IEntityRepository<T> where T : Entity 
+    public interface IBaseRepository<T> where T : BaseModel
     {
+        T Create(T item);
         IEnumerable<T> GetAll();
         T GetById(Guid id);
     }
