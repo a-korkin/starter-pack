@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using server.Attributes;
 using server.DbContexts;
 using server.Entities.Base;
 
@@ -22,10 +23,19 @@ namespace server.Services
 
         public T Add(T item) 
         {
+            DescriptionAttribute attribute =
+                    (DescriptionAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(DescriptionAttribute));
+
+            var entityType = _context
+                .Set<server.Entities.Admin.EntityType>()
+                .Where(w => w.Schema == attribute.Schema)                    
+                .Where(w => w.TableName == attribute.TableName)
+                .FirstOrDefault();
+
             var entity = new Entities.Common.Entity 
             {
                 Id = item.Id,
-                Type = typeof(T).FullName
+                Type = entityType
             };
             _context.Set<Entities.Common.Entity>().Add(entity);
             

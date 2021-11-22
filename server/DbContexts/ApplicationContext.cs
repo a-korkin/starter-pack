@@ -19,6 +19,12 @@ namespace server.DbContexts
         {
             modelBuilder.Entity<EntityType>().HasKey(k => k.Id).HasName("pk_cs_entity_types");
             modelBuilder.Entity<Entity>().HasKey(k => k.Id).HasName("pk_cd_entities");
+            modelBuilder.Entity<Entity>()
+                .HasOne<EntityType>(p => p.Type)
+                .WithMany()
+                .HasForeignKey(p => p.TypeId)
+                .HasConstraintName("fk_cd_entities_cs_entitie_types_id");
+
             modelBuilder.Entity<Person>(PersonConfigure); 
         }
 
