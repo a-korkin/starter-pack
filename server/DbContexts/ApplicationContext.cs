@@ -1,9 +1,8 @@
 using System;
 using System.Linq;
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using server.Entities.Base;
+using server.Entities.Admin;
 using server.Entities.Common;
 
 namespace server.DbContexts 
@@ -12,12 +11,13 @@ namespace server.DbContexts
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> opt) : base(opt) {}
         
+        public DbSet<EntityType> EntityTypes { get; set; }
         public DbSet<Entity> Entities { get; set; }
-        
         public DbSet<Person> Persons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
+            modelBuilder.Entity<EntityType>().HasKey(k => k.Id).HasName("pk_cs_entity_types");
             modelBuilder.Entity<Entity>().HasKey(k => k.Id).HasName("pk_cd_entities");
             modelBuilder.Entity<Person>(PersonConfigure); 
         }

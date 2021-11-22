@@ -34,6 +34,12 @@ namespace server.Services
             return item;
         }
 
+        public T AddType(T item)
+        {
+            _context.Set<T>().Add(item);
+            return item;
+        }
+
         public IEnumerable<T> GetAll()
         {
             return _context.Set<T>().ToList();

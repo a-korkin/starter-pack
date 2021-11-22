@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace server.Profiles
+namespace server.Profiles.Common
 {
     public class PersonsProfile : Profile
     {
