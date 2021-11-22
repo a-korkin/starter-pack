@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using server.Attributes;
 using server.Entities.Common;
 using server.Models.Common;
 using server.Services;
@@ -29,16 +26,16 @@ namespace server.Controllers.Common
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PersonDto>>> GetAll() 
+        public async Task<ActionResult<IEnumerable<PersonDto>>> GetAllAsync() 
         {
-            var personsFromRepo = await _repository.GetAll();
+            var personsFromRepo = await _repository.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<PersonDto>>(personsFromRepo));
         }
 
         [HttpGet("{personId}", Name = "GetPerson")]
-        public async Task<ActionResult<PersonDto>> GetById(Guid personId) 
+        public async Task<ActionResult<PersonDto>> GetByIdAsync(Guid personId) 
         {
-            var personEntity = await _repository.GetById(personId);
+            var personEntity = await _repository.GetByIdAsync(personId);
 
             if (personEntity == null)
                 return NotFound();
@@ -47,13 +44,13 @@ namespace server.Controllers.Common
         }
 
         [HttpPost]
-        public async Task<ActionResult<PersonDto>> Create(PersonCreateDto item)
+        public async Task<ActionResult<PersonDto>> CreateAsync(PersonCreateDto item)
         {
             Guid id = Guid.NewGuid();
             var personEntity = _mapper.Map<Person>(item);
             personEntity.Id = id;
-            await _repository.Add(personEntity);
-            await _repository.Save();
+            await _repository.AddAsync(personEntity);
+            await _repository.SaveAsync();
 
             var personToReturn = _mapper.Map<PersonDto>(personEntity);
 

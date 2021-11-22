@@ -29,16 +29,16 @@ namespace server.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EntityTypeOutDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<EntityTypeOutDto>>> GetAllAsync()
         {
-            var itemsFromRepo = await _repository.GetAll();
+            var itemsFromRepo = await _repository.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<EntityTypeOutDto>>(itemsFromRepo));
         }
 
         [HttpGet("{itemId}", Name = "GetEntityType")]
-        public async Task<ActionResult<EntityTypeOutDto>> GetById(Guid itemId)
+        public async Task<ActionResult<EntityTypeOutDto>> GetByIdAsync(Guid itemId)
         {
-            var itemFromRepo = await _repository.GetById(itemId);
+            var itemFromRepo = await _repository.GetByIdAsync(itemId);
             if (itemFromRepo == null)
                 return NotFound();
 
@@ -46,10 +46,10 @@ namespace server.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<ActionResult<EntityTypeOutDto>> Create(EntityTypeInDto item)
+        public async Task<ActionResult<EntityTypeOutDto>> CreateAsync(EntityTypeInDto item)
         {
             var itemEntity = _mapper.Map<EntityType>(item);
-            await _repository.Add(itemEntity);
+            await _repository.AddAsync(itemEntity);
 
             var itemToReturn = _mapper.Map<EntityTypeOutDto>(itemEntity);
 
@@ -60,7 +60,7 @@ namespace server.Controllers.Admin
 
         [HttpPost]
         [Route("refresh")]
-        public async Task<IActionResult> Refresh()
+        public async Task<IActionResult> RefreshAsync()
         {
             var types = Assembly
                 .GetExecutingAssembly()
@@ -68,7 +68,7 @@ namespace server.Controllers.Admin
                 .Where(w => w.FullName.Contains("server.Entities"))
                 .Where(w => !new string[] { "EntityType", "BaseModel" }.Contains(w.Name));
 
-            var existingEntityTypes = await _repository.GetAll();                
+            var existingEntityTypes = await _repository.GetAllAsync();                
 
             foreach (var type in types) 
             {
@@ -90,12 +90,12 @@ namespace server.Controllers.Admin
                             TableName = attribute.TableName
                         };
 
-                        await _repository.Add(newEntity);
+                        await _repository.AddAsync(newEntity);
                     }                   
                 }
             }
 
-            await _repository.Save();
+            await _repository.SaveAsync();
 
             return Ok();
         }

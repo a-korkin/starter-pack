@@ -18,12 +18,12 @@ namespace server.Services
             _context = context;
         }
 
-        public async Task<bool> Save()
+        public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() >= 0;
         }
 
-        public async Task Add(T item) 
+        public async Task AddAsync(T item) 
         {
             DescriptionAttribute attribute =
                     (DescriptionAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(DescriptionAttribute));
@@ -47,12 +47,12 @@ namespace server.Services
             await _context.Set<T>().AddAsync(item);
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> GetById(Guid id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(w => w.Id == id);
         }

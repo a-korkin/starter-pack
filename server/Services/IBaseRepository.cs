@@ -7,11 +7,11 @@ namespace server.Services
 {
     public interface IBaseRepository<T> where T : BaseModel
     {
-        Task<bool> Save();
-        Task Add(T item);
+        Task<bool> SaveAsync();
+        Task AddAsync(T item);
         // T AddType(T item);
-        Task<IEnumerable<T>> GetAll();
-        Task<T> GetById(Guid id);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetByIdAsync(Guid id);
         void Update(T item);
     }
 }
