@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace server.Models 
+namespace server.Models.Common 
 {
     public class PersonCreateDto
     {

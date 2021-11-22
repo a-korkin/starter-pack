@@ -44,9 +44,9 @@ namespace server.Services
             return _context.Set<T>().FirstOrDefault(w => w.Id == id);
         }
 
-        // public T Update(T item) 
-        // {
-        //     GetById()
-        // }
+        public void Update(T item) 
+        {
+            // no content
+        }
     }
 }
