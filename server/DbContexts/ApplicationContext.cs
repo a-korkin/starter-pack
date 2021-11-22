@@ -18,14 +18,19 @@ namespace server.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
             modelBuilder.Entity<EntityType>().HasKey(k => k.Id).HasName("pk_cs_entity_types");
-            modelBuilder.Entity<Entity>().HasKey(k => k.Id).HasName("pk_cd_entities");
-            modelBuilder.Entity<Entity>()
+            modelBuilder.Entity<Entity>(EntityConfigure);
+            modelBuilder.Entity<Person>(PersonConfigure); 
+        }
+
+        private void EntityConfigure(EntityTypeBuilder<Entity> builder)
+        {
+            builder.HasKey(k => k.Id).HasName("pk_cd_entities");
+
+            builder
                 .HasOne<EntityType>(p => p.Type)
                 .WithMany()
                 .HasForeignKey(p => p.TypeId)
                 .HasConstraintName("fk_cd_entities_cs_entitie_types_id");
-
-            modelBuilder.Entity<Person>(PersonConfigure); 
         }
 
         private void PersonConfigure(EntityTypeBuilder<Person> builder) 

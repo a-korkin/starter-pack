@@ -8,7 +8,7 @@ namespace server.Services
     {
         bool Save();
         T Add(T item);
-        T AddType(T item);
+        // T AddType(T item);
         IEnumerable<T> GetAll();
         T GetById(Guid id);
         void Update(T item);

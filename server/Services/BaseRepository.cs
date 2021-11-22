@@ -26,29 +26,32 @@ namespace server.Services
             DescriptionAttribute attribute =
                     (DescriptionAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(DescriptionAttribute));
 
-            var entityType = _context
-                .Set<server.Entities.Admin.EntityType>()
-                .Where(w => w.Schema == attribute.Schema)                    
-                .Where(w => w.TableName == attribute.TableName)
-                .FirstOrDefault();
-
-            var entity = new Entities.Common.Entity 
+            if (attribute != null) 
             {
-                Id = item.Id,
-                Type = entityType
-            };
-            _context.Set<Entities.Common.Entity>().Add(entity);
-            
+                var entityType = _context
+                    .Set<server.Entities.Admin.EntityType>()
+                    .Where(w => w.Schema == attribute.Schema)                    
+                    .Where(w => w.TableName == attribute.TableName)
+                    .FirstOrDefault();
+
+                var entity = new Entities.Common.Entity 
+                {
+                    Id = item.Id,
+                    Type = entityType
+                };
+                _context.Set<Entities.Common.Entity>().Add(entity);
+            }
+
             _context.Set<T>().Add(item);
 
             return item;
         }
 
-        public T AddType(T item)
-        {
-            _context.Set<T>().Add(item);
-            return item;
-        }
+        // public T AddType(T item)
+        // {
+        //     _context.Set<T>().Add(item);
+        //     return item;
+        // }
 
         public IEnumerable<T> GetAll()
         {

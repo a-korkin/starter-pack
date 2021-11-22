@@ -48,7 +48,7 @@ namespace server.Controllers.Admin
         public ActionResult<EntityTypeOutDto> Create(EntityTypeInDto item)
         {
             var itemEntity = _mapper.Map<EntityType>(item);
-            _repository.AddType(itemEntity);
+            _repository.Add(itemEntity);
 
             var itemToReturn = _mapper.Map<EntityTypeOutDto>(itemEntity);
 
@@ -89,7 +89,7 @@ namespace server.Controllers.Admin
                             TableName = attribute.TableName
                         };
 
-                        _repository.AddType(newEntity);
+                        _repository.Add(newEntity);
                     }                   
                 }
             }
