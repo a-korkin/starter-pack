@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using server.Attributes;
 using server.Entities.Admin;
 using server.Models.Admin;
 using server.Services;
@@ -52,6 +55,27 @@ namespace server.Controllers.Admin
             return CreatedAtRoute("GetEntityType",
                 new { itemId = itemToReturn.Id },
                 itemToReturn);
+        }
+
+        [HttpPost("/refresh")]
+        public IActionResult CreateAll()
+        {
+            var types = Assembly
+                .GetExecutingAssembly()
+                .GetTypes()
+                .Where(w => w.FullName.Contains("server.Entities"))
+                .Where(w => !new string[] { "EntityType", "BaseModel" }.Contains(w.Name));
+
+            foreach (var type in types) 
+            {
+                DescriptionAttribute attribute =
+                    (DescriptionAttribute)Attribute.GetCustomAttribute(type, typeof(DescriptionAttribute));
+
+                if (attribute != null)
+                    Console.WriteLine($"name: {attribute.Name} slug: {attribute.Slug}");
+            }
+
+            return Ok();
         }
     }
 }

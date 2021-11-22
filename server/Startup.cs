@@ -34,6 +34,7 @@ namespace server
 
             services.AddDbContext<ApplicationContext>(opt => opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<IBaseRepository<Entities.Admin.EntityType>, BaseRepository<Entities.Admin.EntityType>>();
             services.AddScoped<IBaseRepository<Entities.Common.Entity>, BaseRepository<Entities.Common.Entity>>();
             services.AddScoped<IBaseRepository<Entities.Common.Person>, BaseRepository<Entities.Common.Person>>();
         }
