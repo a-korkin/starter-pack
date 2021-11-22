@@ -8,7 +8,26 @@ namespace server.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
+                name: "admin");
+
+            migrationBuilder.EnsureSchema(
                 name: "common");
+
+            migrationBuilder.CreateTable(
+                name: "cs_entity_types",
+                schema: "admin",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    c_name = table.Column<string>(nullable: false),
+                    c_slug = table.Column<string>(nullable: false),
+                    c_schema = table.Column<string>(nullable: false),
+                    c_tablename = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cs_entity_types", x => x.id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "cd_entities",
@@ -47,6 +66,10 @@ namespace server.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "cs_entity_types",
+                schema: "admin");
+
             migrationBuilder.DropTable(
                 name: "cd_persons",
                 schema: "common");

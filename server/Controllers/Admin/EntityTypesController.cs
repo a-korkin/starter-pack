@@ -57,8 +57,9 @@ namespace server.Controllers.Admin
                 itemToReturn);
         }
 
-        [HttpPost("/refresh")]
-        public IActionResult CreateAll()
+        [HttpPost]
+        [Route("refresh")]
+        public IActionResult Refresh()
         {
             var types = Assembly
                 .GetExecutingAssembly()
@@ -66,14 +67,34 @@ namespace server.Controllers.Admin
                 .Where(w => w.FullName.Contains("server.Entities"))
                 .Where(w => !new string[] { "EntityType", "BaseModel" }.Contains(w.Name));
 
+            var existingEntityTypes = _repository.GetAll();                
+
             foreach (var type in types) 
             {
                 DescriptionAttribute attribute =
                     (DescriptionAttribute)Attribute.GetCustomAttribute(type, typeof(DescriptionAttribute));
 
                 if (attribute != null)
-                    Console.WriteLine($"name: {attribute.Name} slug: {attribute.Slug}");
+                {
+                    bool entityExists = existingEntityTypes
+                        .Any(a => a.Schema == attribute.Schema && a.TableName == attribute.TableName);
+
+                    if (!entityExists) 
+                    {
+                        var newEntity = new EntityType 
+                        {
+                            Name = attribute.Name,
+                            Slug = attribute.Slug,
+                            Schema = attribute.Schema,
+                            TableName = attribute.TableName
+                        };
+
+                        _repository.AddType(newEntity);
+                    }                   
+                }
             }
+
+            _repository.Save();
 
             return Ok();
         }

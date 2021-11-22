@@ -19,25 +19,7 @@ namespace server.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("server.Entities.Common.Entity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnName("c_type")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id")
-                        .HasName("pk_cd_entities");
-
-                    b.ToTable("cd_entities","common");
-                });
-
-            modelBuilder.Entity("server.Entities.Common.EntityType", b =>
+            modelBuilder.Entity("server.Entities.Admin.EntityType", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,6 +50,24 @@ namespace server.Migrations
                         .HasName("pk_cs_entity_types");
 
                     b.ToTable("cs_entity_types","admin");
+                });
+
+            modelBuilder.Entity("server.Entities.Common.Entity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnName("c_type")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id")
+                        .HasName("pk_cd_entities");
+
+                    b.ToTable("cd_entities","common");
                 });
 
             modelBuilder.Entity("server.Entities.Common.Person", b =>
