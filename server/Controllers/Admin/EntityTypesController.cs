@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using server.Attributes;
@@ -28,16 +29,16 @@ namespace server.Controllers.Admin
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<EntityTypeOutDto>> GetAll()
+        public async Task<ActionResult<IEnumerable<EntityTypeOutDto>>> GetAll()
         {
-            var itemsFromRepo = _repository.GetAll();
+            var itemsFromRepo = await _repository.GetAll();
             return Ok(_mapper.Map<IEnumerable<EntityTypeOutDto>>(itemsFromRepo));
         }
 
         [HttpGet("{itemId}", Name = "GetEntityType")]
-        public ActionResult<EntityTypeOutDto> GetById(Guid itemId)
+        public async Task<ActionResult<EntityTypeOutDto>> GetById(Guid itemId)
         {
-            var itemFromRepo = _repository.GetById(itemId);
+            var itemFromRepo = await _repository.GetById(itemId);
             if (itemFromRepo == null)
                 return NotFound();
 
@@ -45,10 +46,10 @@ namespace server.Controllers.Admin
         }
 
         [HttpPost]
-        public ActionResult<EntityTypeOutDto> Create(EntityTypeInDto item)
+        public async Task<ActionResult<EntityTypeOutDto>> Create(EntityTypeInDto item)
         {
             var itemEntity = _mapper.Map<EntityType>(item);
-            _repository.Add(itemEntity);
+            await _repository.Add(itemEntity);
 
             var itemToReturn = _mapper.Map<EntityTypeOutDto>(itemEntity);
 
@@ -59,7 +60,7 @@ namespace server.Controllers.Admin
 
         [HttpPost]
         [Route("refresh")]
-        public IActionResult Refresh()
+        public async Task<IActionResult> Refresh()
         {
             var types = Assembly
                 .GetExecutingAssembly()
@@ -67,7 +68,7 @@ namespace server.Controllers.Admin
                 .Where(w => w.FullName.Contains("server.Entities"))
                 .Where(w => !new string[] { "EntityType", "BaseModel" }.Contains(w.Name));
 
-            var existingEntityTypes = _repository.GetAll();                
+            var existingEntityTypes = await _repository.GetAll();                
 
             foreach (var type in types) 
             {
@@ -89,12 +90,12 @@ namespace server.Controllers.Admin
                             TableName = attribute.TableName
                         };
 
-                        _repository.Add(newEntity);
+                        await _repository.Add(newEntity);
                     }                   
                 }
             }
 
-            _repository.Save();
+            await _repository.Save();
 
             return Ok();
         }

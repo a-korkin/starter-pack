@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using server.Entities.Base;
 
 namespace server.Services 
 {
     public interface IBaseRepository<T> where T : BaseModel
     {
-        bool Save();
-        T Add(T item);
+        Task<bool> Save();
+        Task Add(T item);
         // T AddType(T item);
-        IEnumerable<T> GetAll();
-        T GetById(Guid id);
+        Task<IEnumerable<T>> GetAll();
+        Task<T> GetById(Guid id);
         void Update(T item);
     }
 }

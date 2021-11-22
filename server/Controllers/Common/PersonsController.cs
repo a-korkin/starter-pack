@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using server.Attributes;
@@ -28,23 +29,16 @@ namespace server.Controllers.Common
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<PersonDto>> GetAll() 
+        public async Task<ActionResult<IEnumerable<PersonDto>>> GetAll() 
         {
-            // var ass = Assembly.GetExecutingAssembly().GetTypes().Where(w => w.FullName.Contains("server.Entities"));
-            // foreach (var d in ass) 
-            // {
-            //     Console.WriteLine($"{d}");
-            //     GetAttribute(d);
-            // }
-
-            var personsFromRepo = _repository.GetAll();
+            var personsFromRepo = await _repository.GetAll();
             return Ok(_mapper.Map<IEnumerable<PersonDto>>(personsFromRepo));
         }
 
         [HttpGet("{personId}", Name = "GetPerson")]
-        public ActionResult<PersonDto> GetById(Guid personId) 
+        public async Task<ActionResult<PersonDto>> GetById(Guid personId) 
         {
-            var personEntity = _repository.GetById(personId);
+            var personEntity = await _repository.GetById(personId);
 
             if (personEntity == null)
                 return NotFound();
@@ -53,13 +47,13 @@ namespace server.Controllers.Common
         }
 
         [HttpPost]
-        public ActionResult<PersonDto> Create(PersonCreateDto item)
+        public async Task<ActionResult<PersonDto>> Create(PersonCreateDto item)
         {
             Guid id = Guid.NewGuid();
             var personEntity = _mapper.Map<Person>(item);
             personEntity.Id = id;
-            _repository.Add(personEntity);
-            _repository.Save();
+            await _repository.Add(personEntity);
+            await _repository.Save();
 
             var personToReturn = _mapper.Map<PersonDto>(personEntity);
 
@@ -67,22 +61,5 @@ namespace server.Controllers.Common
                 new { personId = personToReturn.Id },
                 personToReturn);
         }
-
-        // public void GetAttribute(Type t)
-        // {
-        //     // Get instance of the attribute.
-        //     DescriptionAttribute attribute =
-        //         (DescriptionAttribute)Attribute.GetCustomAttribute(t, typeof(DescriptionAttribute));
-
-        //     if (attribute == null)
-        //     {
-        //         Console.WriteLine("The attribute was not found.");
-        //     }
-        //     else
-        //     {
-        //         // Get the Name value.
-        //         Console.WriteLine($"name: {attribute.Name} slug: {attribute.Slug} schema: {attribute.Schema} tableName: {attribute.TableName}");
-        //     }
-        // }
     }
 }

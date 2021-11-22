@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using server.Attributes;
 using server.DbContexts;
 using server.Entities.Base;
@@ -16,51 +18,43 @@ namespace server.Services
             _context = context;
         }
 
-        public bool Save()
+        public async Task<bool> Save()
         {
-            return _context.SaveChanges() >= 0;
+            return await _context.SaveChangesAsync() >= 0;
         }
 
-        public T Add(T item) 
+        public async Task Add(T item) 
         {
             DescriptionAttribute attribute =
                     (DescriptionAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(DescriptionAttribute));
 
             if (attribute != null) 
             {
-                var entityType = _context
+                var entityType = await _context
                     .Set<server.Entities.Admin.EntityType>()
                     .Where(w => w.Schema == attribute.Schema)                    
                     .Where(w => w.TableName == attribute.TableName)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
 
                 var entity = new Entities.Common.Entity 
                 {
                     Id = item.Id,
                     Type = entityType
                 };
-                _context.Set<Entities.Common.Entity>().Add(entity);
+                await _context.Set<Entities.Common.Entity>().AddAsync(entity);
             }
 
-            _context.Set<T>().Add(item);
-
-            return item;
+            await _context.Set<T>().AddAsync(item);
         }
 
-        // public T AddType(T item)
-        // {
-        //     _context.Set<T>().Add(item);
-        //     return item;
-        // }
-
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return _context.Set<T>().ToList();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public T GetById(Guid id)
+        public async Task<T> GetById(Guid id)
         {
-            return _context.Set<T>().FirstOrDefault(w => w.Id == id);
+            return await _context.Set<T>().FirstOrDefaultAsync(w => w.Id == id);
         }
 
         public void Update(T item) 
