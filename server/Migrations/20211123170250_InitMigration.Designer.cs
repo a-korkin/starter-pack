@@ -10,8 +10,8 @@ using server.DbContexts;
 namespace server.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211123060534_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20211123170250_InitMigration")]
+    partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,28 @@ namespace server.Migrations
                     b.ToTable("cs_entity_types","admin");
                 });
 
+            modelBuilder.Entity("server.Entities.Admin.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnName("c_password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnName("c_username")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id")
+                        .HasName("pk_cd_users");
+
+                    b.ToTable("cd_users","admin");
+                });
+
             modelBuilder.Entity("server.Entities.Common.Entity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -93,6 +115,16 @@ namespace server.Migrations
                         .HasName("pk_cd_persons");
 
                     b.ToTable("cd_persons","common");
+                });
+
+            modelBuilder.Entity("server.Entities.Admin.User", b =>
+                {
+                    b.HasOne("server.Entities.Common.Entity", null)
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .HasConstraintName("fk_cd_users_cd_entities_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("server.Entities.Common.Entity", b =>

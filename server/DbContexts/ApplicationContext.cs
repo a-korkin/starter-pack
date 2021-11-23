@@ -13,12 +13,14 @@ namespace server.DbContexts
         
         public DbSet<EntityType> EntityTypes { get; set; }
         public DbSet<Entity> Entities { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<Person> Persons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
             modelBuilder.Entity<EntityType>().HasKey(k => k.Id).HasName("pk_cs_entity_types");
             modelBuilder.Entity<Entity>(EntityConfigure);
+            modelBuilder.Entity<User>(UserConfigure);
             modelBuilder.Entity<Person>(PersonConfigure); 
         }
 
@@ -31,6 +33,19 @@ namespace server.DbContexts
                 .WithMany()
                 .HasForeignKey(p => p.TypeId)
                 .HasConstraintName("fk_cd_entities_cs_entitie_types_id");
+        }
+
+        private void UserConfigure(EntityTypeBuilder<User> builder) 
+        {
+            builder
+                .HasKey(k => k.Id)
+                .HasName("pk_cd_users");
+
+            builder
+                .HasOne<Entity>()
+                .WithMany()
+                .HasForeignKey(p => p.Id)
+                .HasConstraintName("fk_cd_users_cd_entities_id");
         }
 
         private void PersonConfigure(EntityTypeBuilder<Person> builder) 
