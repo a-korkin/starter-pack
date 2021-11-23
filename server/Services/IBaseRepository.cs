@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using server.Entities.Admin;
 using server.Entities.Base;
 
 namespace server.Services 
@@ -9,9 +10,10 @@ namespace server.Services
     {
         Task<bool> SaveAsync();
         Task AddAsync(T item);
-        // T AddType(T item);
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetByIdAsync(Guid id);
+        Task<User> GetByUserNameAsync(string userName);
         void Update(T item);
+
     }
 }

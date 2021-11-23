@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using server.Entities.Common;
 using server.Models.DTO.Common;
@@ -11,6 +12,7 @@ namespace server.Controllers.Common
 {
     [ApiController]
     [Route("/api/persons")]
+    [Authorize]
     public class PersonsController : ControllerBase 
     {
         private readonly IBaseRepository<Person> _repository;

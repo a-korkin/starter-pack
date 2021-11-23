@@ -1,11 +1,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using server.Attributes;
 using server.Entities.Base;
 
 namespace server.Entities.Admin
 {
     [Table("cd_users", Schema = "admin")]
+    [Description(name: "пользователи", slug: "users", schema: "admin", tableName: "cd_users")]
     public class User : BaseEntity
     {
         [Key]

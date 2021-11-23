@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using server.Attributes;
 using server.DbContexts;
+using server.Entities.Admin;
 using server.Entities.Base;
 
 namespace server.Services 
@@ -57,7 +58,14 @@ namespace server.Services
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            return await _context.Set<T>().FirstOrDefaultAsync(w => w.Id == id);
+            return await _context.Set<T>()
+                .FirstOrDefaultAsync(w => w.Id == id);
+        }
+
+        public async Task<User> GetByUserNameAsync(string userName)
+        {
+            return await _context.Set<User>()
+                .FirstOrDefaultAsync(w => w.UserName == userName);
         }
 
         public void Update(T item) 
