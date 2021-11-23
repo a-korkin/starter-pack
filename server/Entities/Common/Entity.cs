@@ -7,7 +7,7 @@ using server.Entities.Base;
 namespace server.Entities.Common 
 {
     [Table("cd_entities", Schema = "common")]
-    public class Entity : BaseModel
+    public class Entity : BaseEntity
     {
         [Column("f_type")]
         public Guid TypeId { get; set; }

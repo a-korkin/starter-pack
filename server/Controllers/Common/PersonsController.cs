@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using server.Entities.Common;
-using server.Models.Common;
+using server.Models.DTO.Common;
 using server.Services;
 
 namespace server.Controllers.Common 
@@ -26,25 +26,25 @@ namespace server.Controllers.Common
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PersonDto>>> GetAllAsync() 
+        public async Task<ActionResult<IEnumerable<PersonOutDto>>> GetAllAsync() 
         {
             var personsFromRepo = await _repository.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<PersonDto>>(personsFromRepo));
+            return Ok(_mapper.Map<IEnumerable<PersonOutDto>>(personsFromRepo));
         }
 
         [HttpGet("{personId}", Name = "GetPerson")]
-        public async Task<ActionResult<PersonDto>> GetByIdAsync(Guid personId) 
+        public async Task<ActionResult<PersonOutDto>> GetByIdAsync(Guid personId) 
         {
             var personEntity = await _repository.GetByIdAsync(personId);
 
             if (personEntity == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<PersonDto>(personEntity));
+            return Ok(_mapper.Map<PersonOutDto>(personEntity));
         }
 
         [HttpPost]
-        public async Task<ActionResult<PersonDto>> CreateAsync(PersonCreateDto item)
+        public async Task<ActionResult<PersonOutDto>> CreateAsync(PersonInDto item)
         {
             Guid id = Guid.NewGuid();
             var personEntity = _mapper.Map<Person>(item);
@@ -52,7 +52,7 @@ namespace server.Controllers.Common
             await _repository.AddAsync(personEntity);
             await _repository.SaveAsync();
 
-            var personToReturn = _mapper.Map<PersonDto>(personEntity);
+            var personToReturn = _mapper.Map<PersonOutDto>(personEntity);
 
             return CreatedAtRoute("GetPerson", 
                 new { personId = personToReturn.Id },

@@ -6,8 +6,8 @@ namespace server.Profiles.Admin
     {
         public EntityTypeProfile()
         {
-            CreateMap<Models.Admin.EntityTypeInDto, Entities.Admin.EntityType>();
-            CreateMap<Entities.Admin.EntityType, Models.Admin.EntityTypeOutDto>();
+            CreateMap<Models.DTO.Admin.EntityTypeInDto, Entities.Admin.EntityType>();
+            CreateMap<Entities.Admin.EntityType, Models.DTO.Admin.EntityTypeOutDto>();
         }
     }
 }

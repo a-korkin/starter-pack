@@ -8,7 +8,7 @@ namespace server.Entities.Common
 {
     [Table("cd_persons", Schema = "common")]
     [Description(name: "физлица", slug: "persons", schema: "common", tableName: "cd_persons")]
-    public class Person : BaseModel
+    public class Person : BaseEntity
     {
         [Key]
         [Column("id")]

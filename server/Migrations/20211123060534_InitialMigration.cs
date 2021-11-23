@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace server.Migrations
 {
-    public partial class InitMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,11 +35,18 @@ namespace server.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
-                    c_type = table.Column<string>(nullable: false)
+                    f_type = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_cd_entities", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_cd_entities_cs_entitie_types_id",
+                        column: x => x.f_type,
+                        principalSchema: "admin",
+                        principalTable: "cs_entity_types",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -62,14 +69,16 @@ namespace server.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_cd_entities_f_type",
+                schema: "common",
+                table: "cd_entities",
+                column: "f_type");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "cs_entity_types",
-                schema: "admin");
-
             migrationBuilder.DropTable(
                 name: "cd_persons",
                 schema: "common");
@@ -77,6 +86,10 @@ namespace server.Migrations
             migrationBuilder.DropTable(
                 name: "cd_entities",
                 schema: "common");
+
+            migrationBuilder.DropTable(
+                name: "cs_entity_types",
+                schema: "admin");
         }
     }
 }

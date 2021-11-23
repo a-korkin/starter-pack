@@ -5,7 +5,7 @@ using server.Entities.Base;
 namespace server.Entities.Admin
 {
     [Table("cs_entity_types", Schema = "admin")]
-    public class EntityType : BaseModel
+    public class EntityType : BaseEntity
     {
         [Required]
         [Column("c_name")]

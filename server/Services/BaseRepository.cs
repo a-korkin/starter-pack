@@ -9,7 +9,7 @@ using server.Entities.Base;
 
 namespace server.Services 
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : BaseModel
+    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         private ApplicationContext _context { get; set; }
 

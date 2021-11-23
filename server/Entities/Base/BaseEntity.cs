@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.Entities.Base 
 {
-    public abstract class BaseModel 
+    public abstract class BaseEntity 
     {
         [Key]
         [Column("id")]

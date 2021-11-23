@@ -1,8 +1,8 @@
 using System;
 
-namespace server.Models.Common
+namespace server.Models.DTO.Common
 {
-    public class PersonDto 
+    public class PersonOutDto 
     {
         public Guid Id { get; set; }
 

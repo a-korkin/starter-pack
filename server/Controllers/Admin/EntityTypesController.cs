@@ -7,7 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using server.Attributes;
 using server.Entities.Admin;
-using server.Models.Admin;
+using server.Models.DTO.Admin;
 using server.Services;
 
 namespace server.Controllers.Admin

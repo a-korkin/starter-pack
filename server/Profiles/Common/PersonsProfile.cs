@@ -6,8 +6,8 @@ namespace server.Profiles.Common
     {
         public PersonsProfile()
         {
-            CreateMap<Entities.Common.Person, Models.Common.PersonDto>();
-            CreateMap<Models.Common.PersonCreateDto, Entities.Common.Person>();
+            CreateMap<Entities.Common.Person, Models.DTO.Common.PersonOutDto>();
+            CreateMap<Models.DTO.Common.PersonInDto, Entities.Common.Person>();
         }
     }
 }

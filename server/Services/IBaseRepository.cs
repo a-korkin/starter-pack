@@ -5,7 +5,7 @@ using server.Entities.Base;
 
 namespace server.Services 
 {
-    public interface IBaseRepository<T> where T : BaseModel
+    public interface IBaseRepository<T> where T : BaseEntity
     {
         Task<bool> SaveAsync();
         Task AddAsync(T item);

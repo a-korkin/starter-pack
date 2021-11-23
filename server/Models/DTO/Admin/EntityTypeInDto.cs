@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace server.Models.Admin
+namespace server.Models.DTO.Admin
 {
     public class EntityTypeInDto
     {

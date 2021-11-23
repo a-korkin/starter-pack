@@ -1,6 +1,6 @@
 using System;
 
-namespace server.Models.Admin
+namespace server.Models.DTO.Admin
 {
     public class EntityTypeOutDto
     {

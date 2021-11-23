@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace server.Models.Common 
+namespace server.Models.DTO.Common 
 {
-    public class PersonCreateDto
+    public class PersonInDto
     {
         [Required]
         public string LastName { get; set; }
