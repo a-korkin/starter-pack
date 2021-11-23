@@ -46,9 +46,7 @@ namespace server.Controllers.Common
         [HttpPost]
         public async Task<ActionResult<PersonOutDto>> CreateAsync(PersonInDto item)
         {
-            Guid id = Guid.NewGuid();
             var personEntity = _mapper.Map<Person>(item);
-            personEntity.Id = id;
             await _repository.AddAsync(personEntity);
             await _repository.SaveAsync();
 

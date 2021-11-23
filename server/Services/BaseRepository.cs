@@ -36,9 +36,12 @@ namespace server.Services
                     .Where(w => w.TableName == attribute.TableName)
                     .FirstOrDefaultAsync();
 
+                Guid id = Guid.NewGuid();
+                item.Id = id;
+
                 var entity = new Entities.Common.Entity 
                 {
-                    Id = item.Id,
+                    Id = id,
                     Type = entityType
                 };
                 await _context.Set<Entities.Common.Entity>().AddAsync(entity);
