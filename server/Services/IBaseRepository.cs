@@ -12,7 +12,6 @@ namespace server.Services
         Task AddAsync(T item);
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetByIdAsync(Guid id);
-        Task<User> GetByUserNameAsync(string userName);
         void Update(T item);
 
     }

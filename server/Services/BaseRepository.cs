@@ -62,12 +62,6 @@ namespace server.Services
                 .FirstOrDefaultAsync(w => w.Id == id);
         }
 
-        public async Task<User> GetByUserNameAsync(string userName)
-        {
-            return await _context.Set<User>()
-                .FirstOrDefaultAsync(w => w.UserName == userName);
-        }
-
         public void Update(T item) 
         {
             // no content
