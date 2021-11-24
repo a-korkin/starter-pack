@@ -47,6 +47,8 @@ namespace server.Controllers.Admin
         public async Task<ActionResult<UserOutDto>> CreateAsync(UserInDto user)
         {
             var userEntity = _mapper.Map<User>(user);
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+            userEntity.Password = BCrypt.Net.BCrypt.HashPassword(user.Password, salt);
             await _repository.AddAsync(userEntity);
             await _repository.SaveAsync();
 

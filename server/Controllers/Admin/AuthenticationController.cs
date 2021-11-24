@@ -35,15 +35,14 @@ namespace server.Controllers.Admin
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(UserAuthDto userAuth)
+        public async Task<IActionResult> Login(AuthDto userAuth)
         {
             if (ModelState.IsValid) 
             {
                 var userEntity = await _repository.GetByUserNameAsync(userAuth.UserName);
                 
-                //TODO change
                 if (userEntity != null && 
-                    userEntity.Password == userAuth.Password)
+                    BCrypt.Net.BCrypt.Verify(userAuth.Password, userEntity.Password))
                 {
                     var claims = new Claim[] 
                     {
