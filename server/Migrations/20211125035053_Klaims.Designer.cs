@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using server.DbContexts;
@@ -9,9 +10,10 @@ using server.DbContexts;
 namespace server.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20211125035053_Klaims")]
+    partial class Klaims
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,6 +100,10 @@ namespace server.Migrations
 
             modelBuilder.Entity("server.Entities.Admin.UserKlaim", b =>
                 {
+                    b.Property<Guid>("Id")
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+                        
                     b.Property<Guid>("UserId")
                         .HasColumnName("f_user")
                         .HasColumnType("uuid");
@@ -106,9 +112,6 @@ namespace server.Migrations
                         .HasColumnName("f_claim")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
 
                     b.HasKey("UserId", "KlaimId");
 

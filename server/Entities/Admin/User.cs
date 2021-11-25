@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using server.Attributes;
@@ -22,5 +23,7 @@ namespace server.Entities.Admin
         [Required]
         [Column("c_password")]
         public string Password { get; set; }
+
+        public ICollection<UserKlaim> UserKlaims { get; set; }
     }
 }
