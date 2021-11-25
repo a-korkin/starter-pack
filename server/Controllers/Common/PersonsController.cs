@@ -12,7 +12,7 @@ namespace server.Controllers.Common
 {
     [ApiController]
     [Route("/api/persons")]
-    [Authorize]
+    // [Authorize]
     public class PersonsController : ControllerBase 
     {
         private readonly IBaseRepository<Person> _repository;
@@ -28,6 +28,7 @@ namespace server.Controllers.Common
         }
 
         [HttpGet]
+        [Authorize(Policy = "GenderLimit")]
         public async Task<ActionResult<IEnumerable<PersonOutDto>>> GetAllAsync() 
         {
             var personsFromRepo = await _repository.GetAllAsync();

@@ -53,7 +53,8 @@ namespace server.Services
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                     new Claim("id", userEntity.Id.ToString()),
-                    new Claim("userName", userEntity.UserName)
+                    new Claim("userName", userEntity.UserName),
+                    new Claim(ClaimTypes.Gender, "Male")
                 }; 
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
