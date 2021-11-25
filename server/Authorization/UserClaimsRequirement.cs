@@ -4,6 +4,8 @@ namespace server.Authorization
 {
     public class UserClaimsRequirement : IAuthorizationRequirement
     {
-        
+        public UserClaimsRequirement()
+        {
+        }
     }
 }
