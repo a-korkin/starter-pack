@@ -34,6 +34,10 @@ namespace server.Authorization
                         var userId = Guid.Parse(context.User.Claims.FirstOrDefault(c => c.Type == "id").Value);
                         var user = _repository.GetByIdAsync(userId).Result;
                         var userClaims = user.UserClaims;
+                        foreach (var claim in userClaims)
+                        {
+                            Console.WriteLine(claim.Claim);
+                        }
                     }
                 }
 

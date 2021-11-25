@@ -64,6 +64,8 @@ namespace server
 
             services.AddScoped<IBaseRepository<Entities.Admin.EntityType>, BaseRepository<Entities.Admin.EntityType>>();
             services.AddScoped<IBaseRepository<Entities.Admin.User>, BaseRepository<Entities.Admin.User>>();
+            services.AddScoped<IBaseRepository<Entities.Admin.Claim>, BaseRepository<Entities.Admin.Claim>>();
+
             services.AddScoped<IBaseRepository<Entities.Common.Entity>, BaseRepository<Entities.Common.Entity>>();
             services.AddScoped<IBaseRepository<Entities.Common.Person>, BaseRepository<Entities.Common.Person>>();
 
