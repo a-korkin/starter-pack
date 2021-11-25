@@ -90,7 +90,7 @@ namespace server.DbContexts
             builder
                 .HasOne<EntityType>(p => p.Type)
                 .WithMany()
-                .HasForeignKey(p => p.Id)
+                .HasForeignKey(p => p.TypeId)
                 .HasConstraintName("fk_cd_claims_cs_entity_types_f_type");
         }
 

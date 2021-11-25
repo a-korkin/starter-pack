@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using server.Attributes;
 using server.Entities.Base;
 
 namespace server.Entities.Admin
 {
     [Table("cd_claims", Schema = "admin")]
+    [Description(name: "клэймы", slug: "claims", schema: "admin", tableName: "cd_claims")]
     public class Claim : BaseEntity
     {
         [Key]

@@ -50,6 +50,7 @@ namespace server.Controllers.Admin
         {
             var itemEntity = _mapper.Map<EntityType>(item);
             await _repository.AddAsync(itemEntity);
+            await _repository.SaveAsync();
 
             var itemToReturn = _mapper.Map<EntityTypeOutDto>(itemEntity);
 

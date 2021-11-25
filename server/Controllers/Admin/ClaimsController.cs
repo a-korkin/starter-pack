@@ -30,7 +30,7 @@ namespace server.Controllers.Admin
         public async Task<ActionResult<IEnumerable<ClaimOutDto>>> GetAllAsync() 
         {
             var itemsFromRepo = await _repository.GetAllAsync();
-            return Ok(_mapper.Map<ClaimOutDto>(itemsFromRepo));
+            return Ok(_mapper.Map<IEnumerable<ClaimOutDto>>(itemsFromRepo));
         }
 
         [HttpGet("{itemId}", Name = "GetClaim")]
@@ -48,6 +48,7 @@ namespace server.Controllers.Admin
         {
             var itemEntity = _mapper.Map<Claim>(item);
             await _repository.AddAsync(itemEntity);
+            await _repository.SaveAsync();
 
             var itemToReturn = _mapper.Map<ClaimOutDto>(itemEntity);
 

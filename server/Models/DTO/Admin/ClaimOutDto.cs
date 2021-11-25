@@ -6,6 +6,8 @@ namespace server.Models.DTO.Admin
     {
         public Guid Id { get; set; }
 
+        public Guid TypeId { get; set; }
+
         public bool Create { get; set; }
 
         public bool Read { get; set; }

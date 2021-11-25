@@ -65,17 +65,17 @@ namespace server.Migrations
                 {
                     table.PrimaryKey("pk_cd_claims", x => x.id);
                     table.ForeignKey(
-                        name: "fk_cd_claims_cs_entity_types_f_type",
-                        column: x => x.id,
-                        principalSchema: "admin",
-                        principalTable: "cs_entity_types",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "fk_cd_claims_cd_entities_id",
                         column: x => x.id,
                         principalSchema: "common",
                         principalTable: "cd_entities",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_cd_claims_cs_entity_types_f_type",
+                        column: x => x.f_type,
+                        principalSchema: "admin",
+                        principalTable: "cs_entity_types",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -149,6 +149,12 @@ namespace server.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_cd_claims_f_type",
+                schema: "admin",
+                table: "cd_claims",
+                column: "f_type");
 
             migrationBuilder.CreateIndex(
                 name: "IX_cd_user_claims_f_claim",

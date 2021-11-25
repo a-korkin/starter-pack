@@ -56,6 +56,8 @@ namespace server.Migrations
                     b.HasKey("Id")
                         .HasName("pk_cd_claims");
 
+                    b.HasIndex("TypeId");
+
                     b.ToTable("cd_claims","admin");
                 });
 
@@ -179,17 +181,17 @@ namespace server.Migrations
 
             modelBuilder.Entity("server.Entities.Admin.Claim", b =>
                 {
-                    b.HasOne("server.Entities.Admin.EntityType", "Type")
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .HasConstraintName("fk_cd_claims_cs_entity_types_f_type")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("server.Entities.Common.Entity", null)
                         .WithMany()
                         .HasForeignKey("Id")
                         .HasConstraintName("fk_cd_claims_cd_entities_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("server.Entities.Admin.EntityType", "Type")
+                        .WithMany()
+                        .HasForeignKey("TypeId")
+                        .HasConstraintName("fk_cd_claims_cs_entity_types_f_type")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
