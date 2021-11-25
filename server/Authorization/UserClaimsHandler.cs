@@ -9,13 +9,13 @@ namespace server.Authorization
 {
     public class UserClaimsHandler : AuthorizationHandler<UserClaimsRequirement>
     {
-        private readonly IBaseRepository<User> _repository;
+        // private readonly IBaseRepository<User> _repository;
 
-        public UserClaimsHandler(IBaseRepository<User> repository)
-        {
-            _repository = repository ?? 
-                throw new ArgumentNullException(nameof(repository));
-        }
+        // public UserClaimsHandler(IBaseRepository<User> repository)
+        // {
+        //     _repository = repository ?? 
+        //         throw new ArgumentNullException(nameof(repository));
+        // }
 
         protected override Task HandleRequirementAsync(
             AuthorizationHandlerContext context, 
