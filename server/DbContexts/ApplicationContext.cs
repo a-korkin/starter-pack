@@ -14,8 +14,8 @@ namespace server.DbContexts
         public DbSet<EntityType> EntityTypes { get; set; }
         public DbSet<Entity> Entities { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Klaim> Klaims { get; set; }
-        public DbSet<UserKlaim> UserKlaims { get; set; }
+        public DbSet<Claim> Claims { get; set; }
+        public DbSet<UserClaim> UserClaims { get; set; }
         public DbSet<Person> Persons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
@@ -23,29 +23,32 @@ namespace server.DbContexts
             modelBuilder.Entity<EntityType>().HasKey(k => k.Id).HasName("pk_cs_entity_types");
             modelBuilder.Entity<Entity>(EntityConfigure);
             modelBuilder.Entity<User>(UserConfigure);
-            modelBuilder.Entity<Klaim>(KlaimConfigure);
+            modelBuilder.Entity<Claim>(ClaimConfigure);
             
-            modelBuilder.Entity<UserKlaim>()
-                .HasKey(uk => new { uk.UserId, uk.KlaimId });
+            modelBuilder.Entity<UserClaim>()
+                .HasKey(uk => new { uk.UserId, uk.ClaimId })
+                .HasName("pk_cd_user_claims");;
 
-            modelBuilder.Entity<UserKlaim>()
+            modelBuilder.Entity<UserClaim>()
                 .HasOne(uk => uk.User)
-                .WithMany(k => k.UserKlaims)
+                .WithMany(k => k.UserClaims)
                 .HasForeignKey(uk => uk.UserId)
-                .HasConstraintName("FK_cd_user_claims_cd_claims_f_user");
+                .HasConstraintName("fk_cd_user_claims_cd_claims_f_user");
 
-            modelBuilder.Entity<UserKlaim>()
-                .HasOne(uk => uk.Klaim)
-                .WithMany(k => k.UserKlaims)
-                .HasForeignKey(uk => uk.KlaimId)
-                .HasConstraintName("FK_cd_user_claims_cd_claims_f_claim");                
+            modelBuilder.Entity<UserClaim>()
+                .HasOne(uk => uk.Claim)
+                .WithMany(k => k.UserClaims)
+                .HasForeignKey(uk => uk.ClaimId)
+                .HasConstraintName("fk_cd_user_claims_cd_claims_f_claim");                
 
             modelBuilder.Entity<Person>(PersonConfigure); 
         }
 
         private void EntityConfigure(EntityTypeBuilder<Entity> builder)
         {
-            builder.HasKey(k => k.Id).HasName("pk_cd_entities");
+            builder
+                .HasKey(k => k.Id)
+                .HasName("pk_cd_entities");
 
             builder
                 .HasOne<EntityType>(p => p.Type)
@@ -67,17 +70,28 @@ namespace server.DbContexts
                 .HasConstraintName("fk_cd_users_cd_entities_id");
         }
 
-        private void KlaimConfigure(EntityTypeBuilder<Klaim> builder) 
+        private void ClaimConfigure(EntityTypeBuilder<Claim> builder) 
         {
             builder
                 .HasKey(k => k.Id)
                 .HasName("pk_cd_claims");
+
+            builder.Property(b => b.Create).HasDefaultValue(false);
+            builder.Property(b => b.Read).HasDefaultValue(false);
+            builder.Property(b => b.Update).HasDefaultValue(false);
+            builder.Property(b => b.Delete).HasDefaultValue(false);
 
             builder
                 .HasOne<Entity>()
                 .WithMany()
                 .HasForeignKey(p => p.Id)
                 .HasConstraintName("fk_cd_claims_cd_entities_id");
+
+            builder
+                .HasOne<EntityType>(p => p.Type)
+                .WithMany()
+                .HasForeignKey(p => p.Id)
+                .HasConstraintName("fk_cd_claims_cs_entity_types_f_type");
         }
 
         private void PersonConfigure(EntityTypeBuilder<Person> builder) 

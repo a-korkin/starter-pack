@@ -9,8 +9,8 @@ namespace server.Entities.Common
     [Table("cd_entities", Schema = "common")]
     public class Entity : BaseEntity
     {
-        [Required]
         [Column("f_type")]
+        [Required]
         public Guid TypeId { get; set; }
 
         public EntityType Type { get; set; }

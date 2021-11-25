@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using server.DbContexts;
 using server.Entities.Admin;
 using server.Models.DTO.Admin;
+using SystemClaims = System.Security.Claims;
 
 namespace server.Services
 {
@@ -47,14 +48,14 @@ namespace server.Services
             if (userEntity != null && 
                 BCrypt.Net.BCrypt.Verify(userAuth.Password, userEntity.Password))
             {
-                var claims = new Claim[] 
+                var claims = new SystemClaims.Claim[] 
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                    new Claim("id", userEntity.Id.ToString()),
-                    new Claim("userName", userEntity.UserName),
-                    new Claim(ClaimTypes.Gender, "Male")
+                    new SystemClaims.Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
+                    new SystemClaims.Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new SystemClaims.Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                    new SystemClaims.Claim("id", userEntity.Id.ToString()),
+                    new SystemClaims.Claim("userName", userEntity.UserName),
+                    new SystemClaims.Claim(ClaimTypes.Gender, "Male")
                 }; 
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

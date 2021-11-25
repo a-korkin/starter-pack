@@ -24,6 +24,6 @@ namespace server.Entities.Admin
         [Column("c_password")]
         public string Password { get; set; }
 
-        public ICollection<UserKlaim> UserKlaims { get; set; }
+        public ICollection<UserClaim> UserClaims { get; set; }
     }
 }

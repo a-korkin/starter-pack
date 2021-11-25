@@ -6,7 +6,7 @@ using server.Entities.Base;
 namespace server.Entities.Admin
 {
     [Table("cd_user_claims", Schema = "admin")]
-    public class UserKlaim : BaseEntity
+    public class UserClaim : BaseEntity
     {
         [Key]
         [Column("id")]
@@ -21,8 +21,8 @@ namespace server.Entities.Admin
 
         [Column("f_claim")]
         [Required]
-        public Guid KlaimId { get; set; }
+        public Guid ClaimId { get; set; }
 
-        public Klaim Klaim { get; set; }
+        public Claim Claim { get; set; }
     }
 }

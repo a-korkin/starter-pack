@@ -10,8 +10,8 @@ using server.DbContexts;
 namespace server.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211125035053_Klaims")]
-    partial class Klaims
+    [Migration("20211125174036_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,46 @@ namespace server.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            modelBuilder.Entity("server.Entities.Admin.Claim", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Create")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("b_create")
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("Delete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("b_delete")
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("Read")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("b_read")
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnName("f_type")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Update")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("b_update")
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.HasKey("Id")
+                        .HasName("pk_cd_claims");
+
+                    b.ToTable("cd_claims","admin");
+                });
 
             modelBuilder.Entity("server.Entities.Admin.EntityType", b =>
                 {
@@ -54,28 +94,6 @@ namespace server.Migrations
                     b.ToTable("cs_entity_types","admin");
                 });
 
-            modelBuilder.Entity("server.Entities.Admin.Klaim", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnName("c_type")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnName("c_value")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id")
-                        .HasName("pk_cd_claims");
-
-                    b.ToTable("cd_claims","admin");
-                });
-
             modelBuilder.Entity("server.Entities.Admin.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -98,24 +116,24 @@ namespace server.Migrations
                     b.ToTable("cd_users","admin");
                 });
 
-            modelBuilder.Entity("server.Entities.Admin.UserKlaim", b =>
+            modelBuilder.Entity("server.Entities.Admin.UserClaim", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnName("id")
-                        .HasColumnType("uuid");
-                        
                     b.Property<Guid>("UserId")
                         .HasColumnName("f_user")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("KlaimId")
+                    b.Property<Guid>("ClaimId")
                         .HasColumnName("f_claim")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("Id")
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
 
-                    b.HasKey("UserId", "KlaimId");
+                    b.HasKey("UserId", "ClaimId")
+                        .HasName("pk_cd_user_claims");
 
-                    b.HasIndex("KlaimId");
+                    b.HasIndex("ClaimId");
 
                     b.ToTable("cd_user_claims","admin");
                 });
@@ -161,8 +179,15 @@ namespace server.Migrations
                     b.ToTable("cd_persons","common");
                 });
 
-            modelBuilder.Entity("server.Entities.Admin.Klaim", b =>
+            modelBuilder.Entity("server.Entities.Admin.Claim", b =>
                 {
+                    b.HasOne("server.Entities.Admin.EntityType", "Type")
+                        .WithMany()
+                        .HasForeignKey("Id")
+                        .HasConstraintName("fk_cd_claims_cs_entity_types_f_type")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("server.Entities.Common.Entity", null)
                         .WithMany()
                         .HasForeignKey("Id")
@@ -181,19 +206,19 @@ namespace server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("server.Entities.Admin.UserKlaim", b =>
+            modelBuilder.Entity("server.Entities.Admin.UserClaim", b =>
                 {
-                    b.HasOne("server.Entities.Admin.Klaim", "Klaim")
-                        .WithMany("UserKlaims")
-                        .HasForeignKey("KlaimId")
-                        .HasConstraintName("FK_cd_user_claims_cd_claims_f_claim")
+                    b.HasOne("server.Entities.Admin.Claim", "Claim")
+                        .WithMany("UserClaims")
+                        .HasForeignKey("ClaimId")
+                        .HasConstraintName("fk_cd_user_claims_cd_claims_f_claim")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("server.Entities.Admin.User", "User")
-                        .WithMany("UserKlaims")
+                        .WithMany("UserClaims")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("FK_cd_user_claims_cd_claims_f_user")
+                        .HasConstraintName("fk_cd_user_claims_cd_claims_f_user")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
