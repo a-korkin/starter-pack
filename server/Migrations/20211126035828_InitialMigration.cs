@@ -14,6 +14,19 @@ namespace server.Migrations
                 name: "common");
 
             migrationBuilder.CreateTable(
+                name: "cd_roles",
+                schema: "admin",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    c_title = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cd_roles", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "cs_entity_types",
                 schema: "admin",
                 columns: table => new
@@ -56,6 +69,7 @@ namespace server.Migrations
                 {
                     id = table.Column<Guid>(nullable: false),
                     f_type = table.Column<Guid>(nullable: false),
+                    f_role = table.Column<Guid>(nullable: false),
                     b_create = table.Column<bool>(nullable: false, defaultValue: false),
                     b_read = table.Column<bool>(nullable: false, defaultValue: false),
                     b_update = table.Column<bool>(nullable: false, defaultValue: false),
@@ -69,6 +83,13 @@ namespace server.Migrations
                         column: x => x.id,
                         principalSchema: "common",
                         principalTable: "cd_entities",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_cd_claims_cd_roles_f_role",
+                        column: x => x.f_role,
+                        principalSchema: "admin",
+                        principalTable: "cd_roles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -123,26 +144,26 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "cd_user_claims",
+                name: "cd_user_roles",
                 schema: "admin",
                 columns: table => new
                 {
+                    id = table.Column<Guid>(nullable: false),
                     f_user = table.Column<Guid>(nullable: false),
-                    f_claim = table.Column<Guid>(nullable: false),
-                    id = table.Column<Guid>(nullable: false)
+                    f_role = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_cd_user_claims", x => new { x.f_user, x.f_claim });
+                    table.PrimaryKey("pk_cd_user_claims", x => new { x.f_user, x.f_role });
                     table.ForeignKey(
-                        name: "fk_cd_user_claims_cd_claims_f_claim",
-                        column: x => x.f_claim,
+                        name: "fk_cd_user_roles_cd_users_f_role",
+                        column: x => x.f_role,
                         principalSchema: "admin",
-                        principalTable: "cd_claims",
+                        principalTable: "cd_roles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_cd_user_claims_cd_claims_f_user",
+                        name: "fk_cd_user_roles_cd_roles_f_user",
                         column: x => x.f_user,
                         principalSchema: "admin",
                         principalTable: "cd_users",
@@ -151,16 +172,22 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_cd_claims_f_role",
+                schema: "admin",
+                table: "cd_claims",
+                column: "f_role");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_cd_claims_f_type",
                 schema: "admin",
                 table: "cd_claims",
                 column: "f_type");
 
             migrationBuilder.CreateIndex(
-                name: "IX_cd_user_claims_f_claim",
+                name: "IX_cd_user_roles_f_role",
                 schema: "admin",
-                table: "cd_user_claims",
-                column: "f_claim");
+                table: "cd_user_roles",
+                column: "f_role");
 
             migrationBuilder.CreateIndex(
                 name: "IX_cd_entities_f_type",
@@ -172,7 +199,11 @@ namespace server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "cd_user_claims",
+                name: "cd_claims",
+                schema: "admin");
+
+            migrationBuilder.DropTable(
+                name: "cd_user_roles",
                 schema: "admin");
 
             migrationBuilder.DropTable(
@@ -180,7 +211,7 @@ namespace server.Migrations
                 schema: "common");
 
             migrationBuilder.DropTable(
-                name: "cd_claims",
+                name: "cd_roles",
                 schema: "admin");
 
             migrationBuilder.DropTable(

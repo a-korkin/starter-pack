@@ -5,12 +5,12 @@ using server.Entities.Base;
 
 namespace server.Entities.Admin
 {
-    [Table("cd_user_claims", Schema = "admin")]
-    public class UserClaim : BaseEntity
+    [Table("cd_user_roles", Schema = "admin")]
+    public class UserRole : BaseEntity
     {
         [Key]
         [Column("id")]
-        [ForeignKey("fk_cd_user_claims_cd_entities_id")]
+        [ForeignKey("fk_cd_user_roles_cd_entities_id")]
         public override Guid Id { get; set; }
 
         [Column("f_user")]
@@ -19,10 +19,10 @@ namespace server.Entities.Admin
 
         public User User { get; set; }
 
-        [Column("f_claim")]
+        [Column("f_role")]
         [Required]
-        public Guid ClaimId { get; set; }
+        public Guid RoleId { get; set; }
 
-        public Claim Claim { get; set; }
+        public Role Role { get; set; }
     }
 }

@@ -29,15 +29,15 @@ namespace server.Authorization
                     var routePattern = resource.RoutePattern;
                     if (routePattern != null) 
                     {
-                        var controller = routePattern.RequiredValues["controller"].ToString().ToLower();
-                        var action = routePattern.RequiredValues["action"].ToString().ToLower();
-                        var userId = Guid.Parse(context.User.Claims.FirstOrDefault(c => c.Type == "id").Value);
-                        var user = _repository.GetByIdAsync(userId).Result;
-                        var userClaims = user.UserClaims;
-                        foreach (var claim in userClaims)
-                        {
-                            Console.WriteLine(claim.Claim);
-                        }
+                        // var controller = routePattern.RequiredValues["controller"].ToString().ToLower();
+                        // var action = routePattern.RequiredValues["action"].ToString().ToLower();
+                        // var userId = Guid.Parse(context.User.Claims.FirstOrDefault(c => c.Type == "id").Value);
+                        // var user = _repository.GetByIdAsync(userId).Result;
+                        // var userClaims = user.UserClaims;
+                        // foreach (var claim in userClaims)
+                        // {
+                        //     Console.WriteLine(claim.Claim);
+                        // }
                     }
                 }
 

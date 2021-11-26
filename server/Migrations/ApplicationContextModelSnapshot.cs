@@ -43,6 +43,10 @@ namespace server.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
+                    b.Property<Guid>("RoleId")
+                        .HasColumnName("f_role")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("TypeId")
                         .HasColumnName("f_type")
                         .HasColumnType("uuid");
@@ -55,6 +59,8 @@ namespace server.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_cd_claims");
+
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("TypeId");
 
@@ -94,6 +100,24 @@ namespace server.Migrations
                     b.ToTable("cs_entity_types","admin");
                 });
 
+            modelBuilder.Entity("server.Entities.Admin.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnName("c_title")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id")
+                        .HasName("pk_cd_roles");
+
+                    b.ToTable("cd_roles","admin");
+                });
+
             modelBuilder.Entity("server.Entities.Admin.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -116,26 +140,26 @@ namespace server.Migrations
                     b.ToTable("cd_users","admin");
                 });
 
-            modelBuilder.Entity("server.Entities.Admin.UserClaim", b =>
+            modelBuilder.Entity("server.Entities.Admin.UserRole", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnName("f_user")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ClaimId")
-                        .HasColumnName("f_claim")
+                    b.Property<Guid>("RoleId")
+                        .HasColumnName("f_role")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("Id")
                         .HasColumnName("id")
                         .HasColumnType("uuid");
 
-                    b.HasKey("UserId", "ClaimId")
+                    b.HasKey("UserId", "RoleId")
                         .HasName("pk_cd_user_claims");
 
-                    b.HasIndex("ClaimId");
+                    b.HasIndex("RoleId");
 
-                    b.ToTable("cd_user_claims","admin");
+                    b.ToTable("cd_user_roles","admin");
                 });
 
             modelBuilder.Entity("server.Entities.Common.Entity", b =>
@@ -188,6 +212,13 @@ namespace server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("server.Entities.Admin.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_cd_claims_cd_roles_f_role")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("server.Entities.Admin.EntityType", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
@@ -206,19 +237,19 @@ namespace server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("server.Entities.Admin.UserClaim", b =>
+            modelBuilder.Entity("server.Entities.Admin.UserRole", b =>
                 {
-                    b.HasOne("server.Entities.Admin.Claim", "Claim")
-                        .WithMany("UserClaims")
-                        .HasForeignKey("ClaimId")
-                        .HasConstraintName("fk_cd_user_claims_cd_claims_f_claim")
+                    b.HasOne("server.Entities.Admin.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("fk_cd_user_roles_cd_users_f_role")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("server.Entities.Admin.User", "User")
-                        .WithMany("UserClaims")
+                        .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_cd_user_claims_cd_claims_f_user")
+                        .HasConstraintName("fk_cd_user_roles_cd_roles_f_user")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

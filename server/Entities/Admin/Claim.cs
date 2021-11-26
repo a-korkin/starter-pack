@@ -22,6 +22,12 @@ namespace server.Entities.Admin
 
         public EntityType Type { get; set; }
 
+        [Column("f_role")]
+        [Required]
+        public Guid RoleId { get; set; }
+
+        public Role Role { get; set; }
+
         [Column("b_create")]
         [Required]
         public bool Create { get; set; }
@@ -38,6 +44,6 @@ namespace server.Entities.Admin
         [Required]
         public bool Delete { get; set; }
 
-        public ICollection<UserClaim> UserClaims { get; set; }
+        // public ICollection<Role> Roles { get; set; }
     }
 }
