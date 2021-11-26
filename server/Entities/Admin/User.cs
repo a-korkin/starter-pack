@@ -24,6 +24,9 @@ namespace server.Entities.Admin
         [Column("c_password")]
         public string Password { get; set; }
 
+        [Column("c_refresh_token")]
+        public string RefreshToken { get; set; }
+
         public ICollection<UserRole> Roles { get; set; }
     }
 }

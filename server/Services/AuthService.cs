@@ -41,7 +41,7 @@ namespace server.Services
                 .SingleOrDefaultAsync(u => u.UserName == userName);
         }
 
-        public async Task<AuthOutDto> LoginAsync(AuthInDto userAuth)
+        public async Task<Tuple<AuthOutDto, string>> LoginAsync(AuthInDto userAuth)
         {
             var userEntity = await GetByUserNameAsync(userAuth.UserName);
                 
@@ -54,13 +54,12 @@ namespace server.Services
                     new SystemClaims.Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new SystemClaims.Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                     new SystemClaims.Claim("id", userEntity.Id.ToString()),
-                    new SystemClaims.Claim("userName", userEntity.UserName),
-                    new SystemClaims.Claim(ClaimTypes.Gender, "Male")
+                    new SystemClaims.Claim("userName", userEntity.UserName)
                 }; 
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
                 var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                var token = new JwtSecurityToken
+                var accessToken = new JwtSecurityToken
                 (
                     issuer: _configuration["Jwt:Issuer"],
                     audience: _configuration["Jwt:Audience"],
@@ -69,10 +68,23 @@ namespace server.Services
                     signingCredentials: signIn
                 );
 
-                var authToReturn = _mapper.Map<AuthOutDto>(userEntity);
-                authToReturn.AccessToken = new JwtSecurityTokenHandler().WriteToken(token);
+                var refreshToken = new JwtSecurityToken
+                (
+                    issuer: _configuration["Jwt:Issuer"],
+                    audience: _configuration["Jwt:Audience"],
+                    claims: claims,
+                    expires: DateTime.Now.AddDays(7),
+                    signingCredentials: signIn
+                );
 
-                return authToReturn;
+                userEntity.RefreshToken = new JwtSecurityTokenHandler().WriteToken(refreshToken);
+                await _context.SaveChangesAsync();
+
+
+                var authToReturn = _mapper.Map<AuthOutDto>(userEntity);
+                authToReturn.AccessToken = new JwtSecurityTokenHandler().WriteToken(accessToken);
+
+                return Tuple.Create(authToReturn, userEntity.RefreshToken);
             }
             return null;
         }

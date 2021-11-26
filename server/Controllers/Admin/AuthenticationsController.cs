@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Models.DTO.Admin;
 using server.Services;
@@ -26,7 +27,16 @@ namespace server.Controllers.Admin
             {
                 var authToReturn = await _authServive.LoginAsync(userAuth);
                 if (authToReturn != null)
-                    return Ok(authToReturn);
+                {
+                    
+                    Response.Cookies.Append("refreshToken", authToReturn.Item2, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Expires = DateTime.UtcNow.AddDays(7),             
+                    });
+                    
+                    return Ok(authToReturn.Item1);
+                }
 
                 return Unauthorized();
             }
