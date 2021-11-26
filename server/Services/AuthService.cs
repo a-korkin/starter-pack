@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using server.DbContexts;
 using server.Entities.Admin;
 using server.Models.DTO.Admin;
+using server.Repositories;
 using SystemClaims = System.Security.Claims;
 
 namespace server.Services
@@ -19,11 +20,13 @@ namespace server.Services
         private readonly ApplicationContext _context;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
+        private readonly IBaseRepository<User> _repository;
 
         public AuthService(
             ApplicationContext context, 
             IConfiguration configuration, 
-            IMapper mapper)
+            IMapper mapper,
+            IBaseRepository<User> repository)
         {
             _context = context ??
                 throw new ArgumentNullException(nameof(context));
@@ -33,6 +36,9 @@ namespace server.Services
             
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
+
+            _repository = repository ??
+                throw new ArgumentNullException(nameof(repository));
         }
 
         public async Task<User> GetByUserNameAsync(string userName)
@@ -43,7 +49,8 @@ namespace server.Services
 
         public async Task<Tuple<AuthOutDto, string>> LoginAsync(AuthInDto userAuth)
         {
-            var userEntity = await GetByUserNameAsync(userAuth.UserName);
+            // var userEntity = await GetByUserNameAsync(userAuth.UserName);
+            var userEntity = await _repository.GetOneByAsync(x => x.UserName == userAuth.UserName);
                 
             if (userEntity != null && 
                 BCrypt.Net.BCrypt.Verify(userAuth.Password, userEntity.Password))

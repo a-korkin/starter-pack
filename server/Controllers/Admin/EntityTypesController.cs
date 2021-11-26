@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using server.Attributes;
 using server.Entities.Admin;
 using server.Models.DTO.Admin;
-using server.Services;
+using server.Repositories;
 
 namespace server.Controllers.Admin
 {
     [ApiController]
-    [Route("/api/entity_types")]
+    [Route("/api/admin/entity-types")]
     public class EntityTypesController : ControllerBase
     {
         private readonly IBaseRepository<EntityType> _repository;

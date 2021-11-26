@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using server.Attributes;
@@ -8,7 +9,7 @@ using server.DbContexts;
 using server.Entities.Admin;
 using server.Entities.Base;
 
-namespace server.Services 
+namespace server.Repositories 
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
@@ -56,6 +57,11 @@ namespace server.Services
             return await _context.Set<T>().ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAllByAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().Where(predicate).ToListAsync();
+        }
+
         public async Task<T> GetByIdAsync(Guid id)
         {
             return await _context.Set<T>()
@@ -65,6 +71,11 @@ namespace server.Services
         public void Update(T item) 
         {
             // no content
+        }
+
+        public async Task<T> GetOneByAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().Where(predicate).FirstOrDefaultAsync();
         }
     }
 }

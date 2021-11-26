@@ -28,7 +28,6 @@ namespace server.Controllers.Admin
                 var authToReturn = await _authServive.LoginAsync(userAuth);
                 if (authToReturn != null)
                 {
-                    
                     Response.Cookies.Append("refreshToken", authToReturn.Item2, new CookieOptions
                     {
                         HttpOnly = true,

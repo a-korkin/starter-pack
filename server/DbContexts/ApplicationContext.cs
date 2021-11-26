@@ -53,6 +53,10 @@ namespace server.DbContexts
                 .WithMany()
                 .HasForeignKey(p => p.Id)
                 .HasConstraintName("fk_cd_users_cd_entities_id");
+
+            builder
+                .HasIndex(u => u.UserName)
+                .IsUnique();
         }
 
         private void UserRoleConfigure(EntityTypeBuilder<UserRole> builder)

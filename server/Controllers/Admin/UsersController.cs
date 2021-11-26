@@ -5,12 +5,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using server.Entities.Admin;
 using server.Models.DTO.Admin;
-using server.Services;
+using server.Repositories;
 
 namespace server.Controllers.Admin 
 {
     [ApiController]
-    [Route("/api/users")]
+    [Route("/api/admin/users")]
     public class UsersController : ControllerBase
     {
         private readonly IBaseRepository<User> _repository;

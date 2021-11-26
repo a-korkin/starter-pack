@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using server.Entities.Common;
 using server.Models.DTO.Common;
-using server.Services;
+using server.Repositories;
 
 namespace server.Controllers.Common 
 {
     [ApiController]
-    [Route("/api/persons")]
+    [Route("/api/common/persons")]
     // [Authorize]
     public class PersonsController : ControllerBase 
     {
@@ -28,7 +28,7 @@ namespace server.Controllers.Common
         }
 
         [HttpGet]
-        [Authorize(Policy = "GenderLimit")]
+        // [Authorize(Policy = "GenderLimit")]
         public async Task<ActionResult<IEnumerable<PersonOutDto>>> GetAllAsync() 
         {
             var personsFromRepo = await _repository.GetAllAsync();

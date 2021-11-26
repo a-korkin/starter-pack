@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using server.Entities.Admin;
-using server.Services;
+using server.Repositories;
 
 namespace server.Authorization
 {

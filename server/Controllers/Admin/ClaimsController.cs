@@ -5,12 +5,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using server.Entities.Admin;
 using server.Models.DTO.Admin;
-using server.Services;
+using server.Repositories;
 
 namespace server.Controllers.Admin
 {
     [ApiController]
-    [Route("api/claims")]
+    [Route("api/admin/claims")]
     public class ClaimsController : ControllerBase
     {
         private readonly IBaseRepository<Claim> _repository;
