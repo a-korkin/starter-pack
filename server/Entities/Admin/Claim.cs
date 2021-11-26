@@ -43,7 +43,5 @@ namespace server.Entities.Admin
         [Column("b_delete")]
         [Required]
         public bool Delete { get; set; }
-
-        // public ICollection<Role> Roles { get; set; }
     }
 }

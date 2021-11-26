@@ -19,9 +19,7 @@ namespace server.Entities.Admin
         [Required]
         [Column("c_title")]
         public string Title { get; set; }
-
-        // public ICollection<Claim> Claims { get; set; }
-
+        
         public ICollection<UserRole> Users { get; set; }
     }
 }

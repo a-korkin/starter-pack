@@ -24,31 +24,8 @@ namespace server.DbContexts
             modelBuilder.Entity<Entity>(EntityConfigure);
             modelBuilder.Entity<User>(UserConfigure);
             modelBuilder.Entity<Claim>(ClaimConfigure);
-            
             modelBuilder.Entity<Role>().HasKey(k => k.Id).HasName("pk_cd_roles");
-
-            modelBuilder.Entity<UserRole>()
-                .HasKey(uk => new { uk.UserId, uk.RoleId })
-                .HasName("pk_cd_user_claims");;
-
-            modelBuilder.Entity<UserRole>()
-                .HasOne(uk => uk.User)
-                .WithMany(k => k.Roles)
-                .HasForeignKey(uk => uk.UserId)
-                .HasConstraintName("fk_cd_user_roles_cd_roles_f_user");
-
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.Role)
-                .WithMany(u => u.Users)
-                .HasForeignKey(u => u.RoleId)
-                .HasConstraintName("fk_cd_user_roles_cd_users_f_role");
-
-            // modelBuilder.Entity<UserRole>()
-            //     .HasOne(uk => uk.Role)
-            //     .WithMany(k => k.Users)
-            //     .HasForeignKey(uk => uk.ClaimId)
-            //     .HasConstraintName("fk_cd_user_claims_cd_claims_f_claim");                
-
+            modelBuilder.Entity<UserRole>(UserRoleConfigure);  
             modelBuilder.Entity<Person>(PersonConfigure); 
         }
 
@@ -76,6 +53,25 @@ namespace server.DbContexts
                 .WithMany()
                 .HasForeignKey(p => p.Id)
                 .HasConstraintName("fk_cd_users_cd_entities_id");
+        }
+
+        private void UserRoleConfigure(EntityTypeBuilder<UserRole> builder)
+        {
+            builder
+                .HasKey(uk => new { uk.UserId, uk.RoleId })
+                .HasName("pk_cd_user_claims");;
+
+            builder
+                .HasOne(uk => uk.User)
+                .WithMany(k => k.Roles)
+                .HasForeignKey(uk => uk.UserId)
+                .HasConstraintName("fk_cd_user_roles_cd_roles_f_user");
+
+            builder
+                .HasOne(ur => ur.Role)
+                .WithMany(u => u.Users)
+                .HasForeignKey(u => u.RoleId)
+                .HasConstraintName("fk_cd_user_roles_cd_users_f_role");   
         }
 
         private void ClaimConfigure(EntityTypeBuilder<Claim> builder) 
