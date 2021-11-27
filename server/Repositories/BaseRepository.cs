@@ -13,7 +13,7 @@ namespace server.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        private ApplicationContext _context { get; set; }
+        private readonly ApplicationContext _context;
 
         public BaseRepository(ApplicationContext context)
         {

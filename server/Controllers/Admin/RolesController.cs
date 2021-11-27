@@ -14,19 +14,16 @@ namespace server.Controllers.Admin
     [Route("/api/admin/roles")]
     public class RolesController : ControllerBase
     {
-        private readonly IBaseRepository<Role> _repository;
-        private readonly IRoleRepository _roleRepository;
+        // private readonly IBaseRepository<Role> _repository;
+        private readonly IRoleRepository _repository;
         private readonly IMapper _mapper;
         public RolesController(
-            IBaseRepository<Role> repository, 
-            IRoleRepository roleRepository,
+            // IBaseRepository<Role> repository, 
+            IRoleRepository repository,
             IMapper mapper)
         {
             _repository = repository ??
                 throw new ArgumentNullException(nameof(repository));
-
-            _roleRepository = roleRepository ??
-                throw new ArgumentNullException(nameof(roleRepository));
 
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
@@ -40,14 +37,15 @@ namespace server.Controllers.Admin
         }
 
         [HttpGet("{itemId}", Name = "GetRole")]
-        public async Task<ActionResult<RoleOutDto>> GetByIdAsync(Guid itemId)
+        public async Task<ActionResult<RoleOutItemDto>> GetByIdAsync(Guid itemId)
         {
-            var entity = await _roleRepository.GetRoleWithChildren(itemId); //await _repository.GetByIdAsync(itemId);
+            var dd = _repository.GetAllAsync();
+            var entity = await _repository.GetRoleWithChildren(itemId);
 
             if (entity == null)
                 return NotFound();
 
-            return Ok(_mapper.Map<RoleOutDto>(entity));
+            return Ok(_mapper.Map<RoleOutItemDto>(entity));
         }
 
         [HttpPost]
