@@ -41,7 +41,6 @@ namespace server.Repositories
                     .Where(w => w.TableName == attribute.TableName)
                     .FirstOrDefaultAsync();
 
-
                 var entity = new Entities.Common.Entity 
                 {
                     Id = id,

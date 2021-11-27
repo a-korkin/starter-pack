@@ -22,6 +22,7 @@ namespace server.Migrations
             modelBuilder.Entity("server.Entities.Admin.Claim", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("uuid");
 
@@ -212,15 +213,8 @@ namespace server.Migrations
 
             modelBuilder.Entity("server.Entities.Admin.Claim", b =>
                 {
-                    b.HasOne("server.Entities.Common.Entity", null)
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .HasConstraintName("fk_cd_claims_cd_entities_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("server.Entities.Admin.Role", "Role")
-                        .WithMany()
+                        .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("fk_cd_claims_cd_roles_f_role")
                         .OnDelete(DeleteBehavior.Cascade)

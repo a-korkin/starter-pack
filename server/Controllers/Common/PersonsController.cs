@@ -28,7 +28,7 @@ namespace server.Controllers.Common
         }
 
         [HttpGet]
-        // [Authorize(Policy = "GenderLimit")]
+        [Authorize(Policy = "ClaimsRequired")]
         public async Task<ActionResult<IEnumerable<PersonOutDto>>> GetAllAsync() 
         {
             var personsFromRepo = await _repository.GetAllAsync();

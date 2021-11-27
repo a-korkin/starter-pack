@@ -57,7 +57,7 @@ namespace server
             services.AddTransient<IAuthorizationHandler, UserClaimsHandler>();
 
             services.AddAuthorization(opts => {
-                opts.AddPolicy("GenderLimit",
+                opts.AddPolicy("ClaimsRequired",
                     policy => policy.Requirements.Add(new UserClaimsRequirement()));
             });
 

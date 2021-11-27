@@ -10,7 +10,7 @@ using server.Repositories;
 namespace server.Controllers.Admin
 {
     [ApiController]
-    [Route("api/admin/claims")]
+    [Route("api/admin/roles/{roleId}/claims")]
     public class ClaimsController : ControllerBase
     {
         private readonly IBaseRepository<Claim> _repository;
@@ -28,14 +28,14 @@ namespace server.Controllers.Admin
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ClaimOutDto>>> GetAllAsync() 
+        public async Task<ActionResult<IEnumerable<ClaimOutDto>>> GetAllAsync(Guid roleId) 
         {
             var itemsFromRepo = await _repository.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<ClaimOutDto>>(itemsFromRepo));
         }
 
         [HttpGet("{itemId}", Name = "GetClaim")]
-        public async Task<ActionResult<ClaimOutDto>> GetByIdAsync(Guid itemId)
+        public async Task<ActionResult<ClaimOutDto>> GetByIdAsync(Guid roleId, Guid itemId)
         {
             var itemFromRepo = await _repository.GetByIdAsync(itemId);
             if (itemFromRepo == null)
@@ -45,21 +45,23 @@ namespace server.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<ActionResult<ClaimOutDto>> CreateAsync(ClaimInDto item)
+        public async Task<ActionResult<ClaimOutDto>> CreateAsync(Guid roleId, ClaimInDto item)
         {
             var itemEntity = _mapper.Map<Claim>(item);
+            itemEntity.RoleId = roleId;
             await _repository.AddAsync(itemEntity);
             await _repository.SaveAsync();
 
             var itemToReturn = _mapper.Map<ClaimOutDto>(itemEntity);
 
             return CreatedAtRoute("GetClaim",
-                new { itemId = itemToReturn.Id },
+                new { roleId = roleId, itemId = itemToReturn.Id },
                 itemToReturn);
         }
 
-        [HttpPut("itemId")]
+        [HttpPut("{itemId}")]
         public async Task<ActionResult<ClaimOutDto>> UpdateAsync(
+            Guid roleId,
             Guid itemId, 
             ClaimUpdDto item)
         {

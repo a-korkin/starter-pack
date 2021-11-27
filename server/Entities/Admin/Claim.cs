@@ -8,12 +8,10 @@ using server.Entities.Base;
 namespace server.Entities.Admin
 {
     [Table("cd_claims", Schema = "admin")]
-    [Description(name: "клэймы", slug: "claims", schema: "admin", tableName: "cd_claims")]
     public class Claim : BaseEntity
     {
         [Key]
         [Column("id")]
-        [ForeignKey("fk_cd_claims_cd_entities_id")]
         public override Guid Id { get; set; }
 
         [Column("f_type")]

@@ -15,6 +15,7 @@ namespace server.DbContexts
         public DbSet<Entity> Entities { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Claim> Claims { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Person> Persons { get; set; }
 
@@ -90,12 +91,6 @@ namespace server.DbContexts
             builder.Property(b => b.Delete).HasDefaultValue(false);
 
             builder
-                .HasOne<Entity>()
-                .WithMany()
-                .HasForeignKey(p => p.Id)
-                .HasConstraintName("fk_cd_claims_cd_entities_id");
-
-            builder
                 .HasOne<EntityType>(p => p.Type)
                 .WithMany()
                 .HasForeignKey(p => p.TypeId)
@@ -103,9 +98,9 @@ namespace server.DbContexts
 
             builder
                 .HasOne<Role>(p => p.Role)
-                .WithMany()
+                .WithMany(u => u.Claims)
                 .HasForeignKey(p => p.RoleId)
-                .HasConstraintName("fk_cd_claims_cd_roles_f_role");
+                .HasConstraintName("fk_cd_claims_cd_roles_f_role");                 
         }
 
         private void PersonConfigure(EntityTypeBuilder<Person> builder) 

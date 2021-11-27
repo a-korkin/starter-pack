@@ -64,7 +64,7 @@ namespace server.Controllers.Admin
             var userToReturn = _mapper.Map<UserOutDto>(userEntity);
 
             return CreatedAtRoute("GetUser",
-                new { userId = userToReturn.Id },
+                new { itemId = userToReturn.Id },
                 userToReturn);
         }
 

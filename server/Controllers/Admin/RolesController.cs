@@ -14,11 +14,9 @@ namespace server.Controllers.Admin
     [Route("/api/admin/roles")]
     public class RolesController : ControllerBase
     {
-        // private readonly IBaseRepository<Role> _repository;
         private readonly IRoleRepository _repository;
         private readonly IMapper _mapper;
         public RolesController(
-            // IBaseRepository<Role> repository, 
             IRoleRepository repository,
             IMapper mapper)
         {
@@ -39,7 +37,6 @@ namespace server.Controllers.Admin
         [HttpGet("{itemId}", Name = "GetRole")]
         public async Task<ActionResult<RoleOutItemDto>> GetByIdAsync(Guid itemId)
         {
-            var dd = _repository.GetAllAsync();
             var entity = await _repository.GetRoleWithChildren(itemId);
 
             if (entity == null)
@@ -49,7 +46,7 @@ namespace server.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<ActionResult<RoleOutDto>> CreateAsync(RoleInDto item)
+        public async Task<ActionResult<RoleOutItemDto>> CreateAsync(RoleInDto item)
         {
             if (await _repository.ExistsByExpAsync(w => w.Title == item.Title))
                 return BadRequest("Role already exists");
@@ -57,8 +54,10 @@ namespace server.Controllers.Admin
             var entity = _mapper.Map<Role>(item);
             await _repository.AddAsync(entity);
             await _repository.SaveAsync();
+            
+            entity = await _repository.GetRoleWithChildren(entity.Id);
 
-            var entityToReturn = _mapper.Map<RoleOutDto>(entity);
+            var entityToReturn = _mapper.Map<RoleOutItemDto>(entity);
 
             return CreatedAtRoute("GetRole",
                 new { itemId = entityToReturn.Id },

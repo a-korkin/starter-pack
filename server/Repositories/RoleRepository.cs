@@ -22,6 +22,8 @@ namespace server.Repositories
                 .Where(w => w.Id == id)
                 .Include(ur => ur.Users)
                 .ThenInclude(u => u.User)
+                .Include(r => r.Claims)
+                // .Include(r => _context.Set<Claim>().Where(w => w.RoleId == r.Id))
                 .FirstOrDefaultAsync();
 
             return role;

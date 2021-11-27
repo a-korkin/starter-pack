@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace server.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,6 +43,38 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "cd_claims",
+                schema: "admin",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    f_type = table.Column<Guid>(nullable: false),
+                    f_role = table.Column<Guid>(nullable: false),
+                    b_create = table.Column<bool>(nullable: false, defaultValue: false),
+                    b_read = table.Column<bool>(nullable: false, defaultValue: false),
+                    b_update = table.Column<bool>(nullable: false, defaultValue: false),
+                    b_delete = table.Column<bool>(nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cd_claims", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_cd_claims_cd_roles_f_role",
+                        column: x => x.f_role,
+                        principalSchema: "admin",
+                        principalTable: "cd_roles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_cd_claims_cs_entity_types_f_type",
+                        column: x => x.f_type,
+                        principalSchema: "admin",
+                        principalTable: "cs_entity_types",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "cd_entities",
                 schema: "common",
                 columns: table => new
@@ -63,52 +95,14 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "cd_claims",
-                schema: "admin",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(nullable: false),
-                    f_type = table.Column<Guid>(nullable: false),
-                    f_role = table.Column<Guid>(nullable: false),
-                    b_create = table.Column<bool>(nullable: false, defaultValue: false),
-                    b_read = table.Column<bool>(nullable: false, defaultValue: false),
-                    b_update = table.Column<bool>(nullable: false, defaultValue: false),
-                    b_delete = table.Column<bool>(nullable: false, defaultValue: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_cd_claims", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_cd_claims_cd_entities_id",
-                        column: x => x.id,
-                        principalSchema: "common",
-                        principalTable: "cd_entities",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_cd_claims_cd_roles_f_role",
-                        column: x => x.f_role,
-                        principalSchema: "admin",
-                        principalTable: "cd_roles",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_cd_claims_cs_entity_types_f_type",
-                        column: x => x.f_type,
-                        principalSchema: "admin",
-                        principalTable: "cs_entity_types",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "cd_users",
                 schema: "admin",
                 columns: table => new
                 {
                     id = table.Column<Guid>(nullable: false),
                     c_username = table.Column<string>(nullable: false),
-                    c_password = table.Column<string>(nullable: false)
+                    c_password = table.Column<string>(nullable: false),
+                    c_refresh_token = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -188,6 +182,13 @@ namespace server.Migrations
                 schema: "admin",
                 table: "cd_user_roles",
                 column: "f_role");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_cd_users_c_username",
+                schema: "admin",
+                table: "cd_users",
+                column: "c_username",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_cd_entities_f_type",

@@ -10,8 +10,8 @@ using server.DbContexts;
 namespace server.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211126052542_RefreshToken")]
-    partial class RefreshToken
+    [Migration("20211127164441_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,7 @@ namespace server.Migrations
             modelBuilder.Entity("server.Entities.Admin.Claim", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("uuid");
 
@@ -143,6 +144,9 @@ namespace server.Migrations
                     b.HasKey("Id")
                         .HasName("pk_cd_users");
 
+                    b.HasIndex("UserName")
+                        .IsUnique();
+
                     b.ToTable("cd_users","admin");
                 });
 
@@ -211,15 +215,8 @@ namespace server.Migrations
 
             modelBuilder.Entity("server.Entities.Admin.Claim", b =>
                 {
-                    b.HasOne("server.Entities.Common.Entity", null)
-                        .WithMany()
-                        .HasForeignKey("Id")
-                        .HasConstraintName("fk_cd_claims_cd_entities_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("server.Entities.Admin.Role", "Role")
-                        .WithMany()
+                        .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("fk_cd_claims_cd_roles_f_role")
                         .OnDelete(DeleteBehavior.Cascade)

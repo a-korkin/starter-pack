@@ -7,8 +7,5 @@ namespace server.Models.DTO.Admin
     {
         [Required]
         public Guid UserId { get; set; }
-
-        [Required]
-        public Guid RoleId { get; set; }
     }
 }
