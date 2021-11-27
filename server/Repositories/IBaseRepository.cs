@@ -16,6 +16,6 @@ namespace server.Repositories
         Task<T> GetOneByAsync(Expression<Func<T, bool>> predicate);
         Task<T> GetByIdAsync(Guid id);
         void Update(T item);
-
+        Task<bool> DeleteAsync(Guid itemId);
     }
 }

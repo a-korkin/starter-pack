@@ -62,6 +62,11 @@ namespace server.Repositories
             return await _context.Set<T>().Where(predicate).ToListAsync();
         }
 
+        public async Task<T> GetOneByAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().Where(predicate).FirstOrDefaultAsync();
+        }
+
         public async Task<T> GetByIdAsync(Guid id)
         {
             return await _context.Set<T>()
@@ -73,9 +78,17 @@ namespace server.Repositories
             // no content
         }
 
-        public async Task<T> GetOneByAsync(Expression<Func<T, bool>> predicate)
+        public async Task<bool> DeleteAsync(Guid itemId)
         {
-            return await _context.Set<T>().Where(predicate).FirstOrDefaultAsync();
+            var item = await GetByIdAsync(itemId);
+
+            if (item != null)
+            {
+                _context.Set<T>().Remove(item);
+                await SaveAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

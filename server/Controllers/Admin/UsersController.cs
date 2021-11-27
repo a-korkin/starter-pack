@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +47,12 @@ namespace server.Controllers.Admin
         [HttpPost]
         public async Task<ActionResult<UserOutDto>> CreateAsync(UserInDto user)
         {
+            var users = await _repository.GetAllByAsync(u => u.UserName == user.UserName);
+            if (users.Any())
+            {
+                return BadRequest("User already exists");
+            }
+
             var userEntity = _mapper.Map<User>(user);
             string salt = BCrypt.Net.BCrypt.GenerateSalt();
             userEntity.Password = BCrypt.Net.BCrypt.HashPassword(user.Password, salt);
@@ -57,6 +64,19 @@ namespace server.Controllers.Admin
             return CreatedAtRoute("GetUser",
                 new { userId = userToReturn.Id },
                 userToReturn);
+        }
+
+        [HttpDelete]
+        [Route("{itemId}")]
+        public async Task<IActionResult> DeleteAsync(Guid itemId)
+        {
+            bool isSuccess = await _repository.DeleteAsync(itemId);
+            if (isSuccess)
+            {
+                return NoContent();
+            }
+
+            return NotFound();
         }
     }
 }
