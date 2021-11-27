@@ -7,7 +7,7 @@ namespace server.Services
 {
     public interface IAuthService
     {
-        Task<User> GetByUserNameAsync(string userName);
         Task<Tuple<AuthOutDto, string>> LoginAsync(AuthInDto userAuth);
+        Task<AuthOutDto> LogoutAsync(Guid userId);
     }
 }
