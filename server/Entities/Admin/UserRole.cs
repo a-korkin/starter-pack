@@ -11,7 +11,6 @@ namespace server.Entities.Admin
     {
         [Key]
         [Column("id")]
-        // [ForeignKey("fk_cd_user_roles_cd_entities_id")]
         public override Guid Id { get; set; } = Guid.NewGuid();
 
         [Column("f_user")]

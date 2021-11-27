@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +15,18 @@ namespace server.Controllers.Admin
     public class RolesController : ControllerBase
     {
         private readonly IBaseRepository<Role> _repository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         public RolesController(
             IBaseRepository<Role> repository, 
+            IRoleRepository roleRepository,
             IMapper mapper)
         {
             _repository = repository ??
                 throw new ArgumentNullException(nameof(repository));
+
+            _roleRepository = roleRepository ??
+                throw new ArgumentNullException(nameof(roleRepository));
 
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
@@ -36,7 +42,7 @@ namespace server.Controllers.Admin
         [HttpGet("{itemId}", Name = "GetRole")]
         public async Task<ActionResult<RoleOutDto>> GetByIdAsync(Guid itemId)
         {
-            var entity = await _repository.GetByIdAsync(itemId);
+            var entity = await _roleRepository.GetRoleWithChildren(itemId); //await _repository.GetByIdAsync(itemId);
 
             if (entity == null)
                 return NotFound();
@@ -55,7 +61,7 @@ namespace server.Controllers.Admin
             await _repository.SaveAsync();
 
             var entityToReturn = _mapper.Map<RoleOutDto>(entity);
-            
+
             return CreatedAtRoute("GetRole",
                 new { itemId = entityToReturn.Id },
                 entityToReturn);
