@@ -30,6 +30,9 @@ namespace server.Repositories
             DescriptionAttribute attribute =
                     (DescriptionAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(DescriptionAttribute));
 
+            Guid id = Guid.NewGuid();
+            item.Id = id;
+            
             if (attribute != null) 
             {
                 var entityType = await _context
@@ -38,8 +41,6 @@ namespace server.Repositories
                     .Where(w => w.TableName == attribute.TableName)
                     .FirstOrDefaultAsync();
 
-                Guid id = Guid.NewGuid();
-                item.Id = id;
 
                 var entity = new Entities.Common.Entity 
                 {
@@ -73,9 +74,14 @@ namespace server.Repositories
                 .FirstOrDefaultAsync(w => w.Id == id);
         }
 
-        public async Task<bool> EntityExistsAsync(Guid id)
+        public async Task<bool> ExistsByIdAsync(Guid id)
         {
             return await _context.Set<T>().AnyAsync(w => w.Id == id);
+        }
+
+        public async Task<bool> ExistsByExpAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().AnyAsync(predicate);
         }
 
         public void Update(T item) 

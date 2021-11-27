@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using server.Attributes;
 using server.Entities.Base;
 
 namespace server.Entities.Admin
@@ -10,8 +11,8 @@ namespace server.Entities.Admin
     {
         [Key]
         [Column("id")]
-        [ForeignKey("fk_cd_user_roles_cd_entities_id")]
-        public override Guid Id { get; set; }
+        // [ForeignKey("fk_cd_user_roles_cd_entities_id")]
+        public override Guid Id { get; set; } = Guid.NewGuid();
 
         [Column("f_user")]
         [Required]

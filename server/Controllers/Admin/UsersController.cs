@@ -17,7 +17,9 @@ namespace server.Controllers.Admin
         private readonly IBaseRepository<User> _repository;
         private readonly IMapper _mapper;
 
-        public UsersController(IBaseRepository<User> repository, IMapper mapper)
+        public UsersController(
+            IBaseRepository<User> repository, 
+            IMapper mapper)
         {
             _repository = repository ??
                 throw new ArgumentNullException(nameof(repository));
@@ -33,10 +35,10 @@ namespace server.Controllers.Admin
             return Ok(_mapper.Map<IEnumerable<UserOutDto>>(userEntities));
         }
 
-        [HttpGet("{userId}", Name = "GetUser")]
-        public async Task<ActionResult<UserOutDto>> GetByIdAsync(Guid userId)
+        [HttpGet("{itemId}", Name = "GetUser")]
+        public async Task<ActionResult<UserOutDto>> GetByIdAsync(Guid itemId)
         {
-            var userEntity = await _repository.GetByIdAsync(userId);
+            var userEntity = await _repository.GetByIdAsync(itemId);
 
             if (userEntity == null)
                 return NotFound();
@@ -71,7 +73,7 @@ namespace server.Controllers.Admin
             Guid itemId, 
             UserUpdDto item)
         {
-            if (await _repository.EntityExistsAsync(itemId))
+            if (await _repository.ExistsByIdAsync(itemId))
             {
                 var userEntity = await _repository.GetByIdAsync(itemId);
                 _mapper.Map(item, userEntity);

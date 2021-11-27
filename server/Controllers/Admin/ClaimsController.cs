@@ -22,6 +22,7 @@ namespace server.Controllers.Admin
         {
             _repository = repository ??
                 throw new ArgumentNullException(nameof(repository));
+
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
         }
@@ -55,6 +56,25 @@ namespace server.Controllers.Admin
             return CreatedAtRoute("GetClaim",
                 new { itemId = itemToReturn.Id },
                 itemToReturn);
+        }
+
+        [HttpPut("itemId")]
+        public async Task<ActionResult<ClaimOutDto>> UpdateAsync(
+            Guid itemId, 
+            ClaimUpdDto item)
+        {
+            if (await _repository.ExistsByIdAsync(itemId))
+            {
+                var claimEntity = await _repository.GetByIdAsync(itemId);
+                _mapper.Map(item, claimEntity);
+                _repository.Update(claimEntity);
+                await _repository.SaveAsync();
+
+                var claimToReturn = _mapper.Map<ClaimOutDto>(claimEntity);
+                return Ok(claimToReturn);
+            }
+
+            return NotFound("Claim not found");
         }
     }
 }
