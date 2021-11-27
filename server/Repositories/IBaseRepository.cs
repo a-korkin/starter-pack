@@ -15,6 +15,7 @@ namespace server.Repositories
         Task<IEnumerable<T>> GetAllByAsync(Expression<Func<T, bool>> predicate);
         Task<T> GetOneByAsync(Expression<Func<T, bool>> predicate);
         Task<T> GetByIdAsync(Guid id);
+        Task<bool> EntityExistsAsync(Guid id);
         void Update(T item);
         Task<bool> DeleteAsync(Guid itemId);
     }

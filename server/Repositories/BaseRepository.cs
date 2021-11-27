@@ -73,6 +73,11 @@ namespace server.Repositories
                 .FirstOrDefaultAsync(w => w.Id == id);
         }
 
+        public async Task<bool> EntityExistsAsync(Guid id)
+        {
+            return await _context.Set<T>().AnyAsync(w => w.Id == id);
+        }
+
         public void Update(T item) 
         {
             // no content

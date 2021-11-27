@@ -66,6 +66,25 @@ namespace server.Controllers.Admin
                 userToReturn);
         }
 
+        [HttpPut("{itemId}")]
+        public async Task<ActionResult<UserOutDto>> UpdateAsync(
+            Guid itemId, 
+            UserUpdDto item)
+        {
+            if (await _repository.EntityExistsAsync(itemId))
+            {
+                var userEntity = await _repository.GetByIdAsync(itemId);
+                _mapper.Map(item, userEntity);
+                _repository.Update(userEntity);
+                await _repository.SaveAsync();
+
+                var userToReturn = _mapper.Map<UserOutDto>(userEntity);
+                return Ok(userToReturn);
+            }
+
+            return NotFound("User not found");
+        }
+
         [HttpDelete]
         [Route("{itemId}")]
         public async Task<IActionResult> DeleteAsync(Guid itemId)

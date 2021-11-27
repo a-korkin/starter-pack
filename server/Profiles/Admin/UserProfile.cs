@@ -8,6 +8,7 @@ namespace server.Profiles.Admin
         {
             CreateMap<Models.DTO.Admin.UserInDto, Entities.Admin.User>();
             CreateMap<Entities.Admin.User, Models.DTO.Admin.UserOutDto>();
+            CreateMap<Models.DTO.Admin.UserUpdDto, Entities.Admin.User>();
         }
     }
 }
