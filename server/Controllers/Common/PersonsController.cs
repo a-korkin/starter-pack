@@ -12,7 +12,7 @@ namespace server.Controllers.Common
 {
     [ApiController]
     [Route("/api/common/persons")]
-    // [Authorize]
+    [Authorize(Policy = "ClaimsRequired")]
     public class PersonsController : ControllerBase 
     {
         private readonly IBaseRepository<Person> _repository;
@@ -28,15 +28,13 @@ namespace server.Controllers.Common
         }
 
         [HttpGet]
-        [Authorize(Policy = "ClaimsRequired")]
         public async Task<ActionResult<IEnumerable<PersonOutDto>>> GetAllAsync() 
         {
             var personsFromRepo = await _repository.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<PersonOutDto>>(personsFromRepo));
         }
 
-        [HttpGet("{personId}", Name = "GetPerson")]
-        [Authorize(Policy = "ClaimsRequired")]
+        [HttpGet("{personId}", Name = "GetPerson")]        
         public async Task<ActionResult<PersonOutDto>> GetByIdAsync(Guid personId) 
         {
             var personEntity = await _repository.GetByIdAsync(personId);
@@ -59,6 +57,15 @@ namespace server.Controllers.Common
             return CreatedAtRoute("GetPerson", 
                 new { personId = personToReturn.Id },
                 personToReturn);
+        }
+
+        [HttpDelete("{personId}")]
+        public async Task<IActionResult> DeleteAsync(Guid personId)
+        {
+            if (await _repository.DeleteAsync(personId))
+                return NoContent();
+
+            return NotFound();
         }
     }
 }

@@ -9,6 +9,14 @@ namespace server.Authorization
 {
     public class UserClaimsHandler : AuthorizationHandler<UserClaimsRequirement>
     {
+        private readonly string CREATE_ACTION = "create";
+        private readonly string[] GET_ACTIONS = new string[]
+        {
+            "getall", "getbyid"
+        };
+        private readonly string UPDATE_ACTION = "update";
+        private readonly string DELETE_ACTION = "delete";
+
         private readonly IUserRepository _repository;
 
         public UserClaimsHandler(IUserRepository repository)
@@ -41,11 +49,15 @@ namespace server.Authorization
                         var userId = Guid.Parse(context.User.Claims.FirstOrDefault(c => c.Type == "id").Value);
                         var claims = _repository.GetUserClaimsAsync(userId).Result;
 
-                        
+                        bool canCreate = CREATE_ACTION == action && claims.Any(a => a.Type.Schema == scheme && a.Type.Slug == controller && a.Create);
+                        bool canRead = GET_ACTIONS.Contains(action) && claims.Any(a => a.Type.Schema == scheme && a.Type.Slug == controller && a.Read);
+                        bool canUpdate = UPDATE_ACTION == action && claims.Any(a => a.Type.Schema == scheme && a.Type.Slug == controller && a.Update);
+                        bool canDelete = DELETE_ACTION == action && claims.Any(a => a.Type.Schema == scheme && a.Type.Slug == controller && a.Delete);
+
+                        if (canCreate || canRead || canUpdate || canDelete)
+                            context.Succeed(requirement);
                     }
                 }
-
-                context.Succeed(requirement);
             }
 
             return Task.CompletedTask;

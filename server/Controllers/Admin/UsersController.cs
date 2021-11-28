@@ -91,11 +91,8 @@ namespace server.Controllers.Admin
         [Route("{itemId}")]
         public async Task<IActionResult> DeleteAsync(Guid itemId)
         {
-            bool isSuccess = await _repository.DeleteAsync(itemId);
-            if (isSuccess)
-            {
+            if (await _repository.DeleteAsync(itemId))
                 return NoContent();
-            }
 
             return NotFound();
         }
