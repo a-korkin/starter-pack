@@ -49,7 +49,23 @@ namespace server.Controllers.Admin
         public async Task<ActionResult<RoleOutItemDto>> CreateAsync(RoleInDto item)
         {
             if (await _repository.ExistsByExpAsync(w => w.Title == item.Title))
-                return BadRequest("Role already exists");
+                return BadRequest($"Роль: {item.Title} уже существует");
+
+            // одинаковые клэймы
+            var claimGroups = item.Claims
+                .GroupBy(g => g.TypeId)
+                .Select(s => new { Type = s.Key, Count = s.Count() });
+
+            if (claimGroups.Any(w => w.Count > 1))
+                return BadRequest("Одинаковые клэймы");
+
+            // одинаковые пользователи
+            var userGroups = item.Users
+                .GroupBy(g => g.UserId)
+                .Select(s => new { User = s.Key, Count = s.Count() });
+            
+            if (userGroups.Any(w => w.Count > 1))
+                return BadRequest("Одинаковые пользователи");
 
             var entity = _mapper.Map<Role>(item);
             await _repository.AddAsync(entity);

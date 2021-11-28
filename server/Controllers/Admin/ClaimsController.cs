@@ -30,7 +30,7 @@ namespace server.Controllers.Admin
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClaimOutDto>>> GetAllAsync(Guid roleId) 
         {
-            var itemsFromRepo = await _repository.GetAllAsync();
+            var itemsFromRepo = await _repository.GetAllByAsync(w => w.RoleId == roleId);
             return Ok(_mapper.Map<IEnumerable<ClaimOutDto>>(itemsFromRepo));
         }
 
@@ -47,6 +47,10 @@ namespace server.Controllers.Admin
         [HttpPost]
         public async Task<ActionResult<ClaimOutDto>> CreateAsync(Guid roleId, ClaimInDto item)
         {
+            var claimExists = await _repository.ExistsByExpAsync(w => w.RoleId == roleId && w.TypeId == item.TypeId);
+            if (claimExists) 
+                return BadRequest("Claim already exists");
+
             var itemEntity = _mapper.Map<Claim>(item);
             itemEntity.RoleId = roleId;
             await _repository.AddAsync(itemEntity);
