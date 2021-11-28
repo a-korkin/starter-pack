@@ -20,12 +20,12 @@ namespace server.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        private readonly IBaseRepository<User> _repository;
+        private readonly IUserRepository _repository;
 
         public AuthService( 
             IConfiguration configuration, 
             IMapper mapper,
-            IBaseRepository<User> repository)
+            IUserRepository repository)
         {
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));

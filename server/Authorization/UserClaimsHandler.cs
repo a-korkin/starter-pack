@@ -9,9 +9,9 @@ namespace server.Authorization
 {
     public class UserClaimsHandler : AuthorizationHandler<UserClaimsRequirement>
     {
-        private readonly IBaseRepository<User> _repository;
+        private readonly IUserRepository _repository;
 
-        public UserClaimsHandler(IBaseRepository<User> repository)
+        public UserClaimsHandler(IUserRepository repository)
         {
             _repository = repository ?? 
                 throw new ArgumentNullException(nameof(repository));
@@ -29,15 +29,19 @@ namespace server.Authorization
                     var routePattern = resource.RoutePattern;
                     if (routePattern != null) 
                     {
-                        // var controller = routePattern.RequiredValues["controller"].ToString().ToLower();
-                        // var action = routePattern.RequiredValues["action"].ToString().ToLower();
-                        // var userId = Guid.Parse(context.User.Claims.FirstOrDefault(c => c.Type == "id").Value);
-                        // var user = _repository.GetByIdAsync(userId).Result;
-                        // var userClaims = user.UserClaims;
-                        // foreach (var claim in userClaims)
-                        // {
-                        //     Console.WriteLine(claim.Claim);
-                        // }
+                        string scheme = String.Empty;
+                        if (routePattern.PathSegments.Any() &&
+                            routePattern.PathSegments[1].Parts.FirstOrDefault() is Microsoft.AspNetCore.Routing.Patterns.RoutePatternLiteralPart _scheme)
+                        {
+                            scheme = _scheme.Content.ToLower();
+                        }
+
+                        var controller = routePattern.RequiredValues["controller"].ToString().ToLower();
+                        var action = routePattern.RequiredValues["action"].ToString().ToLower();
+                        var userId = Guid.Parse(context.User.Claims.FirstOrDefault(c => c.Type == "id").Value);
+                        var claims = _repository.GetUserClaimsAsync(userId).Result;
+
+                        
                     }
                 }
 

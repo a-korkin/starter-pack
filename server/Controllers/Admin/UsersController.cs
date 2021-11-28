@@ -14,11 +14,11 @@ namespace server.Controllers.Admin
     [Route("/api/admin/users")]
     public class UsersController : ControllerBase
     {
-        private readonly IBaseRepository<User> _repository;
+        private readonly IUserRepository _repository;
         private readonly IMapper _mapper;
 
         public UsersController(
-            IBaseRepository<User> repository, 
+            IUserRepository repository, 
             IMapper mapper)
         {
             _repository = repository ??

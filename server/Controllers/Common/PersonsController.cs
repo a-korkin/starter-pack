@@ -36,6 +36,7 @@ namespace server.Controllers.Common
         }
 
         [HttpGet("{personId}", Name = "GetPerson")]
+        [Authorize(Policy = "ClaimsRequired")]
         public async Task<ActionResult<PersonOutDto>> GetByIdAsync(Guid personId) 
         {
             var personEntity = await _repository.GetByIdAsync(personId);
