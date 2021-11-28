@@ -20,6 +20,7 @@ using server.Authorization;
 using server.DbContexts;
 using server.Services;
 using server.Repositories;
+using Microsoft.AspNetCore.Http;
 
 namespace server
 {
@@ -35,7 +36,23 @@ namespace server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+                .ConfigureApiBehaviorOptions(opt => 
+                opt.InvalidModelStateResponseFactory = ctx => 
+                {
+                    var problemDetails = new ValidationProblemDetails(ctx.ModelState)
+                    {
+                        Title = "One or more model validation errors occurred.",
+                        Status = StatusCodes.Status422UnprocessableEntity,
+                        Detail = "See the errors property for details.",
+                        Instance = ctx.HttpContext.Request.Path
+                    };
+
+                    return new UnprocessableEntityObjectResult(problemDetails)
+                    {
+                        ContentTypes = { "application/problem+json" }
+                    }; 
+                });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
