@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using server.Entities.Admin;
 using server.Models.DTO.Admin;
 using server.Repositories;
@@ -45,12 +46,18 @@ namespace server.Controllers.Admin
             return Ok(_mapper.Map<RoleOutItemDto>(entity));
         }
 
+        // public async Task<ActionResult<RoleOutItemDto>> CreateAsync(
         [HttpPost]
-        public async Task<ActionResult<RoleOutItemDto>> CreateAsync(RoleInDto item)
+        public async Task<IActionResult> CreateAsync(
+            [FromBody] RoleInDto item,
+            [FromServices] IOptions<ApiBehaviorOptions> apiBehaviorOptions)
         {
             if (await _repository.ExistsByExpAsync(w => w.Title == item.Title))
-                return BadRequest($"Роль: {item.Title} уже существует");
-                
+            {
+                ModelState.AddModelError(nameof(RoleInDto), $"Роль: {item.Title} уже существует");
+                return apiBehaviorOptions.Value.InvalidModelStateResponseFactory(ControllerContext);
+            }
+
             var entity = _mapper.Map<Role>(item);
             await _repository.AddAsync(entity);
             await _repository.SaveAsync();
