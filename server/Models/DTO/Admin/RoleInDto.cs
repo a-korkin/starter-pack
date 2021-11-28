@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using server.Attributes.Validation;
 
 namespace server.Models.DTO.Admin
 {
+    [RoleValidation]
     public class RoleInDto
     {
         [Required]
