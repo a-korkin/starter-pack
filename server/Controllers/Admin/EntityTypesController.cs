@@ -16,10 +16,12 @@ namespace server.Controllers.Admin
     [Route("/api/admin/entity-types")]
     public class EntityTypesController : ControllerBase
     {
-        private readonly IBaseRepository<EntityType> _repository;
+        private readonly IGenericRepository<EntityType> _repository;
         private readonly IMapper _mapper;
 
-        public EntityTypesController(IBaseRepository<EntityType> repository, IMapper mapper)
+        public EntityTypesController(
+            IGenericRepository<EntityType> repository, 
+            IMapper mapper)
         {
             _repository = repository ??
                 throw new ArgumentNullException(nameof(repository));

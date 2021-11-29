@@ -5,7 +5,7 @@ using server.Entities.Admin;
 
 namespace server.Repositories
 {
-    public interface IUserRepository : IBaseRepository<User>
+    public interface IUserRepository : IGenericRepository<User>
     {
         Task<IEnumerable<Claim>> GetUserClaimsAsync(Guid userId);
     }

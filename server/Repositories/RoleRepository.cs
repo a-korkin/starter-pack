@@ -2,18 +2,18 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using server.DbContexts;
 using server.Entities.Admin;
 
 namespace server.Repositories
 {
-    public class RoleRepository : BaseRepository<Role>, IRoleRepository
+    public class RoleRepository : GenericRepository<Role>, IRoleRepository
     {
-        private readonly ApplicationContext _context;
-        public RoleRepository(ApplicationContext context) : base(context) 
+        public RoleRepository(ApplicationContext context, ILogger logger) : base(context, logger) 
         {
-            _context = context ??
-                throw new ArgumentNullException(nameof(context));
+            // _context = context ??
+            //     throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<Role> GetRoleWithChildren(Guid id)

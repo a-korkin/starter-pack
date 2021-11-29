@@ -7,7 +7,7 @@ using server.Entities.Base;
 
 namespace server.Repositories 
 {
-    public interface IBaseRepository<T> where T : BaseEntity
+    public interface IGenericRepository<T> where T : BaseEntity
     {
         Task<bool> SaveAsync();
         Task AddAsync(T item);

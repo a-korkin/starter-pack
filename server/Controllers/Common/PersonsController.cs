@@ -15,10 +15,12 @@ namespace server.Controllers.Common
     [Authorize(Policy = "ClaimsRequired")]
     public class PersonsController : ControllerBase 
     {
-        private readonly IBaseRepository<Person> _repository;
+        private readonly IGenericRepository<Person> _repository;
         private readonly IMapper _mapper;
 
-        public PersonsController(IBaseRepository<Person> repository, IMapper mapper)
+        public PersonsController(
+            IGenericRepository<Person> repository, 
+            IMapper mapper)
         {
             _repository = repository ?? 
                 throw new ArgumentNullException(nameof(repository));

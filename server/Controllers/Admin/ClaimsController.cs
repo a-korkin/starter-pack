@@ -13,11 +13,11 @@ namespace server.Controllers.Admin
     [Route("api/admin/roles/{roleId}/claims")]
     public class ClaimsController : ControllerBase
     {
-        private readonly IBaseRepository<Claim> _repository;
+        private readonly IGenericRepository<Claim> _repository;
         private readonly IMapper _mapper;
 
         public ClaimsController(
-            IBaseRepository<Claim> repository, 
+            IGenericRepository<Claim> repository, 
             IMapper mapper)
         {
             _repository = repository ??
