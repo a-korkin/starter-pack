@@ -46,7 +46,6 @@ namespace server.Controllers.Admin
             return Ok(_mapper.Map<RoleOutItemDto>(entity));
         }
 
-        // public async Task<ActionResult<RoleOutItemDto>> CreateAsync(
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
             [FromBody] RoleInDto item,
