@@ -10,7 +10,7 @@ namespace server.Repositories
 {
     public class RoleRepository : GenericRepository<Role>, IRoleRepository
     {
-        public RoleRepository(ApplicationContext context, ILogger logger) : base(context, logger) 
+        public RoleRepository(ApplicationContext context) : base(context) 
         {
             // _context = context ??
             //     throw new ArgumentNullException(nameof(context));

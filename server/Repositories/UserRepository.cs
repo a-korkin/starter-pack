@@ -12,8 +12,7 @@ namespace server.Repositories
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
         public UserRepository(
-            ApplicationContext context, 
-            ILogger logger) : base(context, logger) 
+            ApplicationContext context) : base(context)
         {
             // _context = context ??
             //     throw new ArgumentNullException(nameof(context));
@@ -36,7 +35,7 @@ namespace server.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "{Repo} all methods has generated an error", typeof(UserRepository));
+                // _logger.LogError(ex, "{Repo} all methods has generated an error", typeof(UserRepository));
                 return null;
             }
         }

@@ -8,20 +8,20 @@ namespace server.Repositories
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly ApplicationContext _context;
-        private readonly ILogger _logger;
+        // private readonly ILogger _logger;
         public IUserRepository Users { get; private set; }
 
         public UnitOfWork(
-            ApplicationContext context, 
-            ILoggerFactory loggerFactory)
+            ApplicationContext context)
+            // ILoggerFactory loggerFactory)
         {
             _context = context ??
                 throw new ArgumentNullException(nameof(context));
             
-            _logger = loggerFactory.CreateLogger("db_logs") ??
-                throw new ArgumentNullException(nameof(loggerFactory));
+            // _logger = loggerFactory.CreateLogger("db_logs") ??
+            //     throw new ArgumentNullException(nameof(loggerFactory));
 
-            Users = new UserRepository(context, _logger);
+            Users = new UserRepository(context); //, _logger);
         }
 
         public async Task CompleteAsync()

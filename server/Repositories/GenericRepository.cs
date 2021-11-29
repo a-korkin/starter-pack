@@ -16,15 +16,15 @@ namespace server.Repositories
     {
         protected readonly ApplicationContext _context;
         protected readonly DbSet<T> _dbSet;
-        protected readonly ILogger _logger;
+        // protected readonly ILogger _logger;
 
         public GenericRepository(
-            ApplicationContext context,
-            ILogger logger)
+            ApplicationContext context)
+            // ILogger logger)
         {
             _context = context;
             _dbSet = context.Set<T>();
-            _logger = logger;
+            // _logger = logger;
         }
 
         public virtual async Task<bool> SaveAsync()
