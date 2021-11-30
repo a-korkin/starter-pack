@@ -23,7 +23,6 @@ namespace server.Repositories
                 .ThenInclude(i => i.Type)
                 .SelectMany(s => s.Roles.SelectMany(a => a.Role.Claims))
                 .ToListAsync();
-
             return claims;
         }
     }
