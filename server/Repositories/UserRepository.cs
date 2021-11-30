@@ -11,33 +11,20 @@ namespace server.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        public UserRepository(
-            ApplicationContext context) : base(context)
-        {
-            // _context = context ??
-            //     throw new ArgumentNullException(nameof(context));
-        }
+        public UserRepository(ApplicationContext context) : base(context) {}
 
         public async Task<IEnumerable<Claim>> GetUserClaimsAsync(Guid userId)
         {
-            try 
-            {
-                var claims = await _context.Set<User>()
-                    .Where(w => w.Id == userId)
-                    .Include(i => i.Roles)
-                    .ThenInclude(i => i.Role)
-                    .ThenInclude(i => i.Claims)
-                    .ThenInclude(i => i.Type)
-                    .SelectMany(s => s.Roles.SelectMany(a => a.Role.Claims))
-                    .ToListAsync();
+            var claims = await _context.Set<User>()
+                .Where(w => w.Id == userId)
+                .Include(i => i.Roles)
+                .ThenInclude(i => i.Role)
+                .ThenInclude(i => i.Claims)
+                .ThenInclude(i => i.Type)
+                .SelectMany(s => s.Roles.SelectMany(a => a.Role.Claims))
+                .ToListAsync();
 
-                return claims;
-            }
-            catch (Exception ex)
-            {
-                // _logger.LogError(ex, "{Repo} all methods has generated an error", typeof(UserRepository));
-                return null;
-            }
+            return claims;
         }
     }
 }

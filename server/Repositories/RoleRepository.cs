@@ -10,11 +10,7 @@ namespace server.Repositories
 {
     public class RoleRepository : GenericRepository<Role>, IRoleRepository
     {
-        public RoleRepository(ApplicationContext context) : base(context) 
-        {
-            // _context = context ??
-            //     throw new ArgumentNullException(nameof(context));
-        }
+        public RoleRepository(ApplicationContext context) : base(context) {}
 
         public async Task<Role> GetRoleWithChildren(Guid id)
         {

@@ -20,14 +20,13 @@ namespace server.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        // private readonly IUserRepository _repository;
-        private readonly IUnitOfWork _unitOfWork;
+        // private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _repository;
 
         public AuthService( 
             IConfiguration configuration, 
             IMapper mapper,
-            // IUserRepository repository
-            IUnitOfWork unitOfWork)
+            IUserRepository repository)
         {
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
@@ -35,11 +34,8 @@ namespace server.Services
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
 
-            // _repository = repository ??
-            //     throw new ArgumentNullException(nameof(repository));
-
-            _unitOfWork = unitOfWork ??
-                throw new ArgumentNullException(nameof(unitOfWork));
+            _repository = repository ??
+                throw new ArgumentNullException(nameof(repository));
         }
 
         private string CreateToken(
@@ -63,8 +59,7 @@ namespace server.Services
 
         public async Task<Tuple<AuthOutDto, string>> LoginAsync(AuthInDto userAuth)
         {
-            // var userEntity = await _repository.GetOneByAsync(x => x.UserName == userAuth.UserName);
-            var userEntity = await _unitOfWork.Users.GetOneByAsync(x => x.UserName == userAuth.UserName);
+            var userEntity = await _repository.GetOneByAsync(x => x.UserName == userAuth.UserName);
                 
             if (userEntity != null && 
                 BCrypt.Net.BCrypt.Verify(userAuth.Password, userEntity.Password))
@@ -87,8 +82,6 @@ namespace server.Services
                 var refreshToken = CreateToken(claims: claims, expires: DateTime.Now.AddDays(7), key: refreshKey);
                 userEntity.RefreshToken = refreshToken;
 
-                // await _repository.SaveAsync();
-
                 return Tuple.Create(authToReturn, userEntity.RefreshToken);
             }
             return null;
@@ -96,13 +89,11 @@ namespace server.Services
 
         public async Task<AuthOutDto> LogoutAsync(Guid userId)
         {
-            // var userEntity = await _repository.GetByIdAsync(userId);
-            var userEntity = await _unitOfWork.Users.GetByIdAsync(userId);
+            var userEntity = await _repository.GetByIdAsync(userId);
             
             if (userEntity != null)
             {
                 userEntity.RefreshToken = null;
-                // await _repository.SaveAsync();
 
                 var authToReturn = _mapper.Map<AuthOutDto>(userEntity);
                 authToReturn.AccessToken = null;

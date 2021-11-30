@@ -5,40 +5,44 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using server.Controllers.Base;
 using server.Entities.Admin;
 using server.Models.DTO.Admin;
 using server.Repositories;
 
 namespace server.Controllers.Admin
 {
-    [ApiController]
+    // [ApiController]
     [Route("/api/admin/roles")]
-    public class RolesController : ControllerBase
+    public class RolesController : BaseController //ControllerBase
     {
-        private readonly IRoleRepository _repository;
-        private readonly IMapper _mapper;
+        // private readonly IRoleRepository _repository;
+        // private readonly IUnitOfWork _unitOfWork;
+        // private readonly IMapper _mapper;
         public RolesController(
-            IRoleRepository repository,
-            IMapper mapper)
-        {
-            _repository = repository ??
-                throw new ArgumentNullException(nameof(repository));
+            // IRoleRepository repository,
+            IUnitOfWork unitOfWork,
+            IMapper mapper) : base(unitOfWork, mapper) {}
+        // {
+        //     _repository = repository ??
+        //         throw new ArgumentNullException(nameof(repository));
 
-            _mapper = mapper ??
-                throw new ArgumentNullException(nameof(mapper));
-        }   
+        //     _mapper = mapper ??
+        //         throw new ArgumentNullException(nameof(mapper));
+        // }   
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RoleOutDto>>> GetAllAsync()
         {
-            var roleEntities = await _repository.GetAllAsync();
+            // var roleEntities = await _repository.GetAllAsync();
+            var roleEntities = await _unitOfWork.Roles.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<RoleOutDto>>(roleEntities));
         }
 
         [HttpGet("{itemId}", Name = "GetRole")]
         public async Task<ActionResult<RoleOutItemDto>> GetByIdAsync(Guid itemId)
         {
-            var entity = await _repository.GetRoleWithChildren(itemId);
+            var entity = await _unitOfWork.Roles.GetRoleWithChildren(itemId);
 
             if (entity == null)
                 return NotFound();
@@ -46,23 +50,25 @@ namespace server.Controllers.Admin
             return Ok(_mapper.Map<RoleOutItemDto>(entity));
         }
 
-        // public async Task<ActionResult<RoleOutItemDto>> CreateAsync(
         [HttpPost]
         public async Task<IActionResult> CreateAsync(
             [FromBody] RoleInDto item,
             [FromServices] IOptions<ApiBehaviorOptions> apiBehaviorOptions)
         {
-            if (await _repository.ExistsByExpAsync(w => w.Title == item.Title))
+            if (await _unitOfWork.Roles.ExistsByExpAsync(w => w.Title == item.Title))
             {
                 ModelState.AddModelError(nameof(RoleInDto), $"Роль: {item.Title} уже существует");
                 return apiBehaviorOptions.Value.InvalidModelStateResponseFactory(ControllerContext);
             }
 
             var entity = _mapper.Map<Role>(item);
-            await _repository.AddAsync(entity);
-            await _repository.SaveAsync();
+            // await _repository.AddAsync(entity);
+            // await _repository.SaveAsync();
+            await _unitOfWork.Roles.AddAsync(entity);
+            await _unitOfWork.CompleteAsync();
             
-            entity = await _repository.GetRoleWithChildren(entity.Id);
+            // entity = await _repository.GetRoleWithChildren(entity.Id);
+            entity = await _unitOfWork.Roles.GetRoleWithChildren(entity.Id);
 
             var entityToReturn = _mapper.Map<RoleOutItemDto>(entity);
 
@@ -74,7 +80,7 @@ namespace server.Controllers.Admin
         [HttpDelete("{itemId}")]
         public async Task<IActionResult> DeleteAsync(Guid itemId)
         {
-            if (await _repository.DeleteAsync(itemId))
+            if (await _unitOfWork.Roles.DeleteAsync(itemId))
                 return NoContent();
             
             return NotFound();

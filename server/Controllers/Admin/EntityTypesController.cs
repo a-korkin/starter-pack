@@ -6,41 +6,40 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using server.Attributes;
+using server.Controllers.Base;
 using server.Entities.Admin;
 using server.Models.DTO.Admin;
 using server.Repositories;
 
 namespace server.Controllers.Admin
 {
-    [ApiController]
+    // [ApiController]
     [Route("/api/admin/entity-types")]
-    public class EntityTypesController : ControllerBase
+    public class EntityTypesController : BaseController //ControllerBase
     {
-        private readonly IGenericRepository<EntityType> _repository;
-        private readonly IMapper _mapper;
+        // private readonly IGenericRepository<EntityType> _repository;
+        // private readonly IMapper _mapper;
 
-        public EntityTypesController(
-            IGenericRepository<EntityType> repository, 
-            IMapper mapper)
-        {
-            _repository = repository ??
-                throw new ArgumentNullException(nameof(repository));
+        public EntityTypesController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) {}
+        // {
+        //     _repository = repository ??
+        //         throw new ArgumentNullException(nameof(repository));
 
-            _mapper = mapper ??
-                throw new ArgumentNullException(nameof(mapper));
-        }
+        //     _mapper = mapper ??
+        //         throw new ArgumentNullException(nameof(mapper));
+        // }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EntityTypeOutDto>>> GetAllAsync()
         {
-            var itemsFromRepo = await _repository.GetAllAsync();
+            var itemsFromRepo = await _unitOfWork.EntityTypes.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<EntityTypeOutDto>>(itemsFromRepo));
         }
 
         [HttpGet("{itemId}", Name = "GetEntityType")]
         public async Task<ActionResult<EntityTypeOutDto>> GetByIdAsync(Guid itemId)
         {
-            var itemFromRepo = await _repository.GetByIdAsync(itemId);
+            var itemFromRepo = await _unitOfWork.EntityTypes.GetByIdAsync(itemId);
             if (itemFromRepo == null)
                 return NotFound();
 
@@ -51,8 +50,11 @@ namespace server.Controllers.Admin
         public async Task<ActionResult<EntityTypeOutDto>> CreateAsync(EntityTypeInDto item)
         {
             var itemEntity = _mapper.Map<EntityType>(item);
-            await _repository.AddAsync(itemEntity);
-            await _repository.SaveAsync();
+            // await _repository.AddAsync(itemEntity);
+            // await _repository.SaveAsync();
+
+            await _unitOfWork.EntityTypes.AddAsync(itemEntity);
+            await _unitOfWork.CompleteAsync();
 
             var itemToReturn = _mapper.Map<EntityTypeOutDto>(itemEntity);
 
@@ -71,7 +73,7 @@ namespace server.Controllers.Admin
                 .Where(w => w.FullName.Contains("server.Entities"))
                 .Where(w => !new string[] { "EntityType", "BaseModel" }.Contains(w.Name));
 
-            var existingEntityTypes = await _repository.GetAllAsync();                
+            var existingEntityTypes = await _unitOfWork.EntityTypes.GetAllAsync();                
 
             foreach (var type in types) 
             {
@@ -93,12 +95,13 @@ namespace server.Controllers.Admin
                             TableName = attribute.TableName
                         };
 
-                        await _repository.AddAsync(newEntity);
+                        await _unitOfWork.EntityTypes.AddAsync(newEntity);
                     }                   
                 }
             }
 
-            await _repository.SaveAsync();
+            // await _repository.SaveAsync();
+            await _unitOfWork.CompleteAsync();
 
             return Ok();
         }

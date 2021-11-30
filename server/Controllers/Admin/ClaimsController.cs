@@ -3,41 +3,37 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using server.Controllers.Base;
 using server.Entities.Admin;
 using server.Models.DTO.Admin;
 using server.Repositories;
 
 namespace server.Controllers.Admin
 {
-    [ApiController]
+    // [ApiController]
     [Route("api/admin/roles/{roleId}/claims")]
-    public class ClaimsController : ControllerBase
+    public class ClaimsController : BaseController
     {
-        private readonly IGenericRepository<Claim> _repository;
-        private readonly IMapper _mapper;
+        public ClaimsController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) {}
+        // {
+        //     _repository = repository ??
+        //         throw new ArgumentNullException(nameof(repository));
 
-        public ClaimsController(
-            IGenericRepository<Claim> repository, 
-            IMapper mapper)
-        {
-            _repository = repository ??
-                throw new ArgumentNullException(nameof(repository));
-
-            _mapper = mapper ??
-                throw new ArgumentNullException(nameof(mapper));
-        }
+        //     _mapper = mapper ??
+        //         throw new ArgumentNullException(nameof(mapper));
+        // }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClaimOutDto>>> GetAllAsync(Guid roleId) 
         {
-            var itemsFromRepo = await _repository.GetAllByAsync(w => w.RoleId == roleId);
+            var itemsFromRepo = await _unitOfWork.Claims.GetAllByAsync(w => w.RoleId == roleId);
             return Ok(_mapper.Map<IEnumerable<ClaimOutDto>>(itemsFromRepo));
         }
 
         [HttpGet("{itemId}", Name = "GetClaim")]
         public async Task<ActionResult<ClaimOutDto>> GetByIdAsync(Guid roleId, Guid itemId)
         {
-            var itemFromRepo = await _repository.GetByIdAsync(itemId);
+            var itemFromRepo = await _unitOfWork.Claims.GetByIdAsync(itemId);
             if (itemFromRepo == null)
                 return NotFound();
 
@@ -47,14 +43,17 @@ namespace server.Controllers.Admin
         [HttpPost]
         public async Task<ActionResult<ClaimOutDto>> CreateAsync(Guid roleId, ClaimInDto item)
         {
-            var claimExists = await _repository.ExistsByExpAsync(w => w.RoleId == roleId && w.TypeId == item.TypeId);
+            var claimExists = await _unitOfWork.Claims.ExistsByExpAsync(w => w.RoleId == roleId && w.TypeId == item.TypeId);
             if (claimExists) 
                 return BadRequest("Claim already exists");
 
             var itemEntity = _mapper.Map<Claim>(item);
             itemEntity.RoleId = roleId;
-            await _repository.AddAsync(itemEntity);
-            await _repository.SaveAsync();
+            // await _repository.AddAsync(itemEntity);
+            // await _repository.SaveAsync();
+
+            await _unitOfWork.Claims.AddAsync(itemEntity);
+            await _unitOfWork.CompleteAsync();
 
             var itemToReturn = _mapper.Map<ClaimOutDto>(itemEntity);
 
@@ -69,12 +68,13 @@ namespace server.Controllers.Admin
             Guid itemId, 
             ClaimUpdDto item)
         {
-            if (await _repository.ExistsByIdAsync(itemId))
+            if (await _unitOfWork.Claims.ExistsByIdAsync(itemId))
             {
-                var claimEntity = await _repository.GetByIdAsync(itemId);
+                var claimEntity = await _unitOfWork.Claims.GetByIdAsync(itemId);
                 _mapper.Map(item, claimEntity);
-                _repository.Update(claimEntity);
-                await _repository.SaveAsync();
+                _unitOfWork.Claims.Update(claimEntity);
+                // await _repository.SaveAsync();
+                await _unitOfWork.CompleteAsync();
 
                 var claimToReturn = _mapper.Map<ClaimOutDto>(claimEntity);
                 return Ok(claimToReturn);

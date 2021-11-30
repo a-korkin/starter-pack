@@ -9,7 +9,7 @@ namespace server.Repositories
 {
     public interface IGenericRepository<T> where T : BaseEntity
     {
-        Task<bool> SaveAsync();
+        // Task<bool> SaveAsync();
         Task AddAsync(T item);
         Task<IEnumerable<T>> GetAllAsync();
         Task<IEnumerable<T>> GetAllByAsync(Expression<Func<T, bool>> predicate);

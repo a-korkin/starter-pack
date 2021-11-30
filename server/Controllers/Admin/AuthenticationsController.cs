@@ -10,6 +10,7 @@ using server.Services;
 namespace server.Controllers.Admin
 {
     [ApiController]
+    [Authorize(Policy = "ClaimsRequired")]
     [Route("/api")]
     public class AuthenticationsController : ControllerBase
     {
@@ -23,6 +24,7 @@ namespace server.Controllers.Admin
 
         [HttpPost]
         [Route("login")]
+        [AllowAnonymous]
         public async Task<ActionResult<AuthOutDto>> LoginAsync(AuthInDto userAuth)
         {
             if (ModelState.IsValid) 
@@ -47,7 +49,6 @@ namespace server.Controllers.Admin
 
         [HttpPost]
         [Route("logout")]
-        [Authorize]
         public async Task<ActionResult<AuthOutDto>> LogoutAsync()
         {
             if (HttpContext.User.HasClaim(c => c.Type == "id"))
