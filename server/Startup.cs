@@ -83,17 +83,7 @@ namespace server
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // repos for admin scheme
-            // services.AddScoped<IGenericRepository<Entities.Admin.EntityType>, GenericRepository<Entities.Admin.EntityType>>();
-            // services.AddScoped<IBaseRepository<Entities.Admin.User>, BaseRepository<Entities.Admin.User>>();
             services.AddScoped<IUserRepository, UserRepository>();
-            // services.AddScoped<IGenericRepository<Entities.Admin.Claim>, GenericRepository<Entities.Admin.Claim>>();
-            // services.AddScoped<IBaseRepository<Entities.Admin.Role>, BaseRepository<Entities.Admin.Role>>();
-            // services.AddScoped<IRoleRepository, RoleRepository>();
-
-            // repos for common scheme
-            // services.AddScoped<IGenericRepository<Entities.Common.Entity>, GenericRepository<Entities.Common.Entity>>();
-            // services.AddScoped<IGenericRepository<Entities.Common.Person>, GenericRepository<Entities.Common.Person>>();
-            // services.AddScoped<IPersonRepository, PersonRepository>();
 
             // services for authentication
             services.AddScoped<IAuthService, AuthService>();

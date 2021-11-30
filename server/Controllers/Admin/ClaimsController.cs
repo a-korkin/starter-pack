@@ -62,7 +62,6 @@ namespace server.Controllers.Admin
             {
                 var claimEntity = await _unitOfWork.Claims.GetByIdAsync(itemId);
                 _mapper.Map(item, claimEntity);
-                _unitOfWork.Claims.Update(claimEntity);
                 await _unitOfWork.CompleteAsync();
 
                 var claimToReturn = _mapper.Map<ClaimOutDto>(claimEntity);

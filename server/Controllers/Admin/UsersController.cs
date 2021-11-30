@@ -66,7 +66,6 @@ namespace server.Controllers.Admin
             {
                 var userEntity = await _unitOfWork.Users.GetByIdAsync(itemId);
                 _mapper.Map(item, userEntity);
-                _unitOfWork.Users.Update(userEntity);
                 await _unitOfWork.CompleteAsync();
 
                 var userToReturn = _mapper.Map<UserOutDto>(userEntity);

@@ -24,11 +24,6 @@ namespace server.Repositories
             _dbSet = context.Set<T>();
         }
 
-        // public virtual async Task<bool> SaveAsync()
-        // {
-        //     return await _context.SaveChangesAsync() >= 0;
-        // }
-
         public virtual async Task AddAsync(T item) 
         {
             DescriptionAttribute attribute =
@@ -84,11 +79,6 @@ namespace server.Repositories
         public virtual async Task<bool> ExistsByExpAsync(Expression<Func<T, bool>> predicate)
         {
             return await _dbSet.AnyAsync(predicate);
-        }
-
-        public void Update(T item) 
-        {
-            // no content
         }
 
         public virtual async Task<bool> DeleteAsync(Guid itemId)
