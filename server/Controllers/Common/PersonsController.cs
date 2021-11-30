@@ -11,31 +11,14 @@ using server.Repositories;
 
 namespace server.Controllers.Common 
 {
-    // [ApiController]
     [Route("/api/common/persons")]
-    // [Authorize(Policy = "ClaimsRequired")]
-    public class PersonsController : BaseController //ControllerBase 
+    public class PersonsController : BaseController
     {
-    //     private readonly IGenericRepository<Person> _repository;
-        // private readonly IUnitOfWork _unitOfWork;
-        // private readonly IMapper _mapper;
-
-        public PersonsController(
-            // IGenericRepository<Person> repository, 
-            IUnitOfWork unitOfWork,
-            IMapper mapper) : base(unitOfWork, mapper) {}
-        // {
-        //     _repository = repository ?? 
-        //         throw new ArgumentNullException(nameof(repository));
-
-        //     _mapper = mapper ??
-        //         throw new ArgumentNullException(nameof(mapper));
-        // }
-
+        public PersonsController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) {}
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PersonOutDto>>> GetAllAsync() 
         {
-            // var personsFromRepo = await _repository.GetAllAsync();
             var personsFromRepo = await _unitOfWork.Persons.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<PersonOutDto>>(personsFromRepo));
         }
@@ -43,7 +26,6 @@ namespace server.Controllers.Common
         [HttpGet("{personId}", Name = "GetPerson")]        
         public async Task<ActionResult<PersonOutDto>> GetByIdAsync(Guid personId) 
         {
-            // var personEntity = await _repository.GetByIdAsync(personId);
             var personEntity = await _unitOfWork.Persons.GetByIdAsync(personId);
 
             if (personEntity == null)
@@ -56,8 +38,6 @@ namespace server.Controllers.Common
         public async Task<ActionResult<PersonOutDto>> CreateAsync(PersonInDto item)
         {
             var personEntity = _mapper.Map<Person>(item);
-            // await _repository.AddAsync(personEntity);
-            // await _repository.SaveAsync();
             await _unitOfWork.Persons.AddAsync(personEntity);
             await _unitOfWork.CompleteAsync();
 
@@ -71,7 +51,6 @@ namespace server.Controllers.Common
         [HttpDelete("{personId}")]
         public async Task<IActionResult> DeleteAsync(Guid personId)
         {
-            // if (await _repository.DeleteAsync(personId))
             if (await _unitOfWork.Persons.DeleteAsync(personId))
                 return NoContent();
 

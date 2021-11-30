@@ -10,18 +10,10 @@ using server.Repositories;
 
 namespace server.Controllers.Admin
 {
-    // [ApiController]
     [Route("api/admin/roles/{roleId}/claims")]
     public class ClaimsController : BaseController
     {
         public ClaimsController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) {}
-        // {
-        //     _repository = repository ??
-        //         throw new ArgumentNullException(nameof(repository));
-
-        //     _mapper = mapper ??
-        //         throw new ArgumentNullException(nameof(mapper));
-        // }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClaimOutDto>>> GetAllAsync(Guid roleId) 
@@ -49,8 +41,6 @@ namespace server.Controllers.Admin
 
             var itemEntity = _mapper.Map<Claim>(item);
             itemEntity.RoleId = roleId;
-            // await _repository.AddAsync(itemEntity);
-            // await _repository.SaveAsync();
 
             await _unitOfWork.Claims.AddAsync(itemEntity);
             await _unitOfWork.CompleteAsync();
@@ -73,7 +63,6 @@ namespace server.Controllers.Admin
                 var claimEntity = await _unitOfWork.Claims.GetByIdAsync(itemId);
                 _mapper.Map(item, claimEntity);
                 _unitOfWork.Claims.Update(claimEntity);
-                // await _repository.SaveAsync();
                 await _unitOfWork.CompleteAsync();
 
                 var claimToReturn = _mapper.Map<ClaimOutDto>(claimEntity);

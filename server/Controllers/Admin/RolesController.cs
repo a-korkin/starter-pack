@@ -12,29 +12,14 @@ using server.Repositories;
 
 namespace server.Controllers.Admin
 {
-    // [ApiController]
     [Route("/api/admin/roles")]
-    public class RolesController : BaseController //ControllerBase
+    public class RolesController : BaseController
     {
-        // private readonly IRoleRepository _repository;
-        // private readonly IUnitOfWork _unitOfWork;
-        // private readonly IMapper _mapper;
-        public RolesController(
-            // IRoleRepository repository,
-            IUnitOfWork unitOfWork,
-            IMapper mapper) : base(unitOfWork, mapper) {}
-        // {
-        //     _repository = repository ??
-        //         throw new ArgumentNullException(nameof(repository));
-
-        //     _mapper = mapper ??
-        //         throw new ArgumentNullException(nameof(mapper));
-        // }   
-
+        public RolesController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) {}
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RoleOutDto>>> GetAllAsync()
         {
-            // var roleEntities = await _repository.GetAllAsync();
             var roleEntities = await _unitOfWork.Roles.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<RoleOutDto>>(roleEntities));
         }
@@ -62,12 +47,9 @@ namespace server.Controllers.Admin
             }
 
             var entity = _mapper.Map<Role>(item);
-            // await _repository.AddAsync(entity);
-            // await _repository.SaveAsync();
             await _unitOfWork.Roles.AddAsync(entity);
             await _unitOfWork.CompleteAsync();
             
-            // entity = await _repository.GetRoleWithChildren(entity.Id);
             entity = await _unitOfWork.Roles.GetRoleWithChildren(entity.Id);
 
             var entityToReturn = _mapper.Map<RoleOutItemDto>(entity);

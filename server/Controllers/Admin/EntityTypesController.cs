@@ -13,21 +13,10 @@ using server.Repositories;
 
 namespace server.Controllers.Admin
 {
-    // [ApiController]
     [Route("/api/admin/entity-types")]
-    public class EntityTypesController : BaseController //ControllerBase
+    public class EntityTypesController : BaseController
     {
-        // private readonly IGenericRepository<EntityType> _repository;
-        // private readonly IMapper _mapper;
-
         public EntityTypesController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) {}
-        // {
-        //     _repository = repository ??
-        //         throw new ArgumentNullException(nameof(repository));
-
-        //     _mapper = mapper ??
-        //         throw new ArgumentNullException(nameof(mapper));
-        // }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EntityTypeOutDto>>> GetAllAsync()
@@ -50,8 +39,6 @@ namespace server.Controllers.Admin
         public async Task<ActionResult<EntityTypeOutDto>> CreateAsync(EntityTypeInDto item)
         {
             var itemEntity = _mapper.Map<EntityType>(item);
-            // await _repository.AddAsync(itemEntity);
-            // await _repository.SaveAsync();
 
             await _unitOfWork.EntityTypes.AddAsync(itemEntity);
             await _unitOfWork.CompleteAsync();
@@ -100,7 +87,6 @@ namespace server.Controllers.Admin
                 }
             }
 
-            // await _repository.SaveAsync();
             await _unitOfWork.CompleteAsync();
 
             return Ok();

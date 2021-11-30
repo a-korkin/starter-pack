@@ -11,22 +11,11 @@ using server.Repositories;
 
 namespace server.Controllers.Admin 
 {
-    // [ApiController]
     [Route("/api/admin/users")]
     public class UsersController : BaseController
     {
-        // private readonly IMapper _mapper;
-
-        // private readonly IUnitOfWork _unitOfWork;
 
         public UsersController(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) {}
-        // {
-        //     _mapper = mapper ??
-        //         throw new ArgumentNullException(nameof(mapper));                
-            
-        //     _unitOfWork = unitOfWork ??
-        //         throw new ArgumentNullException(nameof(unitOfWork));
-        // }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserOutDto>>> GetAllAsync()
