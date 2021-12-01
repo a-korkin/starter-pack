@@ -20,13 +20,14 @@ namespace server.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
-        // private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserRepository _repository;
+        private readonly IUnitOfWork _unitOfWork;
+        // private readonly IUserRepository _repository;
 
         public AuthService( 
             IConfiguration configuration, 
             IMapper mapper,
-            IUserRepository repository)
+            IUnitOfWork unitOfWork)
+            // IUserRepository repository)
         {
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
@@ -34,8 +35,11 @@ namespace server.Services
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
 
-            _repository = repository ??
-                throw new ArgumentNullException(nameof(repository));
+            // _repository = repository ??
+            //     throw new ArgumentNullException(nameof(repository));
+
+            _unitOfWork = unitOfWork ??
+                throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         private string CreateToken(
@@ -59,7 +63,8 @@ namespace server.Services
 
         public async Task<Tuple<AuthOutDto, string>> LoginAsync(AuthInDto userAuth)
         {
-            var userEntity = await _repository.GetOneByAsync(x => x.UserName == userAuth.UserName);
+            // var userEntity = await _repository.GetOneByAsync(x => x.UserName == userAuth.UserName);
+            var userEntity = await _unitOfWork.Repository<User>().GetOneByAsync(x => x.UserName == userAuth.UserName);
                 
             if (userEntity != null && 
                 BCrypt.Net.BCrypt.Verify(userAuth.Password, userEntity.Password))
@@ -89,7 +94,8 @@ namespace server.Services
 
         public async Task<AuthOutDto> LogoutAsync(Guid userId)
         {
-            var userEntity = await _repository.GetByIdAsync(userId);
+            // var userEntity = await _repository.GetByIdAsync(userId);
+            var userEntity = await _unitOfWork.Repository<User>().GetByIdAsync(userId);
             
             if (userEntity != null)
             {

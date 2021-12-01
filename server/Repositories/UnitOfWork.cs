@@ -11,7 +11,7 @@ namespace server.Repositories
     {
         private readonly ApplicationContext _context;
         // public IUserRepository Users { get; private set; }
-        public IRoleRepository Roles { get; private set; }
+        // public IRoleRepository Roles { get; private set; }
         // public IPersonRepository Persons { get; private set; }
         // public IEntityTypeRepository EntityTypes { get; private set; }
         // public IClaimRepository Claims { get; private set; }
@@ -28,7 +28,7 @@ namespace server.Repositories
                 throw new ArgumentNullException(nameof(context));
             
             // Users = new UserRepository(context);
-            Roles = new RoleRepository(context);
+            // Roles = new RoleRepository(context);
             // Persons = new PersonRepository(context);
             // EntityTypes = new EntityTypeRepository(context);
             // Claims = new ClaimRepository(context);
