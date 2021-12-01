@@ -21,14 +21,14 @@ namespace server.Controllers.Admin
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EntityTypeOutDto>>> GetAllAsync()
         {
-            var itemsFromRepo = await _unitOfWork.EntityTypes.GetAllAsync();
+            var itemsFromRepo = await _unitOfWork.Repository<EntityType>().GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<EntityTypeOutDto>>(itemsFromRepo));
         }
 
         [HttpGet("{itemId}", Name = "GetEntityType")]
         public async Task<ActionResult<EntityTypeOutDto>> GetByIdAsync(Guid itemId)
         {
-            var itemFromRepo = await _unitOfWork.EntityTypes.GetByIdAsync(itemId);
+            var itemFromRepo = await _unitOfWork.Repository<EntityType>().GetByIdAsync(itemId);
             if (itemFromRepo == null)
                 return NotFound();
 
@@ -40,7 +40,7 @@ namespace server.Controllers.Admin
         {
             var itemEntity = _mapper.Map<EntityType>(item);
 
-            await _unitOfWork.EntityTypes.AddAsync(itemEntity);
+            await _unitOfWork.Repository<EntityType>().AddAsync(itemEntity);
             await _unitOfWork.CompleteAsync();
 
             var itemToReturn = _mapper.Map<EntityTypeOutDto>(itemEntity);
@@ -60,7 +60,7 @@ namespace server.Controllers.Admin
                 .Where(w => w.FullName.Contains("server.Entities"))
                 .Where(w => !new string[] { "EntityType", "BaseModel" }.Contains(w.Name));
 
-            var existingEntityTypes = await _unitOfWork.EntityTypes.GetAllAsync();                
+            var existingEntityTypes = await _unitOfWork.Repository<EntityType>().GetAllAsync();                
 
             foreach (var type in types) 
             {
@@ -82,7 +82,7 @@ namespace server.Controllers.Admin
                             TableName = attribute.TableName
                         };
 
-                        await _unitOfWork.EntityTypes.AddAsync(newEntity);
+                        await _unitOfWork.Repository<EntityType>().AddAsync(newEntity);
                     }                   
                 }
             }

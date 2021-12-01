@@ -18,14 +18,15 @@ namespace server.Controllers.Admin
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClaimOutDto>>> GetAllAsync(Guid roleId) 
         {
-            var itemsFromRepo = await _unitOfWork.Claims.GetAllByAsync(w => w.RoleId == roleId);
+            // var itemsFromRepo = await _unitOfWork.Claims.GetAllByAsync(w => w.RoleId == roleId);
+            var itemsFromRepo = await _unitOfWork.Repository<Claim>().GetAllByAsync(w => w.RoleId == roleId);
             return Ok(_mapper.Map<IEnumerable<ClaimOutDto>>(itemsFromRepo));
         }
 
         [HttpGet("{itemId}", Name = "GetClaim")]
         public async Task<ActionResult<ClaimOutDto>> GetByIdAsync(Guid roleId, Guid itemId)
         {
-            var itemFromRepo = await _unitOfWork.Claims.GetByIdAsync(itemId);
+            var itemFromRepo = await _unitOfWork.Repository<Claim>().GetByIdAsync(itemId);
             if (itemFromRepo == null)
                 return NotFound();
 
@@ -35,14 +36,14 @@ namespace server.Controllers.Admin
         [HttpPost]
         public async Task<ActionResult<ClaimOutDto>> CreateAsync(Guid roleId, ClaimInDto item)
         {
-            var claimExists = await _unitOfWork.Claims.ExistsByExpAsync(w => w.RoleId == roleId && w.TypeId == item.TypeId);
+            var claimExists = await _unitOfWork.Repository<Claim>().ExistsByExpAsync(w => w.RoleId == roleId && w.TypeId == item.TypeId);
             if (claimExists) 
                 return BadRequest("Claim already exists");
 
             var itemEntity = _mapper.Map<Claim>(item);
             itemEntity.RoleId = roleId;
 
-            await _unitOfWork.Claims.AddAsync(itemEntity);
+            await _unitOfWork.Repository<Claim>().AddAsync(itemEntity);
             await _unitOfWork.CompleteAsync();
 
             var itemToReturn = _mapper.Map<ClaimOutDto>(itemEntity);
@@ -58,9 +59,9 @@ namespace server.Controllers.Admin
             Guid itemId, 
             ClaimUpdDto item)
         {
-            if (await _unitOfWork.Claims.ExistsByIdAsync(itemId))
+            if (await _unitOfWork.Repository<Claim>().ExistsByIdAsync(itemId))
             {
-                var claimEntity = await _unitOfWork.Claims.GetByIdAsync(itemId);
+                var claimEntity = await _unitOfWork.Repository<Claim>().GetByIdAsync(itemId);
                 _mapper.Map(item, claimEntity);
                 await _unitOfWork.CompleteAsync();
 

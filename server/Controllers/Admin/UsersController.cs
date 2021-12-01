@@ -20,14 +20,14 @@ namespace server.Controllers.Admin
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserOutDto>>> GetAllAsync()
         {
-            var userEntities = await _unitOfWork.Users.GetAllAsync();
+            var userEntities = await _unitOfWork.Repository<User>().GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<UserOutDto>>(userEntities));
         }
 
         [HttpGet("{itemId}", Name = "GetUser")]
         public async Task<ActionResult<UserOutDto>> GetByIdAsync(Guid itemId)
         {
-            var userEntity = await _unitOfWork.Users.GetByIdAsync(itemId);
+            var userEntity = await _unitOfWork.Repository<User>().GetByIdAsync(itemId);
 
             if (userEntity == null)
                 return NotFound();
@@ -38,7 +38,7 @@ namespace server.Controllers.Admin
         [HttpPost]
         public async Task<ActionResult<UserOutDto>> CreateAsync(UserInDto user)
         {
-            var users = await _unitOfWork.Users.GetAllByAsync(u => u.UserName == user.UserName);
+            var users = await _unitOfWork.Repository<User>().GetAllByAsync(u => u.UserName == user.UserName);
             if (users.Any())
             {
                 return BadRequest("User already exists");
@@ -47,7 +47,7 @@ namespace server.Controllers.Admin
             var userEntity = _mapper.Map<User>(user);
             string salt = BCrypt.Net.BCrypt.GenerateSalt();
             userEntity.Password = BCrypt.Net.BCrypt.HashPassword(user.Password, salt);
-            await _unitOfWork.Users.AddAsync(userEntity);
+            await _unitOfWork.Repository<User>().AddAsync(userEntity);
             await _unitOfWork.CompleteAsync();
 
             var userToReturn = _mapper.Map<UserOutDto>(userEntity);
@@ -62,9 +62,9 @@ namespace server.Controllers.Admin
             Guid itemId, 
             UserUpdDto item)
         {
-            if (await _unitOfWork.Users.ExistsByIdAsync(itemId))
+            if (await _unitOfWork.Repository<User>().ExistsByIdAsync(itemId))
             {
-                var userEntity = await _unitOfWork.Users.GetByIdAsync(itemId);
+                var userEntity = await _unitOfWork.Repository<User>().GetByIdAsync(itemId);
                 _mapper.Map(item, userEntity);
                 await _unitOfWork.CompleteAsync();
 
@@ -79,7 +79,7 @@ namespace server.Controllers.Admin
         [Route("{itemId}")]
         public async Task<IActionResult> DeleteAsync(Guid itemId)
         {
-            if (await _unitOfWork.Users.DeleteAsync(itemId))
+            if (await _unitOfWork.Repository<User>().DeleteAsync(itemId))
                 return NoContent();
 
             return NotFound();
