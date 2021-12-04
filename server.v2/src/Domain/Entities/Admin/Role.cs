@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using src.Domain.Entities.Base;
+using Domain.Entities.Base;
 
-namespace src.Domain.Entities.Admin
+namespace Domain.Entities.Admin
 {
     [Table("cd_roles", Schema = "admin")]
     public class Role : AuditedEntity

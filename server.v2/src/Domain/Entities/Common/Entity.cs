@@ -1,8 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using src.Domain.Entities.Base;
+using Domain.Entities.Base;
 
-namespace src.Domain.Entities.Common
+namespace Domain.Entities.Common
 {
     [Table("cd_entities", Schema = "common")]
     public class Entity : AuditedEntity

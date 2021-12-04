@@ -1,10 +1,9 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using src.Domain.Entities.Admin;
-using src.Domain.Entities.Common;
-using src.Infrastructure.Persistence.Configurations;
+using Domain.Entities.Admin;
+using Domain.Entities.Common;
 
-namespace src.Infrastructure.Persistence
+namespace Infrastructure.Persistence
 {
     public class ApplicationContext : DbContext
     {

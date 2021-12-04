@@ -1,10 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using src.Domain.Entities.Base;
-using src.Domain.Entities.Common;
+using Domain.Entities.Base;
+using Domain.Entities.Common;
 
-namespace src.Domain.Entities.Admin
+namespace Domain.Entities.Admin
 {
     [Table("cd_claims", Schema = "admin")]
     public class Claim : BaseEntity

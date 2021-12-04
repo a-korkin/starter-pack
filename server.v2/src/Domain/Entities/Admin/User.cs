@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using src.Domain.Entities.Base;
+using Domain.Entities.Base;
 
-namespace src.Domain.Entities.Admin
+namespace Domain.Entities.Admin
 {
     [Table("cd_users", Schema = "admin")]
     public class User : AuditedEntity 

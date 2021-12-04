@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using src.Domain.Entities.Admin;
+using Domain.Entities.Admin;
 
-namespace src.Infrastructure.Persistence.Configurations
+namespace Infrastructure.Persistence.Configurations
 {
     public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {

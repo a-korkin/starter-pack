@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using src.Domain.Entities.Common;
+using Domain.Entities.Common;
 
-namespace src.Infrastructure.Persistence.Configurations
+namespace Infrastructure.Persistence.Configurations
 {
     public class EntityTypeConfiguration : IEntityTypeConfiguration<EntityType>
     {

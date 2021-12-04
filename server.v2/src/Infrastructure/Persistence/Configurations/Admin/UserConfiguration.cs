@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using src.Domain.Entities.Admin;
-using src.Domain.Entities.Common;
+using Domain.Entities.Admin;
+using Domain.Entities.Common;
 
-namespace src.Infrastructure.Persistence.Configurations
+namespace Infrastructure.Persistence.Configurations
 {
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using src.Domain.Entities.Base;
+using Domain.Entities.Base;
 
-namespace src.Domain.Entities.Common
+namespace Domain.Entities.Common
 {
     [Table("cs_entity_types", Schema = "common")]
     public class EntityType : BaseEntity
