@@ -1,27 +1,26 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Domain.Entities.Base;
+using src.Domain.Entities.Base;
 
-namespace Domain.Entities.Common
+namespace src.Domain.Entities.Common
 {
     [Table("cs_entity_types", Schema = "common")]
     public class EntityType : BaseEntity
     {
-        [Column("c_name")]
         [Required]
+        [Column("c_name")]
         public string Name { get; set; }
 
-
-        [Column("c_slug")]
         [Required]
+        [Column("c_slug")]
         public string Slug { get; set; }
 
-        [Column("c_schema")]
         [Required]
+        [Column("c_schema")]
         public string Schema { get; set; }
 
-        [Column("c_tablename")]
         [Required]
+        [Column("c_tablename")]
         public string TableName { get; set; }
     }
 }
