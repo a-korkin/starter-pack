@@ -14,6 +14,11 @@ namespace src.Domain.Entities.Admin
 
         public EntityType Type { get; set; }
 
+        [Column("f_role")]
+        public Guid RoleId { get; set; }
+
+        public Role Role { get; set; }
+
         [Column("b_create")]
         [Required]
         public bool Create { get; set; }
