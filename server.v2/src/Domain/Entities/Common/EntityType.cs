@@ -7,20 +7,20 @@ namespace src.Domain.Entities.Common
     [Table("cs_entity_types", Schema = "common")]
     public class EntityType : BaseEntity
     {
-        [Required]
         [Column("c_name")]
+        [Required]
         public string Name { get; set; }
 
-        [Required]
         [Column("c_slug")]
+        [Required]
         public string Slug { get; set; }
 
-        [Required]
         [Column("c_schema")]
+        [Required]
         public string Schema { get; set; }
 
-        [Required]
         [Column("c_tablename")]
+        [Required]
         public string TableName { get; set; }
     }
 }
