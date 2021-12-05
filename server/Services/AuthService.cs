@@ -41,7 +41,24 @@ namespace server.Services
             _unitOfWork = unitOfWork ??
                 throw new ArgumentNullException(nameof(unitOfWork));
         }
+        private string CreateToken(
+            IEnumerable<SystemClaims.Claim> claims,
+            DateTime expires,
+            SymmetricSecurityKey key)
+        {
+            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            var token = new JwtSecurityToken
+            (
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: expires,
+                signingCredentials: signIn
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
         private string CreateToken(
             IEnumerable<SystemClaims.Claim> claims,
             DateTime expires,
