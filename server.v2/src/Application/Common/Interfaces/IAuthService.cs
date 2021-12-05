@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Application.Common.Models.DTO.Admin;
 
-namespace Application.Common.Interface
+namespace Application.Common.Interfaces
 {
     public interface IAuthService
     {

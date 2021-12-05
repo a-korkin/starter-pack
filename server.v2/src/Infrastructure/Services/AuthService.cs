@@ -4,7 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Common.Interface;
+using Application.Common.Interfaces;
 using Application.Common.Models.DTO.Admin;
 using Application.Common.Profiles.Admin;
 using AutoMapper;
@@ -18,12 +18,12 @@ namespace Infrastructure.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly ApplicationContext _context;
+        private readonly IApplicationDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IMapper _mapper;
 
         public AuthService(
-            ApplicationContext context, 
+            IApplicationDbContext context, 
             IConfiguration configuration,
             IMapper mapper)
         {
