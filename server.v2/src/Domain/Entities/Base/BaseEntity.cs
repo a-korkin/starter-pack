@@ -8,6 +8,6 @@ namespace Domain.Entities.Base
     {
         [Key]
         [Column("id")]
-        public virtual Guid Id { get; set; }
+        public virtual Guid Id { get; set; } = Guid.NewGuid();
     }
 }

@@ -2,6 +2,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Application.Features.UserFeatures.Queries;
+using Application.Features.UserFeatures.Commands;
 
 namespace WebApi.Controllers.Admin
 {
@@ -17,9 +19,18 @@ namespace WebApi.Controllers.Admin
                 throw new ArgumentNullException(nameof(mediator));
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            return Ok(new {result = "fuck"});
+            var users = await _mediator.Send(new GetAllUsersQuery());
+            return Ok(users);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(CreateUserCommand command)
+        {
+            var user = await _mediator.Send(command);
+            return Ok(user);
         }
     }
 }

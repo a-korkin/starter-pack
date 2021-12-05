@@ -8,31 +8,32 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-public class GetAllUsersQuery : IRequest<IEnumerable<UserOutDto>>
+namespace Application.Features.UserFeatures.Queries
 {
-    public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserOutDto>>
+    public class GetAllUsersQuery : IRequest<IEnumerable<UserOutDto>>
     {
-        private readonly IApplicationDbContext _context;
-        private readonly IMapper _mapper;
-
-        public GetAllUsersQueryHandler(
-            IApplicationDbContext context,
-            IMapper mapper)
+        public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserOutDto>>
         {
-            _context = context ??
-                throw new ArgumentNullException(nameof(context));
+            private readonly IApplicationDbContext _context;
+            private readonly IMapper _mapper;
 
-            _mapper = mapper ??
-                throw new ArgumentNullException(nameof(mapper));
-        }
+            public GetAllUsersQueryHandler(
+                IApplicationDbContext context,
+                IMapper mapper)
+            {
+                _context = context ??
+                    throw new ArgumentNullException(nameof(context));
 
-        public async Task<IEnumerable<UserOutDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
-        {
-            var userList = await _context.Users.ToListAsync();
-            if (userList == null)
-                return null;
-            
-            return userList == null ? null : _mapper.Map<IEnumerable<UserOutDto>>(userList);
+                _mapper = mapper ??
+                    throw new ArgumentNullException(nameof(mapper));
+            }
+
+            public async Task<IEnumerable<UserOutDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+            {
+                var userList = await _context.Users.ToListAsync();
+                
+                return _mapper.Map<IEnumerable<UserOutDto>>(userList);
+            }
         }
     }
 }
