@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Application.Features.UserFeatures.Queries;
 using Application.Features.UserFeatures.Commands;
+using Application.Common.Models.DTO.Admin;
 
 namespace WebApi.Controllers.Admin
 {
@@ -27,10 +28,17 @@ namespace WebApi.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateUserCommand command)
+        public async Task<IActionResult> CreateAsync(UserInDto user)
+        // public async Task<IActionResult> CreateAsync(CreateUserCommand command)
         {
-            var user = await _mediator.Send(command);
-            return Ok(user);
+            // var user = await _mediator.Send(command);
+            var command = new CreateUserCommand
+            {
+                UserIn = user
+            };
+            var userToReturn = await _mediator.Send(command);
+            
+            return Ok(userToReturn);
         }
     }
 }

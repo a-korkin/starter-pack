@@ -13,6 +13,6 @@ namespace Application.Common.Interfaces
         DbSet<Claim> Claims { get; }
         DbSet<Role> Roles { get; }
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
     }
 }

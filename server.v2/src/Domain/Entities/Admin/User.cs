@@ -16,7 +16,6 @@ namespace Domain.Entities.Admin
         public string Password { get; set; }
 
         [Column("c_refresh_token")]
-        [Required]
         public string RefreshToken { get; set; }
     }
 }

@@ -11,11 +11,7 @@ namespace Application.Features.UserFeatures.Commands
 {
     public class CreateUserCommand : IRequest<UserOutDto>
     {
-        // public UserInDto UserIn { get; set; }
-
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
+        public UserInDto UserIn { get; set; }
 
         public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserOutDto>
         {
@@ -35,18 +31,12 @@ namespace Application.Features.UserFeatures.Commands
 
             public async Task<UserOutDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
             {
-                var userIn = new UserInDto
-                {
-                    UserName = request.UserName,
-                    Password = request.Password,
-                    ConfirmPassword = request.ConfirmPassword
-                };
+                var userEntity = _mapper.Map<User>(request.UserIn);
 
-                // var userEntity = _mapper.Map<User>(request.UserIn);
-                var userEntity = _mapper.Map<User>(userIn);
-                var userToReturn = _mapper.Map<UserOutDto>(await _context.Users.AddAsync(userEntity));
+                await _context.Users.AddAsync(userEntity);
+                await _context.SaveChangesAsync();
 
-                return userToReturn;
+                return _mapper.Map<UserOutDto>(userEntity);
             }
         }
     }

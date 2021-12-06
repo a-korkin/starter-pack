@@ -24,7 +24,7 @@ namespace Infrastructure.Persistence
             base.OnModelCreating(builder);
         }
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken) // = new CancellationToken())
         {
             // foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
             // {
