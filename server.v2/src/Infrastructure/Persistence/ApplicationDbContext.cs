@@ -5,6 +5,7 @@ using Domain.Entities.Common;
 using Application.Common.Interfaces;
 using System.Threading.Tasks;
 using System.Threading;
+using Domain.Entities.Base;
 
 namespace Infrastructure.Persistence
 {
@@ -13,6 +14,7 @@ namespace Infrastructure.Persistence
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opt) : base(opt) {}
 
         public DbSet<EntityType> EntityTypes { get; set; }
+        public DbSet<Entity> Entities { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Claim> Claims { get; set; }
         public DbSet<Role> Roles { get; set; }

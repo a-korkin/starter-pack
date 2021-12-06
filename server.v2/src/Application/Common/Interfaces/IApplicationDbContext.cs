@@ -9,6 +9,7 @@ namespace Application.Common.Interfaces
     public interface IApplicationDbContext 
     {
         DbSet<EntityType> EntityTypes { get; }
+        DbSet<Entity> Entities { get; }
         DbSet<User> Users { get; }
         DbSet<Claim> Claims { get; }
         DbSet<Role> Roles { get; }
