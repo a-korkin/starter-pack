@@ -1,10 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Domain.Attributes;
 using Domain.Entities.Base;
 
 namespace Domain.Entities.Admin
 {
     [Table("cd_users", Schema = "admin")]
+    [Description(name: "пользователи", slug: "users", schema: "admin", tableName: "cd_users")]
     public class User : AuditedEntity 
     {
         [Column("c_username")]

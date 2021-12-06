@@ -1,12 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Domain.Attributes;
 using Domain.Entities.Base;
 using Domain.Entities.Common;
 
 namespace Domain.Entities.Admin
 {
     [Table("cd_claims", Schema = "admin")]
+    [Description(name: "разрешения", slug: "claims", schema: "admin", tableName: "cd_claims")]
     public class Claim : BaseEntity
     {
         [Column("f_type")]
