@@ -42,8 +42,8 @@ namespace Application.Features.UserFeatures.Commands
                 DescriptionAttribute attribute =
                     (DescriptionAttribute)Attribute.GetCustomAttribute(typeof(User), typeof(DescriptionAttribute));
 
-                // Guid id = Guid.NewGuid();
-                // item.Id = id;
+                Guid id = Guid.NewGuid();
+                userEntity.Id = id;
 
                 Console.WriteLine("test");
                 
