@@ -38,17 +38,12 @@ namespace Application.Features.UserFeatures.Commands
             {
                 var userEntity = _mapper.Map<User>(request.UserIn);
 
-
                 DescriptionAttribute attribute =
                     (DescriptionAttribute)Attribute.GetCustomAttribute(typeof(User), typeof(DescriptionAttribute));
 
-                Guid id = Guid.NewGuid();
-                userEntity.Id = id;
-                
                 if (attribute != null) 
                 {
-                    var entityType = await _context
-                        .EntityTypes
+                    var entityType = await _context.EntityTypes
                         .Where(w => w.Schema == attribute.Schema)                    
                         .Where(w => w.TableName == attribute.TableName)
                         .FirstOrDefaultAsync();
@@ -58,11 +53,8 @@ namespace Application.Features.UserFeatures.Commands
                         Id = userEntity.Id,
                         Type = entityType
                     };
-                    // await _context.Entities.AddAsync(entity);
                     await _context.Entities.AddAsync(entity);
                 }
-
-                // await _dbSet.AddAsync(item);
 
                 await _context.Users.AddAsync(userEntity);
                 await _context.SaveChangesAsync();
