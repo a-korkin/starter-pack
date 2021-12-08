@@ -44,8 +44,6 @@ namespace Application.Features.UserFeatures.Commands
 
                 Guid id = Guid.NewGuid();
                 userEntity.Id = id;
-
-                Console.WriteLine("test");
                 
                 if (attribute != null) 
                 {
