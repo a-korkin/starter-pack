@@ -22,8 +22,10 @@ namespace Infrastructure
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                 )
             );
-            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+            // services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<IAuthService, AuthService>();
+
+            // repositories
             services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 
             return services;

@@ -9,7 +9,7 @@ using Domain.Entities.Base;
 
 namespace Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : DbContext //, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opt) : base(opt) {}
 

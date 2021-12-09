@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Domain.Entities.Base;
 
@@ -16,5 +17,6 @@ namespace Application.Common.Interfaces
         Task<bool> ExistsAsync(Guid id);
         Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate);
         Task<bool> DeleteAsync(Guid id);
+        Task SaveChagesAsync(CancellationToken cancellationToken = new CancellationToken());
     }
 }
