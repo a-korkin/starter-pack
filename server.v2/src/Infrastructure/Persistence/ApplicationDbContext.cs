@@ -32,7 +32,6 @@ namespace Infrastructure.Persistence
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
-
             foreach (var entry in ChangeTracker.Entries<AuditedEntity>().ToArray())
             {
                 DescriptionAttribute descriptionAttribute =

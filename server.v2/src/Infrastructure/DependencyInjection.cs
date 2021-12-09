@@ -5,8 +5,6 @@ using Infrastructure.Persistence;
 using System.Reflection;
 using Application.Common.Interfaces;
 using Infrastructure.Services;
-using Domain.Entities.Admin;
-using Infrastructure.Persistence.Repositories;
 
 namespace Infrastructure
 {
@@ -24,9 +22,6 @@ namespace Infrastructure
             );
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<IAuthService, AuthService>();
-
-            // repositories
-            services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 
             return services;
         }

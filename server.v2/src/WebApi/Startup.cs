@@ -11,9 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Infrastructure;
-using Application.Common.Interfaces;
-using Domain.Entities.Admin;
-using Infrastructure.Persistence.Repositories;
 
 namespace WebApi
 {
