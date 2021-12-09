@@ -20,20 +20,20 @@ namespace Application.Features.UserFeatures.Commands
 
         public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserOutDto>
         {
-            // private readonly IApplicationDbContext _context;
-            private readonly IGenericRepository<User> _repository;
+            private readonly IApplicationDbContext _context;
+            // private readonly IGenericRepository<User> _repository;
             private readonly IMapper _mapper;
 
             public CreateUserCommandHandler(
-                // IApplicationDbContext context,
-                IGenericRepository<User> repository,
+                IApplicationDbContext context,
+                // IGenericRepository<User> repository,
                 IMapper mapper)
             {
-                // _context = context ??
-                //     throw new ArgumentNullException(nameof(context));
+                _context = context ??
+                    throw new ArgumentNullException(nameof(context));
 
-                _repository = repository ??
-                    throw new ArgumentNullException(nameof(repository));
+                // _repository = repository ??
+                //     throw new ArgumentNullException(nameof(repository));
 
                 _mapper = mapper ??
                     throw new ArgumentNullException(nameof(mapper));
@@ -42,11 +42,11 @@ namespace Application.Features.UserFeatures.Commands
             public async Task<UserOutDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
             {
                 var userEntity = _mapper.Map<User>(request.UserIn);
-                await _repository.AddAsync(userEntity);
+                // await _repository.AddAsync(userEntity);
                 // await _context.SaveChangesAsync();
-                await _repository.SaveChagesAsync();
+                // await _repository.SaveChagesAsync();
 
-                return _mapper.Map<UserOutDto>(userEntity);
+                // return _mapper.Map<UserOutDto>(userEntity);
 
                 // DescriptionAttribute attribute =
                 //     (DescriptionAttribute)Attribute.GetCustomAttribute(typeof(User), typeof(DescriptionAttribute));
@@ -66,10 +66,10 @@ namespace Application.Features.UserFeatures.Commands
                 //     await _context.Entities.AddAsync(entity);
                 // }
 
-                // await _context.Users.AddAsync(userEntity);
-                // await _context.SaveChangesAsync();
+                await _context.Users.AddAsync(userEntity);
+                await _context.SaveChangesAsync();
 
-                // return _mapper.Map<UserOutDto>(userEntity);
+                return _mapper.Map<UserOutDto>(userEntity);
             }
         }
     }

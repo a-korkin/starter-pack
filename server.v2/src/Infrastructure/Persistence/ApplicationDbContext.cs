@@ -6,10 +6,13 @@ using Application.Common.Interfaces;
 using System.Threading.Tasks;
 using System.Threading;
 using Domain.Entities.Base;
+using Domain.Attributes;
+using System;
+using System.Linq;
 
 namespace Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext //, IApplicationDbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opt) : base(opt) {}
 
@@ -49,6 +52,34 @@ namespace Infrastructure.Persistence
             //         .SelectMany(x => x)
             //         .Where(domainEvent => !domainEvent.IsPublished)
             //         .ToArray();
+
+            foreach (var entry in ChangeTracker.Entries<AuditedEntity>())
+            {
+                DescriptionAttribute descriptionAttribute =
+                    (DescriptionAttribute)Attribute.GetCustomAttribute(entry.Entity.GetType(), typeof(DescriptionAttribute));
+
+                switch(entry.State)
+                {
+                    case EntityState.Added:
+                        // Console.WriteLine(descriptionAttribute);
+
+                        if (descriptionAttribute != null)
+                        {
+                            var entityType = await this.EntityTypes
+                                .Where(w => w.Schema == descriptionAttribute.Schema)
+                                .Where(w => w.TableName == descriptionAttribute.TableName)
+                                .FirstOrDefaultAsync();
+
+                            var entity = new Entity
+                            {
+                                Id = entry.Entity.Id,
+                                Type = entityType
+                            };
+                            await Entities.AddAsync(entity);
+                        }
+                    break;
+                }
+            }
 
             var result = await base.SaveChangesAsync(cancellationToken);
 
