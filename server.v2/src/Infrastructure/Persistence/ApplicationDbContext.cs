@@ -17,7 +17,7 @@ namespace Infrastructure.Persistence
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opt) : base(opt) {}
 
-        public DbSet<EntityType> EntityTypes  => Set<EntityType>();
+        public DbSet<EntityType> EntityTypes { get; set; }
         public DbSet<Entity> Entities { get; set; } 
         public DbSet<User> Users { get; set; }
         public DbSet<Claim> Claims { get; set; }
@@ -59,9 +59,7 @@ namespace Infrastructure.Persistence
                 }
             }
 
-            var result = await base.SaveChangesAsync(cancellationToken);
-
-            return result;
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }
