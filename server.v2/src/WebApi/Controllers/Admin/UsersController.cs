@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MediatR;
 using Application.Common.Models.DTO.Admin;
 using Application.Features.Admin.Users;
 using System.Collections.Generic;
