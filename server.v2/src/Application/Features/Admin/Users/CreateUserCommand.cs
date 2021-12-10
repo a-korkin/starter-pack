@@ -34,6 +34,8 @@ namespace Application.Features.Admin.Users
                 CancellationToken cancellationToken)
             {
                 var userEntity = _mapper.Map<User>(request.UserIn);
+                string salt = BCrypt.Net.BCrypt.GenerateSalt();
+                userEntity.Password = BCrypt.Net.BCrypt.HashPassword(userEntity.Password, salt);
 
                 await _context.Users.AddAsync(userEntity);
                 await _context.SaveChangesAsync();
