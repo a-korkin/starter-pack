@@ -8,7 +8,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.UserFeatures.Queries
+namespace Application.Features.Admin.Users
 {
     public class GetAllUsersQuery : IRequest<IEnumerable<UserOutDto>>
     {
@@ -28,10 +28,11 @@ namespace Application.Features.UserFeatures.Queries
                     throw new ArgumentNullException(nameof(mapper));
             }
 
-            public async Task<IEnumerable<UserOutDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<UserOutDto>> Handle(
+                GetAllUsersQuery request,
+                CancellationToken cancellationToken)
             {
                 var userList = await _context.Users.ToListAsync();
-                
                 return _mapper.Map<IEnumerable<UserOutDto>>(userList);
             }
         }

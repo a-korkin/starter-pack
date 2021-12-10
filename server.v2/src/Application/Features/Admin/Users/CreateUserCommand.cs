@@ -1,18 +1,13 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Application.Common.Models.DTO.Admin;
-using AutoMapper;
-using Domain.Attributes;
 using Domain.Entities.Admin;
-using Domain.Entities.Base;
-using Domain.Entities.Common;
+using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.UserFeatures.Commands
+namespace Application.Features.Admin.Users
 {
     public class CreateUserCommand : IRequest<UserOutDto>
     {
@@ -26,7 +21,7 @@ namespace Application.Features.UserFeatures.Commands
             public CreateUserCommandHandler(
                 IApplicationDbContext context,
                 IMapper mapper)
-            {
+            {   
                 _context = context ??
                     throw new ArgumentNullException(nameof(context));
 
@@ -34,7 +29,9 @@ namespace Application.Features.UserFeatures.Commands
                     throw new ArgumentNullException(nameof(mapper));
             }
 
-            public async Task<UserOutDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+            public async Task<UserOutDto> Handle(
+                CreateUserCommand request, 
+                CancellationToken cancellationToken)
             {
                 var userEntity = _mapper.Map<User>(request.UserIn);
 
