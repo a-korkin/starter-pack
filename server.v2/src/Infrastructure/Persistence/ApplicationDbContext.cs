@@ -62,5 +62,11 @@ namespace Infrastructure.Persistence
 
             return await base.SaveChangesAsync(cancellationToken);
         }
+
+        [Obsolete]
+        public async Task ExecuteSqlCommandAsync(string query)
+        {
+            await Database.ExecuteSqlCommandAsync(query);
+        }
     }
 }

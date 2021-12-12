@@ -15,5 +15,6 @@ namespace Application.Common.Interfaces
         DbSet<Role> Roles { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
+        Task ExecuteSqlCommandAsync(string query);
     }
 }
