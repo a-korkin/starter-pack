@@ -62,7 +62,6 @@ namespace WebApi.Authorization
                         var controller = routePattern.RequiredValues["controller"].ToString().ToLower();
                         var action = routePattern.RequiredValues["action"].ToString().ToLower();
                         var userId = Guid.Parse(context.User.Claims.FirstOrDefault(c => c.Type == "id").Value);
-
                         var claims = Task.Run(async () => await GetClaims(userId)).Result;
 
                         bool canCreate = CREATE_ACTION == action && claims.Any(a => a.Type.Schema == scheme && a.Type.Slug == controller && a.Create);
