@@ -13,6 +13,7 @@ namespace Application.Common.Interfaces
         DbSet<User> Users { get; }
         DbSet<Claim> Claims { get; }
         DbSet<Role> Roles { get; }
+        DbSet<UserRole> UserRoles { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
         Task ExecuteSqlCommandAsync(string query);
