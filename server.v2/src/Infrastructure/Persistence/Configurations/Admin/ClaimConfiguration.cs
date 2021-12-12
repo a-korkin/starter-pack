@@ -16,7 +16,6 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(b => b.Update).HasDefaultValue(false);
             builder.Property(b => b.Delete).HasDefaultValue(false);
 
-
             builder
                 .HasOne<EntityType>(p => p.Type)
                 .WithMany()

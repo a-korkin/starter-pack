@@ -3,17 +3,15 @@ using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211206035422_RefreshToken")]
-    partial class RefreshToken
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,7 +71,6 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Admin.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("uuid");
 
@@ -81,8 +78,14 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnName("c_title")
                         .HasColumnType("text");
 
+                    b.Property<Guid>("TypeId")
+                        .HasColumnName("f_type")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id")
                         .HasName("pk_cd_roles");
+
+                    b.HasIndex("Id", "TypeId");
 
                     b.ToTable("cd_roles","admin");
                 });
@@ -102,6 +105,10 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnName("c_refresh_token")
                         .HasColumnType("text");
 
+                    b.Property<Guid>("TypeId")
+                        .HasColumnName("f_type")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnName("c_username")
@@ -110,13 +117,14 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id")
                         .HasName("pk_cd_users");
 
+                    b.HasIndex("Id", "TypeId");
+
                     b.ToTable("cd_users","admin");
                 });
 
             modelBuilder.Entity("Domain.Entities.Common.Entity", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnName("id")
                         .HasColumnType("uuid");
 
@@ -124,7 +132,7 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnName("f_type")
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id")
+                    b.HasKey("Id", "TypeId")
                         .HasName("pk_cd_entities");
 
                     b.HasIndex("TypeId");
@@ -182,11 +190,21 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Admin.Role", b =>
+                {
+                    b.HasOne("Domain.Entities.Common.Entity", null)
+                        .WithMany()
+                        .HasForeignKey("Id", "TypeId")
+                        .HasConstraintName("fk_cd_roles_cd_entities_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Entities.Admin.User", b =>
                 {
                     b.HasOne("Domain.Entities.Common.Entity", null)
                         .WithMany()
-                        .HasForeignKey("Id")
+                        .HasForeignKey("Id", "TypeId")
                         .HasConstraintName("fk_cd_users_cd_entities_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

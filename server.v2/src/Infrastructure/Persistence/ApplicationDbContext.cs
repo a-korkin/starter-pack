@@ -54,6 +54,7 @@ namespace Infrastructure.Persistence
                                 Type = entityType
                             };
                             await Entities.AddAsync(entity);
+                            entry.Entity.TypeId = entityType.Id;
                         }
                     break;
                 }

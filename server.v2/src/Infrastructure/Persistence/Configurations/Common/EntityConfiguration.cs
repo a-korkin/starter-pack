@@ -8,7 +8,7 @@ namespace Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Entity> builder)
         {
-            builder.HasKey(k => k.Id).HasName("pk_cd_entities");
+            builder.HasKey(k => new { k.Id, k.TypeId }).HasName("pk_cd_entities");
 
             builder
                 .HasOne<EntityType>(p => p.Type)

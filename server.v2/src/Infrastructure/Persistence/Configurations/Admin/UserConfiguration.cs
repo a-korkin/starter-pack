@@ -14,7 +14,7 @@ namespace Infrastructure.Persistence.Configurations
             builder
                 .HasOne<Entity>()
                 .WithMany()
-                .HasForeignKey(p => p.Id)
+                .HasForeignKey(p => new { p.Id, p.TypeId })
                 .HasConstraintName("fk_cd_users_cd_entities_id");
         }
     }
