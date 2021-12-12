@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Admin.Roles
 {
-    public class CreateRoleCommand : IRequest<RoleOutItemDto>
+    public class CreateRoleCommand : IRequest<RoleOutDto>
     {
         public RoleInDto RoleIn { get; set; }
 
-        public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, RoleOutItemDto>
+        public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, RoleOutDto>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
@@ -30,16 +30,18 @@ namespace Application.Features.Admin.Roles
                     throw new ArgumentNullException(nameof(mapper));
             }
 
-            public async Task<RoleOutItemDto> Handle(
+            public async Task<RoleOutDto> Handle(
                 CreateRoleCommand request, 
                 CancellationToken cancellationToken)
             {
-                var entity = _mapper.Map<Role>(request.RoleIn);
-                await _context.Roles.AddAsync(entity);
-                await _context.SaveChangesAsync();
-                entity = await _context.Roles.FirstOrDefaultAsync(w => w.Id == entity.Id);
+                var role = _mapper.Map<Role>(request.RoleIn);
+                await _context.Roles.AddAsync(role);
+                
 
-                var entityToReturn = _mapper.Map<RoleOutItemDto>(entity);
+                await _context.SaveChangesAsync();
+                role = await _context.Roles.FirstOrDefaultAsync(w => w.Id == role.Id);
+
+                var entityToReturn = _mapper.Map<RoleOutDto>(role);
                 return entityToReturn;
             }
         }
