@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Attributes;
@@ -20,5 +21,7 @@ namespace Domain.Entities.Admin
 
         [Column("c_refresh_token")]
         public string RefreshToken { get; set; }
+
+        public ICollection<UserRole> Roles { get; set; }
     }
 }

@@ -11,6 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using WebApi.Authorization;
 
 namespace WebApi
 {
@@ -31,6 +36,13 @@ namespace WebApi
             services.AddInfrastructure(Configuration);
 
             services.AddApplication();
+
+            services.AddTransient<IAuthorizationHandler, UserClaimsHandler>();
+
+            services.AddAuthorization(opts => {
+                opts.AddPolicy("ClaimsRequired",
+                    policy => policy.Requirements.Add(new UserClaimsRequirement()));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

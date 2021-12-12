@@ -1,13 +1,11 @@
 using System;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Application.Features.Common.EntityTypes;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.Admin
+namespace WebApi.Controllers.Common
 {
-    [Route("/api/admin/entity-types")]
+    [Route("/api/common/entity-types")]
     public class EntityTypesController : ApiControllerBase
     {
         [HttpPost("refresh")]
