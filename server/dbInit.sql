@@ -1,5 +1,4 @@
 -- заменить название бд, пользователя и пароль!!!
-
 create database start_proj_db;
 create user start_user with encrypted password 'start_user_pwd';
 grant all privileges on database start_proj_db to start_user;
