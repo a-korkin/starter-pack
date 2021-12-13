@@ -12,9 +12,9 @@ namespace Infrastructure.Persistence.Migrations
                 schema: "admin",
                 columns: table => new
                 {
+                    id = table.Column<Guid>(nullable: false),
                     f_user = table.Column<Guid>(nullable: false),
-                    f_role = table.Column<Guid>(nullable: false),
-                    id = table.Column<Guid>(nullable: false)
+                    f_role = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
