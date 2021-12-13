@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
@@ -9,34 +10,40 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Admin.Roles
 {
-    public class GetByIdClaimQuery : IRequest<ClaimOutDto>
+    public class UpdateClaimCommand : IRequest<ClaimOutDto>
     {
         public Guid RoleId { get; set; }
-        
+
         public Guid ClaimId { get; set; }
 
-        public class GetByIdClaimQueryHandler : IRequestHandler<GetByIdClaimQuery, ClaimOutDto>
+        public ClaimUpdDto ClaimUpd { get; set; }
+
+        public class UpdateClaimCommandHandler : IRequestHandler<UpdateClaimCommand, ClaimOutDto>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
 
-            public GetByIdClaimQueryHandler(
+            public UpdateClaimCommandHandler(
                 IApplicationDbContext context,
                 IMapper mapper)
             {
                 _context = context ??
                     throw new ArgumentNullException(nameof(context));
-
+                
                 _mapper = mapper ??
                     throw new ArgumentNullException(nameof(mapper));
             }
 
             public async Task<ClaimOutDto> Handle(
-                GetByIdClaimQuery request, 
+                UpdateClaimCommand request, 
                 CancellationToken cancellationToken)
             {
                 var claimEntity = await _context.Claims
-                    .SingleOrDefaultAsync(w => w.RoleId == request.RoleId && w.Id == request.ClaimId);
+                    .SingleOrDefaultAsync(w => w.Id == request.ClaimId);
+                    
+                _mapper.Map(request.ClaimUpd, claimEntity);
+                await _context.SaveChangesAsync();
+
                 return _mapper.Map<ClaimOutDto>(claimEntity);
             }
         }

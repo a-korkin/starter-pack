@@ -30,30 +30,24 @@ namespace WebApi.Controllers.Admin
         [HttpPost]
         public async Task<ActionResult<ClaimOutDto>> CreateAsync(Guid roleId, ClaimInDto item)
         {
-            var itemToReturn = await Mediator.Send(new CreateClaimCommand { RoleId = roleId, ClaimIn = item });
+            var claim = await Mediator.Send(new CreateClaimCommand { RoleId = roleId, ClaimIn = item });
 
             return CreatedAtRoute("GetClaim",
-                new { roleId = roleId, claimId = itemToReturn.Id },
-                itemToReturn);
+                new { roleId = roleId, claimId = claim.Id },
+                claim);
         }
 
-        // [HttpPut("{itemId}")]
-        // public async Task<ActionResult<ClaimOutDto>> UpdateAsync(
-        //     Guid roleId,
-        //     Guid itemId, 
-        //     ClaimUpdDto item)
-        // {
-        //     if (await _unitOfWork.Repository<Claim>().ExistsByIdAsync(itemId))
-        //     {
-        //         var claimEntity = await _unitOfWork.Repository<Claim>().GetByIdAsync(itemId);
-        //         _mapper.Map(item, claimEntity);
-        //         await _unitOfWork.CompleteAsync();
+        [HttpPut("{claimId}")]
+        public async Task<ActionResult<ClaimOutDto>> UpdateAsync(
+            Guid roleId,
+            Guid claimId, 
+            ClaimUpdDto item)
+        {
+            var claim = Mediator.Send(new UpdateClaimCommand { RoleId = roleId, ClaimId = claimId, ClaimUpd = item });
+            if (claim == null)
+                return NotFound("Claim not found");
 
-        //         var claimToReturn = _mapper.Map<ClaimOutDto>(claimEntity);
-        //         return Ok(claimToReturn);
-        //     }
-
-        //     return NotFound("Claim not found");
-        // }
+            return Ok(claim);
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace Application.Features.Admin.Roles
     public class CreateClaimCommand : IRequest<ClaimOutDto>
     {
         public Guid RoleId { get; set; }
+        
         public ClaimInDto ClaimIn { get; set; }
 
         public class CreateClaimCommandHandler : IRequestHandler<CreateClaimCommand, ClaimOutDto>
