@@ -43,6 +43,21 @@ namespace WebApi
                 opts.AddPolicy("ClaimsRequired",
                     policy => policy.Requirements.Add(new UserClaimsRequirement()));
             });
+
+            // services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //     .AddJwtBearer(opt => 
+            //     {
+            //         opt.TokenValidationParameters = new TokenValidationParameters
+            //         {
+            //             ValidateIssuer = true,
+            //             ValidateAudience = true,
+            //             ValidateLifetime = true,
+            //             ValidateIssuerSigningKey = true,
+            //             ValidIssuer = Configuration["Jwt:Issuer"],
+            //             ValidAudience = Configuration["Jwt:Audience"],
+            //             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:AccessKey"]))
+            //         };
+            //     });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
