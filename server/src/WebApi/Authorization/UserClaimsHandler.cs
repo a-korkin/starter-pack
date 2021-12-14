@@ -64,8 +64,6 @@ namespace WebApi.Authorization
                         var userId = Guid.Parse(context.User.Claims.FirstOrDefault(c => c.Type == "id").Value);
                         var claims = Task.Run(async () => await GetClaims(userId)).Result;
 
-                        // Console.WriteLine($"controller: {controller}, action: {action}");
-
                         bool canCreate = CREATE_ACTION == action && claims.Any(a => a.Type.Schema == scheme && a.Type.Slug == controller && a.Create);
                         bool canRead = GET_ACTIONS.Contains(action) && claims.Any(a => a.Type.Schema == scheme && a.Type.Slug == controller && a.Read);
                         bool canUpdate = UPDATE_ACTION == action && claims.Any(a => a.Type.Schema == scheme && a.Type.Slug == controller && a.Update);

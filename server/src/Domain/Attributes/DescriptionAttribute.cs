@@ -1,23 +1,22 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Domain.Attributes
 {
-    public class DescriptionAttribute : System.Attribute
+    public class DescriptionAttribute : TableAttribute //System.Attribute
     {
-        public string Name { get; }
         public string Slug { get; }
-        public string Schema { get; }
-        public string TableName { get; }
+        public string RuName { get; }
         
         public DescriptionAttribute(
             string name,
             string slug,
             string schema,
-            string tableName
-        )
+            string ruName
+        ) : base(name)
         {
-            this.Name = name;
             this.Slug = slug;
-            this.Schema = schema;
-            this.TableName = tableName;
+            this.RuName = ruName;
+            base.Schema = schema;
         }
     }
 }

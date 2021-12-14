@@ -49,16 +49,16 @@ namespace Application.Features.Common.EntityTypes
                     if (attribute != null)
                     {
                         bool entityExists = existingEntityTypes
-                            .Any(a => a.Schema == attribute.Schema && a.TableName == attribute.TableName); 
+                            .Any(a => a.Schema == attribute.Schema && a.TableName == attribute.Name); 
 
                         if (!entityExists) 
                         {
                             var newEntity = new EntityType 
                             {
-                                Name = attribute.Name,
+                                Name = attribute.RuName,
                                 Slug = attribute.Slug,
                                 Schema = attribute.Schema,
-                                TableName = attribute.TableName
+                                TableName = attribute.Name
                             };
 
                             await _context.EntityTypes.AddAsync(newEntity);

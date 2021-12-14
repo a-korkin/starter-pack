@@ -46,7 +46,7 @@ namespace Infrastructure.Persistence
                         {
                             var entityType = await EntityTypes
                                 .Where(w => w.Schema == descriptionAttribute.Schema)
-                                .Where(w => w.TableName == descriptionAttribute.TableName)
+                                .Where(w => w.TableName == descriptionAttribute.Name)
                                 .FirstOrDefaultAsync();
 
                             var entity = new Entity

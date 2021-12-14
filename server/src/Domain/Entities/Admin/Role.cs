@@ -5,8 +5,7 @@ using Domain.Entities.Base;
 
 namespace Domain.Entities.Admin
 {
-    [Table("cd_roles", Schema = "admin")]
-    [Description(name: "роли", slug: "roles", schema: "admin", tableName: "cd_roles")]
+    [Description(name: "cd_roles", schema: "admin", slug: "roles", ruName: "роли")]
     public class Role : AuditedEntity
     {
         [Column("c_title")]

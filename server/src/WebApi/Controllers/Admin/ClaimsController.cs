@@ -45,7 +45,7 @@ namespace WebApi.Controllers.Admin
         {
             var claim = await Mediator.Send(new UpdateClaimCommand { RoleId = roleId, ClaimId = claimId, ClaimUpd = item });
             if (claim == null)
-                return NotFound("Claim not found");
+                return NotFound();
 
             return Ok(claim);
         }

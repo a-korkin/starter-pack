@@ -7,7 +7,7 @@ using Domain.Entities.Common;
 
 namespace Domain.Entities.Admin
 {
-    [Table("cd_claims", Schema = "admin")]
+    [Description(name: "cd_claims", schema: "admin", slug: "claims", ruName: "клэймы")]
     public class Claim : BaseEntity
     {
         [Column("f_type")]
