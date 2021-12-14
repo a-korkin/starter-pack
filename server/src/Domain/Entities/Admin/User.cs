@@ -7,7 +7,7 @@ using Domain.Entities.Base;
 
 namespace Domain.Entities.Admin
 {
-    [Description(name: "cd_users", schema: "admin", slug: "users", ruName: "пользователи", isEntity: true)]
+    [Description(name: "cd_users", schema: "admin", ruName: "пользователи", isEntity: true)]
     public class User : AuditedEntity 
     {
         [Column("c_username")]

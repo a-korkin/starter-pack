@@ -5,7 +5,7 @@ using Domain.Entities.Base;
 
 namespace Domain.Entities.Common
 {
-    [Description(name: "cs_entity_types", schema: "common", slug: "entity_types", ruName: "типы сущностей")]
+    [Description(name: "cs_entity_types", schema: "common", ruName: "типы сущностей")]
     public class EntityType : BaseEntity
     {
         [Column("c_name")]

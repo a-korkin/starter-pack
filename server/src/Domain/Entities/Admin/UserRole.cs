@@ -6,7 +6,7 @@ using Domain.Entities.Base;
 
 namespace Domain.Entities.Admin
 {
-    [Description(name: "cd_user_roles", schema: "admin", slug: "user_roles", ruName: "пользователи-роли")]
+    [Description(name: "cd_user_roles", schema: "admin", ruName: "пользователи-роли")]
     public class UserRole : BaseEntity
     {
         [Column("f_user")]

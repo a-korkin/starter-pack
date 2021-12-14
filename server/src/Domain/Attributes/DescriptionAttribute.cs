@@ -10,13 +10,12 @@ namespace Domain.Attributes
         
         public DescriptionAttribute(
             string name,
-            string slug,
             string schema,
             string ruName,
             bool isEntity = false
         ) : base(name)
         {
-            this.Slug = slug;
+            this.Slug = name.Substring(3);
             this.RuName = ruName;
             this.IsEntityPartition = isEntity;
             base.Schema = schema;
