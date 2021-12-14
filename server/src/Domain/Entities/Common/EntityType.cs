@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Domain.Attributes;
 using Domain.Entities.Base;
 
 namespace Domain.Entities.Common
 {
-    [Table("cs_entity_types", Schema = "common")]
+    [Description(name: "cs_entity_types", schema: "common", slug: "entity_types", ruName: "типы сущностей")]
     public class EntityType : BaseEntity
     {
         [Column("c_name")]

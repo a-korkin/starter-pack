@@ -55,16 +55,27 @@ CREATE TABLE admin.cd_claims (
     CONSTRAINT fk_cd_claims_cs_entity_types_f_type FOREIGN KEY (f_type) REFERENCES common.cs_entity_types (id) ON DELETE CASCADE
 );
 
+CREATE TABLE admin.cd_user_roles (
+    f_user uuid NOT NULL,
+    f_role uuid NOT NULL,
+    id uuid NOT NULL,
+    CONSTRAINT pk_cd_user_claims PRIMARY KEY (f_user, f_role),
+    CONSTRAINT fk_cd_user_roles_cd_users_f_role FOREIGN KEY (f_role) REFERENCES admin.cd_roles (id) ON DELETE CASCADE,
+    CONSTRAINT fk_cd_user_roles_cd_roles_f_user FOREIGN KEY (f_user) REFERENCES admin.cd_users (id) ON DELETE CASCADE
+);
+
 CREATE INDEX "IX_cd_claims_f_role" ON admin.cd_claims (f_role);
 
 CREATE INDEX "IX_cd_claims_f_type" ON admin.cd_claims (f_type);
 
 CREATE INDEX "IX_cd_roles_id_f_type" ON admin.cd_roles (id, f_type);
 
+CREATE INDEX "IX_cd_user_roles_f_role" ON admin.cd_user_roles (f_role);
+
 CREATE INDEX "IX_cd_users_id_f_type" ON admin.cd_users (id, f_type);
 
 CREATE INDEX "IX_cd_entities_f_type" ON common.cd_entities (f_type);
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20211212112515_InitialMigration', '3.1.3');
+VALUES ('20211214040852_InitialMigration', '3.1.3');
 

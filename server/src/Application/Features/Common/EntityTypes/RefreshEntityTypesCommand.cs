@@ -64,8 +64,11 @@ namespace Application.Features.Common.EntityTypes
                             await _context.EntityTypes.AddAsync(newEntity);
                             await _context.SaveChangesAsync();
 
-                            string query = $"CREATE TABLE common.cd_entities_{newEntity.Schema}_{newEntity.Slug} PARTITION OF common.cd_entities FOR VALUES IN ('{newEntity.Id}')";
-                            await _context.ExecuteSqlCommandAsync(query);
+                            if (attribute.IsEntityPartition)
+                            {
+                                string query = $"CREATE TABLE common.cd_entities_{newEntity.Schema}_{newEntity.Slug} PARTITION OF common.cd_entities FOR VALUES IN ('{newEntity.Id}')";
+                                await _context.ExecuteSqlCommandAsync(query);
+                            }
                         } 
                     }
                 }
