@@ -56,9 +56,9 @@ CREATE TABLE admin.cd_claims (
 );
 
 CREATE TABLE admin.cd_user_roles (
+    id uuid NOT NULL,
     f_user uuid NOT NULL,
     f_role uuid NOT NULL,
-    id uuid NOT NULL,
     CONSTRAINT pk_cd_user_claims PRIMARY KEY (f_user, f_role),
     CONSTRAINT fk_cd_user_roles_cd_users_f_role FOREIGN KEY (f_role) REFERENCES admin.cd_roles (id) ON DELETE CASCADE,
     CONSTRAINT fk_cd_user_roles_cd_roles_f_user FOREIGN KEY (f_user) REFERENCES admin.cd_users (id) ON DELETE CASCADE
