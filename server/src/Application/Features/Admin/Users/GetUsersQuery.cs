@@ -12,11 +12,8 @@ using MediatR;
 
 namespace Application.Features.Admin.Users
 {
-    public class GetUsersQuery : IRequest<PaginatedList<UserOutDto>>
+    public class GetUsersQuery : ResourceParameters, IRequest<PaginatedList<UserOutDto>>
     {
-        public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 20;
-
         public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PaginatedList<UserOutDto>>
         {
             private readonly IApplicationDbContext _context;
