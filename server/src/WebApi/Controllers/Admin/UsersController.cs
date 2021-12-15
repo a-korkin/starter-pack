@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Common.Models.DTO.Admin;
 using Application.Features.Admin.Users;
 using System.Collections.Generic;
+using Application.Common.Models.Helpers;
 
 namespace WebApi.Controllers.Admin
 {
@@ -11,9 +12,9 @@ namespace WebApi.Controllers.Admin
     public class UsersController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserOutDto>>> GetAllAsync()
+        public async Task<ActionResult<PaginatedList<UserOutDto>>> GetAllAsync()
         {
-            var users = await Mediator.Send(new GetAllUsersQuery());
+            var users = await Mediator.Send(new GetUsersQuery());
             return Ok(users);
         }
 

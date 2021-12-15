@@ -1,7 +1,7 @@
 using System.Linq;
 using AutoMapper;
 
-namespace Application.Common.Profiles.Admin
+namespace Application.Common.Mappings.Admin
 {
     public class RoleProfile : Profile
     {
@@ -9,11 +9,6 @@ namespace Application.Common.Profiles.Admin
         {
             CreateMap<Models.DTO.Admin.RoleInDto, Domain.Entities.Admin.Role>();
             CreateMap<Domain.Entities.Admin.Role, Models.DTO.Admin.RoleOutDto>();
-            // CreateMap<Domain.Entities.Admin.Role, Models.DTO.Admin.RoleOutItemDto>()
-            //     .ForMember(
-            //         d => d.Users,
-            //         o => o.MapFrom(s => s.Users.Select(x => x.User))
-            //     );
         }
     }
 }

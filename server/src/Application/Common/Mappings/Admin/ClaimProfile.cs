@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace Application.Common.Profiles.Admin
+namespace Application.Common.Mappings.Admin
 {
     public class ClaimProfile : Profile
     {

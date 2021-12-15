@@ -3,22 +3,26 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
+using Application.Common.Mappings;
 using Application.Common.Models.DTO.Admin;
+using Application.Common.Models.Helpers;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Admin.Users
 {
-    public class GetAllUsersQuery : IRequest<IEnumerable<UserOutDto>>
+    public class GetUsersQuery : IRequest<PaginatedList<UserOutDto>>
     {
-        public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserOutDto>>
+        public int PageNumber { get; set; } = 1;
+        public int PageSize { get; set; } = 20;
+
+        public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PaginatedList<UserOutDto>>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
 
-            public GetAllUsersQueryHandler(
+            public GetUsersQueryHandler(
                 IApplicationDbContext context,
                 IMapper mapper)
             {
@@ -29,12 +33,15 @@ namespace Application.Features.Admin.Users
                     throw new ArgumentNullException(nameof(mapper));
             }
 
-            public async Task<IEnumerable<UserOutDto>> Handle(
-                GetAllUsersQuery request,
+            public async Task<PaginatedList<UserOutDto>> Handle(
+                GetUsersQuery request,
                 CancellationToken cancellationToken)
             {
-                var userList = await _context.Users.ToListAsync();
-                return _mapper.Map<IEnumerable<UserOutDto>>(userList);
+                var userList = await _context.Users
+                    .ProjectTo<UserOutDto>(_mapper.ConfigurationProvider)
+                    .PaginatedListAsync(request.PageNumber, request.PageSize);
+
+                return userList;
             }
         }
     }

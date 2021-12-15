@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace Application.Common.Profiles.Common
+namespace Application.Common.Mappings.Common
 {
     public class EntityTypeProfile : Profile
     {
