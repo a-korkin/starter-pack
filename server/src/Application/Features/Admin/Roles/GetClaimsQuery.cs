@@ -4,23 +4,26 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Interfaces;
+using Application.Common.Mappings;
 using Application.Common.Models.DTO.Admin;
+using Application.Common.Models.Helpers;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Admin.Roles
 {
-    public class GetAllClaimsQuery : IRequest<IEnumerable<ClaimOutDto>>
+    public class GetClaimsQuery : ResourceParameters, IRequest<PaginatedList<ClaimOutDto>>
     {
         public Guid RoleId { get; set; }
 
-        public class GetAllClaimsQueryHandler : IRequestHandler<GetAllClaimsQuery, IEnumerable<ClaimOutDto>>
+        public class GetClaimsQueryHandler : IRequestHandler<GetClaimsQuery, PaginatedList<ClaimOutDto>>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
 
-            public GetAllClaimsQueryHandler(
+            public GetClaimsQueryHandler(
                 IApplicationDbContext context,
                 IMapper mapper)
             {
@@ -31,15 +34,14 @@ namespace Application.Features.Admin.Roles
                     throw new ArgumentNullException(nameof(mapper));
             }
 
-            public async Task<IEnumerable<ClaimOutDto>> Handle(
-                GetAllClaimsQuery request, 
+            public async Task<PaginatedList<ClaimOutDto>> Handle(
+                GetClaimsQuery request, 
                 CancellationToken cancellationToken)
             {
-                var claims = await _context.Claims
+                return await _context.Claims
                     .Where(w => w.RoleId == request.RoleId)
-                    .ToListAsync();
-                
-                return _mapper.Map<IEnumerable<ClaimOutDto>>(claims);
+                    .ProjectTo<ClaimOutDto>(_mapper.ConfigurationProvider)
+                    .PaginatedListAsync(request.PageNumber, request.PageSize);
             }
         }
     }

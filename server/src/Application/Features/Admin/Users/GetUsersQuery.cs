@@ -34,11 +34,9 @@ namespace Application.Features.Admin.Users
                 GetUsersQuery request,
                 CancellationToken cancellationToken)
             {
-                var userList = await _context.Users
+                return await _context.Users
                     .ProjectTo<UserOutDto>(_mapper.ConfigurationProvider)
                     .PaginatedListAsync(request.PageNumber, request.PageSize);
-
-                return userList;
             }
         }
     }

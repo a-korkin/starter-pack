@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Common.Models.DTO.Admin;
+using Application.Common.Models.Helpers;
 using Application.Features.Admin.Roles;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +12,12 @@ namespace WebApi.Controllers.Admin
     public class ClaimsController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ClaimOutDto>>> GetAllAsync(Guid roleId) 
+        public async Task<ActionResult<IEnumerable<ClaimOutDto>>> GetAllAsync(
+            [FromRoute] Guid roleId, 
+            [FromQuery] GetClaimsQuery query) 
         {
-            var claims = await Mediator.Send(new GetAllClaimsQuery { RoleId = roleId });
+            query.RoleId = roleId;
+            var claims = await Mediator.Send(query);
             return Ok(claims);
         }
 

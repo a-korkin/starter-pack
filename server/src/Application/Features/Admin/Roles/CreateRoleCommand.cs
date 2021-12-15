@@ -36,7 +36,6 @@ namespace Application.Features.Admin.Roles
             {
                 var role = _mapper.Map<Role>(request.RoleIn);
                 await _context.Roles.AddAsync(role);
-                
 
                 await _context.SaveChangesAsync();
                 role = await _context.Roles.FirstOrDefaultAsync(w => w.Id == role.Id);

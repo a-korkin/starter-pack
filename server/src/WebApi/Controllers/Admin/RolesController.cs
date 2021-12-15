@@ -11,9 +11,9 @@ namespace WebApi.Controllers.Admin
     public class RolesController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RoleOutDto>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<RoleOutDto>>> GetAllAsync([FromQuery] GetRolesQuery query)
         {
-            var roles = await Mediator.Send(new GetAllRolesQuery());
+            var roles = await Mediator.Send(query);
             return Ok(roles);
         }
 
