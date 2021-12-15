@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Common.Interfaces;
 using Application.Common.Models.DTO.Admin;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
