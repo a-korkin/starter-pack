@@ -19,9 +19,9 @@ namespace WebApi.Controllers.Admin
         }
 
         [HttpGet("{id}", Name = "GetUser")]
-        public async Task<ActionResult<UserOutDto>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<UserOutDto>> GetByIdAsync([FromRoute] GetByIdUserQuery query)
         {
-            var user = await Mediator.Send(new GetByIdUserQuery { Id = id });
+            var user = await Mediator.Send(query);
             if (user != null)
                 return Ok(user);
             
