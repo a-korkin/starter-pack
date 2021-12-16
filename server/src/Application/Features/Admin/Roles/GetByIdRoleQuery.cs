@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Admin.Roles
 {
-    public class GetByIdRoleQuery : IRequest<RoleOutItemDto>
+    public class GetByIdRoleQuery : IRequest<RoleOutDto>
     {
         public Guid Id { get; set; }
 
-        public class GetByIdRoleQueryHandler : IRequestHandler<GetByIdRoleQuery, RoleOutItemDto>
+        public class GetByIdRoleQueryHandler : IRequestHandler<GetByIdRoleQuery, RoleOutDto>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
@@ -29,13 +29,13 @@ namespace Application.Features.Admin.Roles
                     throw new ArgumentNullException(nameof(mapper));
             }
 
-            public async Task<RoleOutItemDto> Handle(
+            public async Task<RoleOutDto> Handle(
                 GetByIdRoleQuery request, 
                 CancellationToken cancellationToken)
             {
                 var roleEntity = await _context.Roles
                     .SingleOrDefaultAsync(w => w.Id == request.Id);
-                return _mapper.Map<RoleOutItemDto>(roleEntity);
+                return _mapper.Map<RoleOutDto>(roleEntity);
             }
         }
     }

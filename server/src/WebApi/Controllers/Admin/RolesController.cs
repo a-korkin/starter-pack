@@ -18,9 +18,9 @@ namespace WebApi.Controllers.Admin
         }
 
         [HttpGet("{id}", Name = "GetRole")]
-        public async Task<IActionResult> GetByIdAsync(Guid id)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] GetByIdRoleQuery query)
         {
-            var entityToReturn = await Mediator.Send(new GetByIdRoleQuery {Id = id});
+            var entityToReturn = await Mediator.Send(query);
 
             if (entityToReturn != null)
                 return Ok(entityToReturn);
@@ -29,7 +29,7 @@ namespace WebApi.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(RoleInDto item)
+        public async Task<IActionResult> CreateAsync([FromBody] RoleInDto item)
         {
             var entityToReturn = await Mediator.Send(new CreateRoleCommand { RoleIn = item });
 
@@ -39,9 +39,9 @@ namespace WebApi.Controllers.Admin
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] DeleteRoleCommand command)
         {
-            if (await Mediator.Send(new DeleteRoleCommand { Id = id}))
+            if (await Mediator.Send(command))
                 return NoContent();
             
             return NotFound();

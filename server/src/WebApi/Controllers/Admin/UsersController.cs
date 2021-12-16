@@ -29,7 +29,7 @@ namespace WebApi.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserOutDto>> CreateAsync(UserInDto user)
+        public async Task<ActionResult<UserOutDto>> CreateAsync([FromBody] UserInDto user)
         {
             var userToReturn = await Mediator.Send(new CreateUserCommand { UserIn = user});
             
@@ -40,9 +40,9 @@ namespace WebApi.Controllers.Admin
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(Guid id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] DeleteUserCommand command)
         {
-            if (await Mediator.Send(new DeleteUserCommand { Id = id })) 
+            if (await Mediator.Send(command)) 
                 return NoContent();
             
             return NotFound();

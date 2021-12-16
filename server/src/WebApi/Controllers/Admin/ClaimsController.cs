@@ -22,9 +22,9 @@ namespace WebApi.Controllers.Admin
         }
 
         [HttpGet("{claimId}", Name = "GetClaim")]
-        public async Task<ActionResult<ClaimOutDto>> GetByIdAsync(Guid roleId, Guid claimId)
+        public async Task<ActionResult<ClaimOutDto>> GetByIdAsync([FromRoute] GetByIdClaimQuery query)
         {
-            var claim = await Mediator.Send(new GetByIdClaimQuery { RoleId = roleId, ClaimId = claimId });
+            var claim = await Mediator.Send(query);
             if (claim == null)
                 return NotFound();
 
@@ -32,7 +32,9 @@ namespace WebApi.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<ActionResult<ClaimOutDto>> CreateAsync(Guid roleId, ClaimInDto item)
+        public async Task<ActionResult<ClaimOutDto>> CreateAsync(
+            [FromRoute] Guid roleId, 
+            [FromBody] ClaimInDto item)
         {
             var claim = await Mediator.Send(new CreateClaimCommand { RoleId = roleId, ClaimIn = item });
 
@@ -43,9 +45,9 @@ namespace WebApi.Controllers.Admin
 
         [HttpPut("{claimId}")]
         public async Task<ActionResult<ClaimOutDto>> UpdateAsync(
-            Guid roleId,
-            Guid claimId, 
-            ClaimUpdDto item)
+            [FromRoute] Guid roleId,
+            [FromRoute] Guid claimId, 
+            [FromBody] ClaimUpdDto item)
         {
             var claim = await Mediator.Send(new UpdateClaimCommand { RoleId = roleId, ClaimId = claimId, ClaimUpd = item });
             if (claim == null)
