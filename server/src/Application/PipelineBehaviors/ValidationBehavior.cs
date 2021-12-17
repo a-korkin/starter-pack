@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
+using ValidationException = Application.Common.Exceptions.ValidationException;
 
 namespace Application.PipelineBehaviors
 {
@@ -29,9 +30,10 @@ namespace Application.PipelineBehaviors
                 var failures = validationResult
                     .SelectMany(r => r.Errors)
                     .Where(w => w != null).ToList();
-                    
+
                 if (failures.Any())
-                    throw new FluentValidation.ValidationException(failures);
+                    throw new ValidationException(failures);
+                    // throw new FluentValidation.ValidationException(failures);
             }
 
             return await next();
