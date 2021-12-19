@@ -76,11 +76,12 @@ namespace WebApi.Filters
         private void HandleValidationException(ExceptionContext context)
         {
             var exception = (ValidationException)context.Exception;
+
             var problemDetails = new ValidationProblemDetails(exception.Errors)
             {
-                Title = "One or more model validtion errors occured",
+                Title = exception.Message, 
                 Status = StatusCodes.Status422UnprocessableEntity,
-                Detail = "See the errors property for details",
+                Detail = "See the errors property for details.",
                 Instance = context.HttpContext.Request.Path
             };
 

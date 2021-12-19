@@ -33,7 +33,6 @@ namespace Application.PipelineBehaviors
 
                 if (failures.Any())
                     throw new ValidationException(failures);
-                    // throw new FluentValidation.ValidationException(failures);
             }
 
             return await next();
