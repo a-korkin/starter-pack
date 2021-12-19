@@ -1,9 +1,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models.DTO.Admin;
 using AutoMapper;
+using Domain.Entities.Admin;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +37,10 @@ namespace Application.Features.Admin.Roles
             {
                 var roleEntity = await _context.Roles
                     .SingleOrDefaultAsync(w => w.Id == request.Id);
+
+                if (roleEntity == null)
+                    throw new NotFoundException(name: typeof(Role).FullName, key: request.Id);
+                    
                 return _mapper.Map<RoleOutDto>(roleEntity);
             }
         }
