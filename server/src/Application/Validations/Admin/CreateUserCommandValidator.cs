@@ -10,7 +10,7 @@ namespace Application.Validations.Admin
             RuleFor(x => x.UserIn.UserName).NotEmpty();
             RuleFor(x => x.UserIn.Password).NotEmpty();
             RuleFor(x => x.UserIn.ConfirmPassword).NotEmpty();
-            RuleFor(x => x.UserIn.ConfirmPassword).Equal(x => x.UserIn.Password).WithMessage("Password must be equal");
+            RuleFor(x => x.UserIn.ConfirmPassword).Equal(x => x.UserIn.Password);
         }
     }
 }

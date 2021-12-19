@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 using WebApi.Authorization;
 using Microsoft.AspNetCore.Http;
 using FluentValidation.AspNetCore;
+using WebApi.Filters;
 
 namespace WebApi
 {
@@ -33,26 +34,8 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddControllers(opt => opt.Filters.Add<ApiExceptionFilterAttribute>())
-            //     .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
-
-            services.AddControllers()
-                .ConfigureApiBehaviorOptions(opt => 
-                opt.InvalidModelStateResponseFactory = ctx => 
-                {
-                    var problemDetails = new ValidationProblemDetails(ctx.ModelState)
-                    {
-                        Title = "One or more model validtion errors occured",
-                        Status = StatusCodes.Status422UnprocessableEntity,
-                        Detail = "See the errors property for details",
-                        Instance = ctx.HttpContext.Request.Path
-                    };
-
-                    return new UnprocessableEntityObjectResult(problemDetails)
-                    {
-                        ContentTypes = { "application/problem+json" }
-                    };
-                });
+            services.AddControllers(opt => opt.Filters.Add<ApiExceptionFilterAttribute>())
+                .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
  
             services.AddInfrastructure(Configuration);
 
