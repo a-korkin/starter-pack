@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import TopPanel from "../TopPanel";
 import Sidebar from "../Sidebar";
+import Content from "../Content";
 
 import "./App.scss";
 
@@ -11,7 +12,7 @@ const App: React.FC = () => {
         <div className={collapse ? "container collapsed" : "container"}>
             <TopPanel collapseSidebar={setCollapse} />
             <Sidebar collapse={collapse} />
-            <div className="content">This is content</div>
+            <Content />
         </div>
     );
 }
