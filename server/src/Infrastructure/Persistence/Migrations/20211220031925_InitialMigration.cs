@@ -130,9 +130,9 @@ namespace Infrastructure.Persistence.Migrations
                 schema: "admin",
                 columns: table => new
                 {
+                    id = table.Column<Guid>(nullable: false),
                     f_user = table.Column<Guid>(nullable: false),
-                    f_role = table.Column<Guid>(nullable: false),
-                    id = table.Column<Guid>(nullable: false)
+                    f_role = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -154,37 +154,37 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_cd_claims_f_role",
+                name: "ix_cd_claims_f_role",
                 schema: "admin",
                 table: "cd_claims",
                 column: "f_role");
 
             migrationBuilder.CreateIndex(
-                name: "IX_cd_claims_f_type",
+                name: "ix_cd_claims_f_type",
                 schema: "admin",
                 table: "cd_claims",
                 column: "f_type");
 
             migrationBuilder.CreateIndex(
-                name: "IX_cd_roles_id_f_type",
+                name: "ix_cd_roles_id_f_type",
                 schema: "admin",
                 table: "cd_roles",
                 columns: new[] { "id", "f_type" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_cd_user_roles_f_role",
+                name: "ix_cd_user_roles_f_role",
                 schema: "admin",
                 table: "cd_user_roles",
                 column: "f_role");
 
             migrationBuilder.CreateIndex(
-                name: "IX_cd_users_id_f_type",
+                name: "ix_cd_users_id_f_type",
                 schema: "admin",
                 table: "cd_users",
                 columns: new[] { "id", "f_type" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_cd_entities_f_type",
+                name: "ix_cd_entities_f_type",
                 schema: "common",
                 table: "cd_entities",
                 column: "f_type");
