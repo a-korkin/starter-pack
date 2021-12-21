@@ -47,6 +47,14 @@ namespace WebApi
                 opts.AddPolicy("ClaimsRequired",
                     policy => policy.Requirements.Add(new UserClaimsRequirement()));
             });
+
+            services.AddCors(o => o.AddPolicy("ClientPolicy", builder => 
+            {
+                builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +64,8 @@ namespace WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("ClientPolicy");
 
             app.UseHttpsRedirection();
 
