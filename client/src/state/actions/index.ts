@@ -1,4 +1,5 @@
-import { EntityTypeModel } from "../../models/common/EntityTypeModel";
+// import { EntityTypeModel } from "../../models/common/EntityTypeModel";
+import { PaginatedList } from "../../models/PaginatedList";
 import { ActionType } from "../action-types";
 
 interface FetchEntityTypesAction {
@@ -7,7 +8,7 @@ interface FetchEntityTypesAction {
 
 interface FetchEntityTypesSuccessAction {
     type: ActionType.FETCH_ENTITY_TYPES_SUCCESS;
-    payload: EntityTypeModel[];
+    payload: PaginatedList;
 }
 
 interface FetchEntityTypesErrorAction {
