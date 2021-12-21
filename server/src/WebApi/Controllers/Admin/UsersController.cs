@@ -12,7 +12,8 @@ namespace WebApi.Controllers.Admin
     public class UsersController : ApiControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<PaginatedList<UserOutDto>>> GetAllAsync([FromQuery] GetUsersQuery query)
+        public async Task<ActionResult<PaginatedList<UserOutDto>>> GetAllAsync(
+            [FromQuery] GetUsersQuery query)
         {
             var users = await Mediator.Send(query);
             return Ok(users);
