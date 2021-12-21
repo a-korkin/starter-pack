@@ -1,4 +1,4 @@
-import { EntityType } from "../../models/common/EntityType";
+import { EntityTypeModel } from "../../models/common/EntityTypeModel";
 import { ActionType } from "../action-types";
 
 interface FetchEntityTypesAction {
@@ -7,7 +7,7 @@ interface FetchEntityTypesAction {
 
 interface FetchEntityTypesSuccessAction {
     type: ActionType.FETCH_ENTITY_TYPES_SUCCESS;
-    payload: EntityType[];
+    payload: EntityTypeModel[];
 }
 
 interface FetchEntityTypesErrorAction {

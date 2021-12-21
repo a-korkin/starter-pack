@@ -1,11 +1,11 @@
-import { EntityType } from "../../models/common/EntityType";
+import { EntityTypeModel } from "../../models/common/EntityTypeModel";
 import { ActionType } from "../action-types";
 import { Action } from "../actions";
 
 interface EntityTypesState {
     isLoading: boolean;
     error: string | null;
-    data: EntityType[];
+    data: EntityTypeModel[];
 }
 
 const initialState: EntityTypesState = {

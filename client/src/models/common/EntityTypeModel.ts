@@ -1,4 +1,4 @@
-export interface EntityType {
+export interface EntityTypeModel {
     id: string;
     name: string;
     slug: string;
