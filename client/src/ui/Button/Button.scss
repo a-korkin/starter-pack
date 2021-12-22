@@ -1,0 +1,56 @@
+.btn {
+    color: #fff;
+    font-family: inherit;    
+    font-weight: 700;
+    outline: none;
+    padding: .8rem 1.6rem;
+    border: none;
+    border-radius: .6rem;
+    transition: all .1s;
+    cursor: pointer;
+
+    &:active {
+        transform: translateY(.15rem);
+    }
+
+    &-default {
+        background-color: #dddee0;
+        color: #444546;
+
+        &:hover {
+            background-color: #cccdcf;
+        }
+    }
+
+    &-info {
+        background-color: #1678C2;
+
+        &:hover {
+            background-color: #1369aa;
+        }
+    }
+
+    &-danger {
+        background-color: #dd0b0b;
+
+        &:hover {
+            background-color: #c90909;
+        }
+    }
+
+    &-warning {
+        background-color: #eea13b;
+
+        &:hover {
+            background-color: #da9336;
+        }
+    }
+
+    &-success {
+        background-color: #26be26;
+
+        &:hover {
+            background-color: #1fa31f;
+        }
+    }
+}
