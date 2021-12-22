@@ -1,4 +1,4 @@
-// import { EntityTypeModel } from "../../models/common/EntityTypeModel";
+import { EntityTypeModel } from "../../models/common/EntityTypeModel";
 import { PaginatedList } from "../../models/PaginatedList";
 import { ActionType } from "../action-types";
 import { Action } from "../actions";
@@ -6,13 +6,13 @@ import { Action } from "../actions";
 interface EntityTypesState {
     isLoading: boolean;
     error: string | null;
-    data: PaginatedList;
+    data: PaginatedList<EntityTypeModel>;
 }
 
 const initialState: EntityTypesState = {
     isLoading: false,
     error: null,
-    data: {} as PaginatedList
+    data: {} as PaginatedList<EntityTypeModel>
 }
 
 const entityTypesReducer = (state: EntityTypesState = initialState, action: Action): EntityTypesState => {
