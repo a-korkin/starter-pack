@@ -4,24 +4,24 @@ import "./Input.scss";
 
 interface IInputProps {
     id: string;
-    variant?: string;
     label: string;
+    variant?: string;
 }
 
-const Input: React.FC<IInputProps> = ({id, variant, label}) => {
+const Input: React.FC<IInputProps> = ({id, label, variant}) => {
     return (
-        <div className="input-group">
+        <div className="input">
             <input 
                 id={id} 
                 type="text" 
                 name={id} 
                 placeholder={label}
-                className="input-group__field"
+                className="input__field"
             />
-            
+
             <label 
                 htmlFor={id}
-                className="input-group__label"
+                className="input__label"
             >
                 {label}
             </label>

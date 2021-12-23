@@ -1,6 +1,7 @@
-.input-group {
+.input {
     display: flex;
     flex-direction: column;
+    position: relative;
 
     &__field {
         font-family: inherit;

@@ -1,0 +1,36 @@
+.input--select {
+    &__icon {
+        font-size: 2rem;
+        position: absolute;
+        right: 1rem;
+        top: 2.8rem;
+        cursor: pointer;
+        display: flex;
+
+        &.visible {
+            transform: rotate(90deg);
+        }
+    }
+
+    .select-options {
+        background-color: #fff;
+        border: .1rem solid #ccc;
+        border-radius: .5rem;
+        position: absolute;
+        width: 100%;
+        top: 6rem;
+
+        &.hide {
+            display: none;
+        }
+
+        &__item {
+            padding: .8rem 1rem;
+            cursor: pointer;
+
+            &:hover {
+                background-color: orange;
+            }
+        }
+    }
+}
