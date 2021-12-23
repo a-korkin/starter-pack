@@ -10,10 +10,10 @@
     cursor: pointer;
 
     &:active {
-        transform: translateY(.15rem);
+        transform: translateY(.2rem);
     }
 
-    &-default {
+    &--default {
         background-color: #dddee0;
         color: #444546;
 
@@ -22,7 +22,7 @@
         }
     }
 
-    &-info {
+    &--info {
         background-color: #1678C2;
 
         &:hover {
@@ -30,7 +30,7 @@
         }
     }
 
-    &-danger {
+    &--danger {
         background-color: #dd0b0b;
 
         &:hover {
@@ -38,7 +38,7 @@
         }
     }
 
-    &-warning {
+    &--warning {
         background-color: #eea13b;
 
         &:hover {
@@ -46,7 +46,7 @@
         }
     }
 
-    &-success {
+    &--success {
         background-color: #26be26;
 
         &:hover {

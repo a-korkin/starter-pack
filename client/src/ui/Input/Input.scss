@@ -1,0 +1,30 @@
+.input-group {
+    display: flex;
+    flex-direction: column;
+
+    &__field {
+        font-family: inherit;
+        outline: none;
+        padding: .8rem 1rem;
+        border-radius: .5rem;
+        border: .1rem solid #ccc;
+        flex: 1;
+        
+        &:focus {
+            border: .1rem solid #53b3f3;
+        }
+    }
+
+    &__label {
+        margin-left: 1rem;
+        display: block;
+        order: -1;
+        transition: all .3s;
+        opacity: 1;
+    }
+
+    &__field:placeholder-shown + &__label {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+}
