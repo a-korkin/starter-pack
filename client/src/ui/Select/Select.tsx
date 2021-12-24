@@ -7,12 +7,14 @@ import "./Select.scss";
 interface ISelectProps {
     id: string;
     label: string;
-    variant?: string;
     options: IDictionary[];
+    variant?: string;
+    currentValue?: IDictionary;
+    onChange: (value: IDictionary) => void;
 }
 
-const Select: React.FC<ISelectProps> = ({id, label, variant, options}) => {
-    const [term, setTerm] = useState<string>("");
+const Select: React.FC<ISelectProps> = ({id, label, options, currentValue, onChange}) => {
+    const [term, setTerm] = useState<string>(currentValue !== undefined ? currentValue.value : "");
     const [visible, setVisible] = useState<boolean>(false);
     const [opts, setOpts] = useState<IDictionary[]>(options);
     
@@ -34,9 +36,10 @@ const Select: React.FC<ISelectProps> = ({id, label, variant, options}) => {
             searchInput.current?.blur();
     }
 
-    const optionSelectHandler = (e: React.MouseEvent<HTMLDivElement>, key: string, value: string) => {
+    const optionSelectHandler = (e: React.MouseEvent<HTMLDivElement>, val: IDictionary) => {
         setFocus();
-        setTerm(value);
+        setTerm(val.value);
+        onChange(val);
     }
 
     return (
@@ -70,13 +73,13 @@ const Select: React.FC<ISelectProps> = ({id, label, variant, options}) => {
 
             <div className={visible ? "select-options" : "select-options hide"}>
                 {
-                    opts.map(({id, value}) => 
+                    opts.map((o) => 
                         <div 
-                            key={id}
+                            key={o.id}
                             className="select-options__item"
-                            onClick={e => optionSelectHandler(e, id, value)}
+                            onClick={e => optionSelectHandler(e, o)}
                         >
-                            {value}
+                            {o.value}
                         </div>
                     )
                 }

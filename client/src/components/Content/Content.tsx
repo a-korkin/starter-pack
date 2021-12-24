@@ -14,6 +14,9 @@ const Content: React.FC = () => {
         {id: "4", value: "Нижний Новгород"},
     ];
     
+    const changeSelectOptionHandler = (option: IDictionary) => {
+        console.log(option.value);
+    }
 
     return (
         <div className="content">
@@ -27,7 +30,9 @@ const Content: React.FC = () => {
             <Select 
                 id="45ddc1c0-fbee-481c-b9c0-c3f4da477d9c" 
                 label="Город"
+                currentValue={selectOptions[2]}
                 options={selectOptions}
+                onChange={changeSelectOptionHandler}
             />
         </div>
     );
