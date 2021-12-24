@@ -1,4 +1,5 @@
 import React from "react";
+import { IDictionary } from "../../models/IDictionary";
 import Button from "../../ui/Button";
 import Input from "../../ui/Input";
 import Select from "../../ui/Select";
@@ -6,12 +7,12 @@ import Select from "../../ui/Select";
 import "./Content.scss";
 
 const Content: React.FC = () => {
-    const selectOptions = new Map<string, string>([
-        ["1", "Москва"],
-        ["2", "Минск"],
-        ["3", "Киев"],
-        ["4", "Нижний Новгород"]
-    ]);
+    const selectOptions: IDictionary[] = [
+        {id: "1", value: "Москва"},
+        {id: "2", value: "Минск"},
+        {id: "3", value: "Киев"},
+        {id: "4", value: "Нижний Новгород"},
+    ];
     
 
     return (

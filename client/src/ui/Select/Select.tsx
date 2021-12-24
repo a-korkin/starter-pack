@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
+import { IDictionary } from "../../models/IDictionary";
 
 import "./Select.scss";
 
@@ -7,16 +8,22 @@ interface ISelectProps {
     id: string;
     label: string;
     variant?: string;
-    options: Map<string, string>;
+    options: IDictionary[];
 }
 
 const Select: React.FC<ISelectProps> = ({id, label, variant, options}) => {
-    const [value, setValue] = useState<string>("");
+    const [term, setTerm] = useState<string>("");
     const [visible, setVisible] = useState<boolean>(false);
+    const [opts, setOpts] = useState<IDictionary[]>(options);
+    
     const searchInput = useRef<HTMLInputElement>(null);
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.currentTarget.value);
+        const _term = e.currentTarget.value;
+        setTerm(_term);
+        const findedOptions = options.filter(({value}) => value.toLowerCase().includes(_term.toLowerCase()));
+        setOpts(findedOptions);
+        setVisible(findedOptions.length > 0);
     }
 
     const setFocus = () => {
@@ -29,7 +36,7 @@ const Select: React.FC<ISelectProps> = ({id, label, variant, options}) => {
 
     const optionSelectHandler = (e: React.MouseEvent<HTMLDivElement>, key: string, value: string) => {
         setFocus();
-        setValue(value);
+        setTerm(value);
     }
 
     return (
@@ -46,8 +53,9 @@ const Select: React.FC<ISelectProps> = ({id, label, variant, options}) => {
                 type="text" 
                 name={id} 
                 placeholder={label}
+                autoComplete="off"
                 className="input__field"
-                value={value}
+                value={term}
                 ref={searchInput}
                 onChange={e => changeHandler(e)}
                 onClick={setFocus}
@@ -62,11 +70,11 @@ const Select: React.FC<ISelectProps> = ({id, label, variant, options}) => {
 
             <div className={visible ? "select-options" : "select-options hide"}>
                 {
-                    Array.from(options).map(([key, value]) => 
+                    opts.map(({id, value}) => 
                         <div 
-                            key={key}
+                            key={id}
                             className="select-options__item"
-                            onClick={e => optionSelectHandler(e, key, value)}
+                            onClick={e => optionSelectHandler(e, id, value)}
                         >
                             {value}
                         </div>
