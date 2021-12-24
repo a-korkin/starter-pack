@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 
 import "./Select.scss";
@@ -13,20 +13,31 @@ interface ISelectProps {
 const Select: React.FC<ISelectProps> = ({id, label, variant, options}) => {
     const [value, setValue] = useState<string>("");
     const [visible, setVisible] = useState<boolean>(false);
+    const searchInput = useRef<HTMLInputElement>(null);
 
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.currentTarget.value);
+        setValue(e.currentTarget.value);
     }
 
-    const clickArrowHandler = (e: React.MouseEvent<HTMLSpanElement>) => {
+    const setFocus = () => {
         setVisible(!visible);
+        if (!visible)
+            searchInput.current?.focus();
+        else 
+            searchInput.current?.blur();
+    }
+
+    const optionSelectHandler = (e: React.MouseEvent<HTMLDivElement>, key: string, value: string) => {
+        setFocus();
+        setValue(value);
     }
 
     return (
         <div className="input input--select">
             <span 
                 className={visible ? "input--select__icon visible" : "input--select__icon"}
-                onClick={e => clickArrowHandler(e)}>
+                onClick={setFocus}
+            >
                 <FaAngleDown />
             </span>
 
@@ -37,7 +48,9 @@ const Select: React.FC<ISelectProps> = ({id, label, variant, options}) => {
                 placeholder={label}
                 className="input__field"
                 value={value}
+                ref={searchInput}
                 onChange={e => changeHandler(e)}
+                onClick={setFocus}
             />
 
             <label 
@@ -53,6 +66,7 @@ const Select: React.FC<ISelectProps> = ({id, label, variant, options}) => {
                         <div 
                             key={key}
                             className="select-options__item"
+                            onClick={e => optionSelectHandler(e, key, value)}
                         >
                             {value}
                         </div>
