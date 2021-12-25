@@ -30,13 +30,25 @@ const DropDown: React.FC<IDropDownProps> = ({id, label, options, currentValue, m
 
     const optionSelectHandler = (e: React.MouseEvent<HTMLDivElement>, option: IDictionary) => {
         setFocus();
+        
         setSelectedOptions(prev => {
             return [...prev, option];
         });
 
         setVisibleOptions(prev => {
             return [...prev.slice(0, prev.findIndex(a => a.id === option.id)),
-                    ...prev.slice(prev.findIndex(a => a.id === option.id) + 1)]
+                    ...prev.slice(prev.findIndex(a => a.id === option.id) + 1)];
+        });
+    }
+
+    const removeOptionHandler = (e: React.MouseEvent<HTMLSpanElement>, option: IDictionary) => {
+        setVisibleOptions(prev => {
+            return [...prev, option];
+        });
+
+        setSelectedOptions(prev => {
+            return [...prev.slice(0, prev.findIndex(a => a.id === option.id)),
+                    ...prev.slice(prev.findIndex(a => a.id === option.id) + 1)];
         });
     }
 
@@ -60,7 +72,18 @@ const DropDown: React.FC<IDropDownProps> = ({id, label, options, currentValue, m
                 <div className="select__group-options">
                     {
                         selectedOptions.map((option) => 
-                            <div key={option.id} className="selected-option">{option.value}</div>
+                            <div 
+                                key={option.id} 
+                                className="selected-option"
+                            >
+                                {option.value}
+                                <span
+                                    className="selected-option__remove"
+                                    onClick={e => removeOptionHandler(e, option)}
+                                >
+                                    &times;
+                                </span>
+                            </div>
                         )
                     }
                 </div>
@@ -79,13 +102,13 @@ const DropDown: React.FC<IDropDownProps> = ({id, label, options, currentValue, m
             
             <div className={visible ? "select__options-list" : "select__options-list hide"}>
                 {
-                    visibleOptions.map((o) => 
+                    visibleOptions.map((option) => 
                         <div
-                            key={o.id}
+                            key={option.id}
                             className="select__options-list-item"
-                            onClick={e => optionSelectHandler(e, o)}
+                            onClick={e => optionSelectHandler(e, option)}
                         >
-                            {o.value}
+                            {option.value}
                         </div>
                     )
                 }

@@ -32,9 +32,18 @@
                 padding: .3rem .5rem;
                 border-radius: .5rem;
                 cursor: pointer;
+                align-items: center;
+                display: flex;
 
                 &:not(:last-child) {
                     margin-right: .3rem;
+                }
+
+                &__remove {
+                    display: flex;
+                    margin-left: .3rem;
+                    font-size: 1.8rem;
+                    font-weight: 900;
                 }
             }
         }
