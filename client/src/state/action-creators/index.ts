@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import $api from "../../http";
-import { PaginatedList } from "../../models/PaginatedList";
+import { PaginatedList } from "../../models/base/PaginatedList";
 import { EntityTypeModel } from "../../models/common/EntityTypeModel";
 import { ActionType } from "../action-types";
 import { Action } from "../actions";

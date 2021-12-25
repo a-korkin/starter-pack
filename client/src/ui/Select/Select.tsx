@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import { IDictionary } from "../../models/IDictionary";
+import { IDictionary } from "../../models/base/IDictionary";
 
 import "./Select.scss";
 
@@ -10,10 +10,11 @@ interface ISelectProps {
     options: IDictionary[];
     variant?: string;
     currentValue?: IDictionary;
-    onChange: (value: IDictionary) => void;
+    multiple?: boolean;
+    onChange: (isMultiple: boolean, value: IDictionary[]) => void;
 }
 
-const Select: React.FC<ISelectProps> = ({id, label, options, currentValue, onChange}) => {
+const Select: React.FC<ISelectProps> = ({id, label, options, currentValue, multiple = false, onChange}) => {
     const [term, setTerm] = useState<string>(currentValue !== undefined ? currentValue.value : "");
     const [visible, setVisible] = useState<boolean>(false);
     const [opts, setOpts] = useState<IDictionary[]>(options);
@@ -39,7 +40,7 @@ const Select: React.FC<ISelectProps> = ({id, label, options, currentValue, onCha
     const optionSelectHandler = (e: React.MouseEvent<HTMLDivElement>, val: IDictionary) => {
         setFocus();
         setTerm(val.value);
-        onChange(val);
+        onChange(false, [val]);
     }
 
     return (

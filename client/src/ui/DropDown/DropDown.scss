@@ -1,0 +1,52 @@
+.select {
+    position: relative;
+
+    &__group {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        padding: 0 1rem;
+        border-radius: .5rem;
+        border: .1rem solid #ccc;
+
+        &-options {
+            display: flex;
+            .selected-option {
+                background-color: #dfdddd;
+                padding: .5rem;
+                border-radius: .5rem;
+
+                &:not(:last-child) {
+                    margin-right: .3rem;
+                }
+            }
+        }
+
+        &-field {
+            font-family: inherit;
+            outline: none;
+            padding: .8rem 1rem;
+            border: none;
+        }
+    }
+
+    &__options-list {
+        width: 100%;
+        top: 4rem;
+        background-color: #fff;
+        border: .1rem solid #ccc;
+        border-radius: .5rem;
+        position: absolute;
+        max-height: 15rem;
+        overflow: auto;
+
+        &-item {
+            padding: .8rem 1rem;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #e6e1e1;
+            }
+        }
+    }
+}

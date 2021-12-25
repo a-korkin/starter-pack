@@ -1,5 +1,5 @@
 import { EntityTypeModel } from "../../models/common/EntityTypeModel";
-import { PaginatedList } from "../../models/PaginatedList";
+import { PaginatedList } from "../../models/base/PaginatedList";
 import { ActionType } from "../action-types";
 
 interface FetchEntityTypesAction {
