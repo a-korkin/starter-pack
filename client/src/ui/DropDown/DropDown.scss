@@ -9,12 +9,29 @@
         border-radius: .5rem;
         border: .1rem solid #ccc;
 
+        &__icon {
+            font-size: 2rem;
+            position: absolute;
+            right: 1rem;
+            top: 2.8rem;
+            cursor: pointer;
+            display: flex;
+    
+            transition: all .1s;
+    
+            &.visible {
+                transform: rotate(90deg);
+            }
+        }
+
         &-options {
             display: flex;
+
             .selected-option {
                 background-color: #dfdddd;
-                padding: .5rem;
+                padding: .3rem .5rem;
                 border-radius: .5rem;
+                cursor: pointer;
 
                 &:not(:last-child) {
                     margin-right: .3rem;
@@ -27,18 +44,23 @@
             outline: none;
             padding: .8rem 1rem;
             border: none;
+            width: 100%;
         }
     }
 
     &__options-list {
         width: 100%;
-        top: 4rem;
+        top: 6rem;
         background-color: #fff;
         border: .1rem solid #ccc;
         border-radius: .5rem;
         position: absolute;
         max-height: 15rem;
         overflow: auto;
+
+        &.hide {
+            display: none;
+        }
 
         &-item {
             padding: .8rem 1rem;
