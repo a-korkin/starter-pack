@@ -34,10 +34,7 @@
                 cursor: pointer;
                 align-items: center;
                 display: flex;
-
-                &:not(:last-child) {
-                    margin-right: .3rem;
-                }
+                margin-right: .3rem;
 
                 &__remove {
                     display: flex;
@@ -51,7 +48,7 @@
         &-field {
             font-family: inherit;
             outline: none;
-            padding: .8rem 1rem;
+            padding: 1rem .8rem 1rem 0;
             border: none;
             width: 100%;
         }

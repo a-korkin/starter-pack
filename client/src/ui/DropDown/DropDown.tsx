@@ -18,6 +18,7 @@ const DropDown: React.FC<IDropDownProps> = ({id, label, options, currentValue, m
     const [visibleOptions, setVisibleOptions] = useState<IDictionary[]>(options);
     const [selectedOptions, setSelectedOptions] = useState<IDictionary[]>([]);
     const [visible, setVisible] = useState<boolean>(false);
+    const [term, setTerm] = useState<string>("");
     const searchInput = useRef<HTMLInputElement>(null);
 
     const setFocus = () => {
@@ -50,6 +51,14 @@ const DropDown: React.FC<IDropDownProps> = ({id, label, options, currentValue, m
             return [...prev.slice(0, prev.findIndex(a => a.id === option.id)),
                     ...prev.slice(prev.findIndex(a => a.id === option.id) + 1)];
         });
+    }
+
+    const serchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const _term = e.currentTarget.value;
+        setTerm(_term);
+        const findedOptions = options.filter(({value}) => value.toLowerCase().includes(_term.toLowerCase()));
+        setVisibleOptions(findedOptions);
+        setVisible(findedOptions.length > 0);
     }
 
     return (
@@ -96,6 +105,8 @@ const DropDown: React.FC<IDropDownProps> = ({id, label, options, currentValue, m
                     ref={searchInput}
                     className="select__group-field"
                     onClick={setFocus}
+                    onChange={serchHandler}
+                    value={term}
                 />
 
             </div>
