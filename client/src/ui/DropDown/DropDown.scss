@@ -8,7 +8,7 @@
         padding: 0 1rem;
         border-radius: .5rem;
         border: .1rem solid #ccc;
-
+        
         &__icon {
             font-size: 2rem;
             position: absolute;
@@ -26,6 +26,7 @@
 
         &-options {
             display: flex;
+            flex-wrap: wrap;
 
             .selected-option {
                 background-color: #dfdddd;
@@ -46,11 +47,12 @@
         }
 
         &-field {
+            display: block;
             font-family: inherit;
             outline: none;
             padding: 1rem .8rem 1rem 0;
             border: none;
-            width: 100%;
+            // width: 100%;
         }
     }
 
