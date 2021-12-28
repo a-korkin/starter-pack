@@ -32,14 +32,22 @@ const DropDown: React.FC<IDropDownProps> = ({id, label, options, currentValue, m
     const optionSelectHandler = (e: React.MouseEvent<HTMLDivElement>, option: IDictionary) => {
         setFocus();
         
-        setSelectedOptions(prev => {
-            return [...prev, option];
-        });
+        if (multiple) {
+            setSelectedOptions(prev => {
+                return [...prev, option];
+            });
+    
+            setVisibleOptions(prev => {
+                return [...prev.slice(0, prev.findIndex(a => a.id === option.id)),
+                        ...prev.slice(prev.findIndex(a => a.id === option.id) + 1)];
+            });
 
-        setVisibleOptions(prev => {
-            return [...prev.slice(0, prev.findIndex(a => a.id === option.id)),
-                    ...prev.slice(prev.findIndex(a => a.id === option.id) + 1)];
-        });
+            onChange(multiple, [...selectedOptions, option]);
+        } else {
+            setSelectedOptions([option]);
+            setTerm(option.value);
+            onChange(multiple, [option]);
+        }
     }
 
     const removeOptionHandler = (e: React.MouseEvent<HTMLSpanElement>, option: IDictionary) => {
@@ -78,24 +86,26 @@ const DropDown: React.FC<IDropDownProps> = ({id, label, options, currentValue, m
                     <FaAngleDown />
                 </span>
 
-                <div className="select__group-options">
-                    {
-                        selectedOptions.map((option) => 
-                            <div 
-                                key={option.id} 
-                                className="selected-option"
-                            >
-                                {option.value}
-                                <span
-                                    className="selected-option__remove"
-                                    onClick={e => removeOptionHandler(e, option)}
+                {multiple &&
+                    <div className="select__group-options">
+                        {
+                            selectedOptions.map((option) => 
+                                <div 
+                                    key={option.id} 
+                                    className="selected-option"
                                 >
-                                    &times;
-                                </span>
-                            </div>
-                        )
-                    }
-                </div>
+                                    {option.value}
+                                    <span
+                                        className="selected-option__remove"
+                                        onClick={e => removeOptionHandler(e, option)}
+                                    >
+                                        &times;
+                                    </span>
+                                </div>
+                            )
+                        }
+                    </div>
+                }
 
                 <input 
                     id={id}
@@ -103,7 +113,7 @@ const DropDown: React.FC<IDropDownProps> = ({id, label, options, currentValue, m
                     name={id}  
                     placeholder={label}
                     ref={searchInput}
-                    className="select__group-field"
+                    className={multiple ? "select__group-field" : "select__group-field single"}
                     onClick={setFocus}
                     onChange={serchHandler}
                     value={term}

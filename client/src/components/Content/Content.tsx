@@ -35,9 +35,9 @@ const Content: React.FC = () => {
         {id: "11", value: "Сербия"},
     ];
     
-    const changeSelectOptionHandler = (isMultiple: boolean = false, option: IDictionary[]) => {
-        if (!isMultiple)
-            console.log(option[0].value);
+    const changeSelectOptionHandler = (isMultiple: boolean = false, options: IDictionary[]) => {
+        // if (!isMultiple)
+        console.log(options);
     }
 
     return (
@@ -49,20 +49,21 @@ const Content: React.FC = () => {
             <Button variant="success">Успех</Button>
             <br /><br />
             <Input id="d91ccf5f-9772-44a6-af72-e814af537b04" label="Фамилия" />
-            <Select 
+            {/* <Select 
                 id="45ddc1c0-fbee-481c-b9c0-c3f4da477d9c" 
                 label="Город"
                 currentValue={cities[2]}
                 options={cities}
                 onChange={changeSelectOptionHandler}
             />
-            {/* <Select
-                id="762f9c76-ee26-4199-9e1a-f014b4156b07"
-                label="Страна"
-                options={countries}
-                multiple={true}
+            <br /><br /> */}
+            <DropDown
+                id="d91ccf5f-9772-44a6-af72-e814af537b04"
+                label="Город"
+                options={cities}
+                multiple={false}
                 onChange={changeSelectOptionHandler}
-            /> */}
+            />
             <br /><br />
             <DropDown
                 id="afcf8e27-db65-4c16-8153-f67229fbe579"
