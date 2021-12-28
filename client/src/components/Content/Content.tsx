@@ -1,6 +1,7 @@
 import React from "react";
 import { IDictionary } from "../../models/base/IDictionary";
 import Button from "../../ui/Button";
+import CheckBox from "../../ui/CheckBox";
 import DropDown from "../../ui/DropDown";
 import Input from "../../ui/Input";
 import Select from "../../ui/Select";
@@ -69,6 +70,12 @@ const Content: React.FC = () => {
                 options={countries}
                 multiple={true}
                 onChange={changeSelectOptionHandler}
+            />
+            <br /><br />
+            <CheckBox 
+                id="18e583a7-d942-4a6d-a122-d059ce61164a"
+                label="Выплачено"
+                checked={true}
             />
         </div>
     );

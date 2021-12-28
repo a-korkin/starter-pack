@@ -1,0 +1,42 @@
+.checkbox {
+    
+    &__label {
+        cursor: pointer;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        position: relative;
+
+        &::before {
+            content: "";
+            display: inline-block;
+            height: 2rem;
+            width: 2rem;
+            border: .1rem solid #ccc;
+            border-radius: .2rem;
+        }
+    }
+
+    &__icon {
+        position: absolute;
+        top: .4rem;
+        left: .4rem;
+        opacity: 0;
+        transform: scale(.5);
+        transition: all .1s;
+    }
+
+    &__input {
+        display: none;
+        appearance: 0;
+
+        &:checked + .checkbox__icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    &__text {
+        margin-left: .5rem;
+    }
+}
