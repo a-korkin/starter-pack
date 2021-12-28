@@ -39,4 +39,52 @@
     &__text {
         margin-left: .5rem;
     }
+
+    /*******SWITCH*******/
+    &--switch {
+        &__label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        &__toggler {
+            display: flex;
+            align-items: center;
+            position: relative;
+            width: 4rem;
+            height: 2rem;
+            border: .1rem solid #ccc;
+            border-radius: 1rem;
+            background-color: red;
+            
+            &::before {
+                content: "";
+                width: 1.8rem;
+                height: 1.8rem;
+                background-color: #fff;
+                border-radius: 50%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                transition: left .2s;
+            }
+        }
+
+        &__input {
+            display: none;
+            appearance: 0;
+
+            &:checked + .checkbox--switch__toggler {
+                background-color: green;
+                &::before {
+                    left: 2rem;
+                }
+            }
+        }
+
+        &__text {
+            margin-left: .5rem;
+        }
+    }
 }

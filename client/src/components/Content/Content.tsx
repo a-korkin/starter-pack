@@ -74,9 +74,19 @@ const Content: React.FC = () => {
             <br /><br />
             <CheckBox 
                 id="18e583a7-d942-4a6d-a122-d059ce61164a"
-                label="Выплачено"
                 checked={true}
-            />
+                variant="check"
+            >
+                Выплачено
+            </CheckBox>
+            <br /><br />
+            <CheckBox 
+                id="368d5010-100c-411b-9a65-a11253bf5677"
+                checked={true}
+                variant="switch"
+            >
+                Пенсионер
+            </CheckBox>
         </div>
     );
 }

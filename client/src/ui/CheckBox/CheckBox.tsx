@@ -5,38 +5,45 @@ import "./CheckBox.scss";
 
 interface ICheckBoxProps {
     id: string;
-    label: string;
     checked: boolean;
+    variant: string;
 }
 
-const CheckBox: React.FC<ICheckBoxProps> = ({id, label, checked}) => {
+const CheckBox: React.FC<ICheckBoxProps> = ({id, checked, variant, children}) => {
     const [isChecked, setIsChecked] = useState<boolean>(checked);
-
+    const prefix: string = variant === "switch" ? "checkbox--switch" : "checkbox";
+    
     const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsChecked(!isChecked);
     }
 
     return (
-        <div className="checkbox">
+        <div className={prefix}>
             <label 
-                className="checkbox__label"
+                className={`${prefix}__label`}
                 htmlFor={id}
             >
                 <input 
                     id={id}
                     type="checkbox" 
                     name={id} 
-                    className="checkbox__input"
+                    className={`${prefix}__input`}
                     checked={isChecked}
                     onChange={changeHandler}
                 />
-                <span className="checkbox__icon">
-                    <FaCheck />
-                </span>
+                {variant === "check" &&
+                    <span className={`${prefix}__icon`}>
+                        <FaCheck />
+                    </span>
+                }
+                {variant === "switch" &&
+                    <span className={`${prefix}__toggler`}>
+                    </span>
+                }
                 <span
-                    className="checkbox__text"
+                    className={`${prefix}__text`}
                 >
-                    {label}
+                    {children}
                 </span>
             </label>
         </div>
