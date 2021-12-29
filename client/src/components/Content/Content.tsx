@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { IDictionary } from "../../models/base/IDictionary";
 import Button from "../../ui/Button";
 import CheckBox from "../../ui/CheckBox";
+import DatePicker from "../../ui/DatePicker";
 import DropDown from "../../ui/DropDown";
 import Input from "../../ui/Input";
 
 import "./Content.scss";
 
 const Content: React.FC = () => {
+    const [date, setDate] = useState<Date>(new Date(Date.now()));
+
     const cities: IDictionary[] = [
         {id: "1", value: "Москва"},
         {id: "2", value: "Минск"},
@@ -78,6 +81,12 @@ const Content: React.FC = () => {
             >
                 Пенсионер
             </CheckBox>
+            <br />
+            <DatePicker 
+                label="Date" 
+                value={date} 
+                onChange={setDate} 
+            />
         </div>
     );
 }

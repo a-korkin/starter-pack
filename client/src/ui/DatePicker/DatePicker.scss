@@ -1,0 +1,22 @@
+.input--date {
+    position: relative;
+    
+    & .calendar {
+        opacity: 1;
+        transition: all .2s;
+    }
+
+    &.hide .calendar {
+        visibility: hidden;
+        opacity: 0;
+    }
+}
+
+.date-icon {
+    position: absolute;
+    cursor: pointer;
+    color: currentColor;
+    font-size: 2rem;
+    top: 2.8rem;
+    right: 1rem;
+}
