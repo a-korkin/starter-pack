@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IDictionary } from "../../models/base/IDictionary";
 import Button from "../../ui/Button";
 import CheckBox from "../../ui/CheckBox";
+import DataGrid from "../../ui/DataGrid";
 import DatePicker from "../../ui/DatePicker";
 import DropDown from "../../ui/DropDown";
 import Input from "../../ui/Input";
@@ -91,7 +92,8 @@ const Content: React.FC = () => {
             >
                 Пенсионер
             </CheckBox>
-            <br />
+            <br /><br />
+            <DataGrid />
         </div>
     );
 }

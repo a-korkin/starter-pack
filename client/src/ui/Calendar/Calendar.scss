@@ -10,8 +10,6 @@
     position: absolute;
     top: 4rem;
     overflow: hidden;
-    // height: 100%;
-    // display: block;
 
     &__months {
         visibility: hidden;
@@ -77,7 +75,6 @@
                 outline: none;
                 cursor: pointer;
                 background-color: #fff;
-                // font-size: var(--font-size-default);
             }
         }
     }
@@ -108,7 +105,7 @@
             transition: all .2s;
 
             &.active {
-                background-color: blue; //var(--clr-primary-light);
+                background-color: blue;
                 color: #fff;
                 border-radius: 50%;
             }

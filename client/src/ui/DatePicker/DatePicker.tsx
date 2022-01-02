@@ -94,6 +94,7 @@ const DatePicker: React.FC<IDatePicker> = ({label, value, onChange}) => {
                 placeholder="xx.xx.xxxx"
                 value={dateStr}
                 onChange={e => inputDateChangeHandler(e)}
+                onClick={e => setActive(!active)}
             />
             <label 
                 className="input__label" 
