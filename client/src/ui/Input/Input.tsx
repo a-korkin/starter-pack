@@ -11,6 +11,13 @@ interface IInputProps {
 const Input: React.FC<IInputProps> = ({id, label, variant}) => {
     return (
         <div className="input">
+            <label 
+                htmlFor={id}
+                className="input__label"
+            >
+                {label}
+            </label>
+            
             <input 
                 id={id} 
                 type="text" 
@@ -19,12 +26,6 @@ const Input: React.FC<IInputProps> = ({id, label, variant}) => {
                 className="input__field"
             />
 
-            <label 
-                htmlFor={id}
-                className="input__label"
-            >
-                {label}
-            </label>
         </div>
     );
 }

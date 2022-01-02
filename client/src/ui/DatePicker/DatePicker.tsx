@@ -85,7 +85,7 @@ const DatePicker: React.FC<IDatePicker> = ({label, value, onChange}) => {
     }
 
     return (
-        <div className={active ? "input input--date" : "input input--date hide"}>
+        <div className={active ? "input--date" : "input--date hide"}>
             <input
                 id="input" 
                 className={error ? "input__field error": "input__field"} 

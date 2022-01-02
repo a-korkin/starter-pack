@@ -6,9 +6,12 @@
     background-color: #fff;
     border-radius: 2rem;
     font-size: 1.3rem;
-    box-shadow: 0 1rem 1rem rgba(#000, .2);
-    position: relative;
+    box-shadow: 0 .3rem 1rem rgba(#000, .2);
+    position: absolute;
+    top: 4rem;
     overflow: hidden;
+    // height: 100%;
+    // display: block;
 
     &__months {
         visibility: hidden;

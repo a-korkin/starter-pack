@@ -49,7 +49,11 @@ const Content: React.FC = () => {
             <Button variant="warning">Внимание</Button>
             <Button variant="success">Успех</Button>
             <br /><br />
-            <Input id="d91ccf5f-9772-44a6-af72-e814af537b04" label="Фамилия" />
+            <Input 
+                id="d91ccf5f-9772-44a6-af72-e814af537b04" 
+                label="Фамилия" 
+            />
+            <br /><br />
             <DropDown
                 id="d91ccf5f-9772-44a6-af72-e814af537b04"
                 label="Город"
@@ -74,6 +78,12 @@ const Content: React.FC = () => {
                 Выплачено
             </CheckBox>
             <br /><br />
+            <DatePicker 
+                label="Date" 
+                value={date} 
+                onChange={setDate} 
+            />
+            <br /><br />
             <CheckBox 
                 id="368d5010-100c-411b-9a65-a11253bf5677"
                 checked={true}
@@ -82,11 +92,6 @@ const Content: React.FC = () => {
                 Пенсионер
             </CheckBox>
             <br />
-            <DatePicker 
-                label="Date" 
-                value={date} 
-                onChange={setDate} 
-            />
         </div>
     );
 }

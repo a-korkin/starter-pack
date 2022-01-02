@@ -1,14 +1,27 @@
 .input--date {
     position: relative;
+    border: .1rem solid #ccc;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+    height: 4rem;
+    justify-content: end;
+
+    & > .input__field {
+        width: 100%;
+    }
     
     & .calendar {
         opacity: 1;
         transition: all .2s;
+        z-index: 10;
     }
 
     &.hide .calendar {
         visibility: hidden;
         opacity: 0;
+        // height: 0;
+        display: none;
     }
 }
 
@@ -17,6 +30,5 @@
     cursor: pointer;
     color: currentColor;
     font-size: 2rem;
-    top: 2.8rem;
     right: 1rem;
 }
