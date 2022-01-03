@@ -5,34 +5,44 @@
     }
 }
 
-.grid {
-    display: grid;
-
-    &-cell {
-        border: .1rem solid #ccc;
-        padding: .5rem;
+.grid-wrapper {
+    .grid {
+        display: grid;
         width: 100%;
-    }
+        
+        .group-panel {
+            background-color: orangered;
+            height: 4rem;
+            grid-column: columns-start/columns-end;
+        }
 
-    &__header {
-        display: contents;
-
-        .react-resizable {
-            display: flex;
-            min-width: 100% !important;
+        &-cell {
+            border: .1rem solid #ccc;
+            padding: .5rem;
+            width: 100%;
+            cursor: pointer;
+        }
     
-            &-handle-se {
-                opacity: 1;
-                background-color: #000;
-                height: 100%;
-                width: .5rem;
-                cursor: col-resize;
-                transition: all .2s;
+        &__header {
+            display: contents;
+    
+            .react-resizable {
+                display: flex;
+                min-width: 100% !important;
+        
+                &-handle-se {
+                    opacity: 1;
+                    background-color: #000;
+                    height: 100%;
+                    width: .5rem;
+                    cursor: col-resize;
+                    transition: all .2s;
+                }
             }
         }
-    }
-
-    &__data {
-        display: contents;
+    
+        &__data {
+            display: contents;
+        }
     }
 }

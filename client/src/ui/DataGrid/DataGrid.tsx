@@ -39,26 +39,52 @@ const DataGrid: React.FC = () => {
         {id: "5", row: 5, column: 5, value: "04.11.1989"},
     ];
 
+    const dropHeaderHandler = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        console.log(e.currentTarget);
+    }
+
+    const dragHandler = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+    }
+
     return (
-        <div className="grid grid--5">
-            <div className="grid__header">
-                {
-                    headers.map((cell) => 
-                        <Header key={cell.id} cell={cell} width={100} height={30} />
-                    )
-                }
+
+        <div className="grid-wrapper">
+
+            <div className="grid grid--5">
+
+                <div 
+                    className="group-panel" 
+                    onDrop={e => dropHeaderHandler(e)}
+                    onDragStart={e => dragHandler(e)}
+                    onDragEnter={e => dragHandler(e)}
+                    onDragLeave={e => dragHandler(e)}
+                    onDragEnd={e => dragHandler(e)}
+                    onDragOver={e => dragHandler(e)}
+                ></div>
+
+                <div className="grid__header">
+                    {
+                        headers.map((cell) => 
+                            <Header key={cell.id} cell={cell} width={100} height={30} />
+                        )
+                    }
+                </div>
+
+                <div className="grid__data">
+                    {
+                        data.map((cell) =>
+                            <div 
+                                key={cell.id}
+                                className="grid-cell">
+                                {cell.value}
+                            </div>
+                        )
+                    }
+                </div>
             </div>
-            <div className="grid__data">
-                {
-                    data.map((cell) =>
-                        <div 
-                            key={cell.id}
-                            className="grid-cell">
-                            {cell.value}
-                        </div>
-                    )
-                }
-            </div>
+
         </div>
     );
 }
