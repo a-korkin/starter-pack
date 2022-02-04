@@ -5,7 +5,9 @@ namespace Domain.Attributes
     public class DescriptionAttribute : TableAttribute
     {
         public string Slug { get; }
+
         public string RuName { get; }
+        
         public bool IsEntityPartition { get; set; }
 
         public DescriptionAttribute(
