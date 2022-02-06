@@ -15,7 +15,7 @@ namespace Infrastructure
                 opt => opt.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
-                )
+                ).UseLowerCaseNamingConvention()
             );
 
             return services;
