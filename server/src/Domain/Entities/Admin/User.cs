@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Entities.Admin
 {
-    [Description(name: "cd_users", schema: "admin", ruName: "пользователи")]
+    [Description(name: "cd_users", schema: "admin", ruName: "пользователи", isEntityPartition: true)]
     [Comment("пользователи")]
     public class User : AuditedEntity
     {
