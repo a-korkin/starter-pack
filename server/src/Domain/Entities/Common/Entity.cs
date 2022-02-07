@@ -9,7 +9,7 @@ namespace Domain.Entities.Common
 {
     [Description(name: "cd_entities", schema: "common", ruName: "сущности")]
     [Comment("сущности")]
-    public class Entity: BaseEntity
+    public class Entity : BaseEntity
     {
         [Column("f_type")]
         [Comment("тип")]

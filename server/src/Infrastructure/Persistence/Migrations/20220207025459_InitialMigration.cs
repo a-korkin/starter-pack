@@ -10,6 +10,9 @@ namespace Infrastructure.Persistence.Migrations
             migrationBuilder.EnsureSchema(
                 name: "common");
 
+            migrationBuilder.EnsureSchema(
+                name: "admin");
+
             migrationBuilder.CreateTable(
                 name: "cs_entity_types",
                 schema: "common",
@@ -48,15 +51,50 @@ namespace Infrastructure.Persistence.Migrations
                 },
                 comment: "сущности");
 
+            migrationBuilder.CreateTable(
+                name: "cd_users",
+                schema: "admin",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false, comment: "идентификатор"),
+                    c_username = table.Column<string>(type: "text", nullable: false, comment: "логин"),
+                    c_lastname = table.Column<string>(type: "text", nullable: false, comment: "фамилия"),
+                    c_firstname = table.Column<string>(type: "text", nullable: false, comment: "имя"),
+                    c_middlename = table.Column<string>(type: "text", nullable: true, comment: "отчество"),
+                    f_type = table.Column<Guid>(type: "uuid", nullable: false, comment: "тип")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_cd_users", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_cd_users_cd_entities_entityid_entitytypeid",
+                        columns: x => new { x.id, x.f_type },
+                        principalSchema: "common",
+                        principalTable: "cd_entities",
+                        principalColumns: new[] { "id", "f_type" },
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "пользователи");
+
             migrationBuilder.CreateIndex(
                 name: "ix_cd_entities_f_type",
                 schema: "common",
                 table: "cd_entities",
                 column: "f_type");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_cd_users_id_f_type",
+                schema: "admin",
+                table: "cd_users",
+                columns: new[] { "id", "f_type" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "cd_users",
+                schema: "admin");
+
             migrationBuilder.DropTable(
                 name: "cd_entities",
                 schema: "common");

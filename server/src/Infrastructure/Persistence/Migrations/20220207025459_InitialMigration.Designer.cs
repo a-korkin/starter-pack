@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220206043032_InitialMigration")]
+    [Migration("20220207025459_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,53 @@ namespace Infrastructure.Persistence.Migrations
                 .UseIdentityByDefaultColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.1");
+
+            modelBuilder.Entity("Domain.Entities.Admin.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id")
+                        .HasComment("идентификатор");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("c_firstname")
+                        .HasComment("имя");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("c_lastname")
+                        .HasComment("фамилия");
+
+                    b.Property<string>("MiddleName")
+                        .HasColumnType("text")
+                        .HasColumnName("c_middlename")
+                        .HasComment("отчество");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("f_type")
+                        .HasComment("тип");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("c_username")
+                        .HasComment("логин");
+
+                    b.HasKey("Id")
+                        .HasName("pk_cd_users");
+
+                    b.HasIndex("Id", "TypeId")
+                        .HasDatabaseName("ix_cd_users_id_f_type");
+
+                    b.ToTable("cd_users", "admin");
+
+                    b
+                        .HasComment("пользователи");
+                });
 
             modelBuilder.Entity("Domain.Entities.Common.Entity", b =>
                 {
@@ -84,6 +131,16 @@ namespace Infrastructure.Persistence.Migrations
 
                     b
                         .HasComment("типы сущностей");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Admin.User", b =>
+                {
+                    b.HasOne("Domain.Entities.Common.Entity", null)
+                        .WithMany()
+                        .HasForeignKey("Id", "TypeId")
+                        .HasConstraintName("fk_cd_users_cd_entities_entityid_entitytypeid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Common.Entity", b =>
